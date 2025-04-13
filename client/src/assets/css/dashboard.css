@@ -11,29 +11,16 @@
     --white-red: #d85757; /* POSIBLE COLOR DE LOS HOVERES ICONOS DE ELIMINAR */
     --white-greens: #1ba73e;
     --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
-    --font:  "Montserrat", sans-serif; /* TIPO DE FUENTE */
 }
 
-:MODOCLARO{
-    --white-text: #000000ad; /* COLOR DE LA LETRA */
-    --white-icons: #000000c7; /* COLOR DE LOS ICONOS  */
-    --black: #e9e9e9; /* COLOR DE LOS MENU Y DE LAS TABLAS Y TARJETAS */
-    --Gray: #ffffff; /* COLOR DEL CONTAINER  */
-    --Buton-color: #e67e22; /* COLOR DE LOS BOTONES DE LAS TABLAS Y LOS DEMAS BOTONES */
-    --Buton-hover-color: #e67d22f1; /* COLOR DE LOS HOVER DE LOS BOTONES */
-    --tabla-linea-color: #d1d1d1; /* COLOR DE LA RAYA DE LAS TABLAS */
-    --white-red: #d85757; /* POSIBLE COLOR DE LOS HOVERES ICONOS DE ELIMINAR */
-    --white-green: #aaaaaa; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
-    --font:  "Montserrat", sans-serif; /* TIPO DE FUENTE */
-}
-
-
-/* GLOBAL STYLES */
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--font);
+}
+
+ol, ul{
+    padding-left: 0 !important;
 }
 
 /* BODY */
@@ -41,16 +28,15 @@ body{
     background-color: var(--black);
     overflow-x: hidden;
 }
-
 /* SECTION */
 
-section{
+.SectionDashboard{
     position: relative;
-    width: 100%;   
+    width: 100%; 
 }
 
 /* MENU */
-.nav{
+.navdash{
     position: fixed;
     width: 300px;
     height: 100%;
@@ -61,12 +47,12 @@ section{
     overflow-y: auto;
 }
 
-.nav.active{
+.navdash.active{
     width: 80px;
     
 }
 
-.nav ul{
+.navdash .nav-ul{
     position: absolute;
     top: 0;
     left: 0;
@@ -74,7 +60,7 @@ section{
 
 }
 
-.nav ul li{
+.navdash .nav-ul .nav-ul-li{
     position: relative;
     width: 200%;
     list-style: none;
@@ -82,17 +68,17 @@ section{
     border-bottom-left-radius: 10px;
 }
 
-.nav ul li:hover,
-.nav ul li.active{
+.navdash .nav-ul .nav-ul-li:hover,
+.navdash .nav-ul .nav-ul-li.active{
     background-color: var(--white-icons); /* COLOR DEL HOVER EN EL MENU */
 }
 
-.nav ul li:nth-child(1){
+.navdash .nav-ul .nav-ul-li:nth-child(1){
     margin-bottom: 40px;
     pointer-events: none;
 }
 
-.nav ul li a{
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a{
     position: relative;
     display: flex;
     width: 100%;
@@ -100,12 +86,12 @@ section{
     text-decoration: none;
 }
 
-.nav ul li:hover a,
-.nav ul li.active a{
+.navdash .nav-ul .nav-ul-li:hover .nav-ul-li-a,
+.navdash .nav-ul .nav-ul-li.active .nav-ul-li-a{
     color: var(--black);
 }
 
-.nav ul li a .icono{
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a .icono{
     position: relative;
     display: block;
     min-width: 60px;
@@ -114,11 +100,11 @@ section{
     text-align: center;
 }
 
-.nav ul li a .icono ion-icon{
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a .icono ion-icon{
     font-size: 1.75em;
 }
 
-.nav ul li a .titulo{
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a .nav-titulo{
     position: relative;
     display: block;
     padding: 0 10px;
@@ -133,23 +119,23 @@ section{
 
 /* DASHBOARD */
 
-.container{
+.containerDashboard{
     position: absolute;
     width: calc(100% - 300px);
     left: 300px;
-    min-height: 100vh;
+    min-height: 100vh ;
     background: var(--Gray); /* COLOR DEL CENTRO */
     transition: 0.4s;
 }
 
-.container.active{
+.containerDashboard.active{
     width: calc(100% - 80px);
     left: 80px;
 }
 
 /* TOPBAR */
 
-.container .topbar{
+.containerDashboard .topbar{
     width: 100%;
     height: 60px;
     display: flex;
@@ -159,7 +145,7 @@ section{
    /* background-color: var(--black);  COLOR DEL TOPBAR */
 }
 
-.container .topbar .toggle{
+.containerDashboard .topbar .toggle{
     position: relative;
     width: 60px;
     height: 60px;
@@ -171,19 +157,19 @@ section{
     color: var(--white-icons);
 }
 
-.container .topbar .buscar{
+.containerDashboard .topbar .buscar{
     position: relative;
     width: 400px;
     margin: 0 10px;
-    padding-top: 25px;
+    padding-top: 10px;
 }
 
-.container .topbar .buscar label{
+.containerDashboard .topbar .buscar .label-buscar{
     position: relative;
     width: 100%;
 }
 
-.container .topbar .buscar label input{
+.containerDashboard .topbar .buscar .label-buscar .label-input-buscar{
     width: 100%;
     height: 40px;
     border-radius: 40px;
@@ -196,15 +182,15 @@ section{
     color: var(--white-text); /* COLOR DEL TEXTO DE LA BARRA DE BUSQUEDA */
 }
 
-.container .topbar .buscar label ion-icon{
+.containerDashboard .topbar .buscar .label-buscar ion-icon{
     position: absolute;
     color: var(--white-icons); /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
-    top: 10px;
+    top: 20px;
     left: 10px;
     font-size: 1.2em;
 }
 
-.container .topbar .perfil-usuario{
+.containerDashboard .topbar .perfil-usuario{
     position: relative;
     width: 40px;
     height: 40px;
@@ -214,7 +200,7 @@ section{
     border: 1px solid var(--white-text); /* COLOR DEL BORDE DEL PERFIL DE USUARIO */
 }
 
-.container .topbar .perfil-usuario img{
+.containerDashboard .topbar .perfil-usuario img{
     position: absolute;
     top: 0;
     left: 0;
@@ -241,13 +227,13 @@ section{
     z-index: 10;
 }
 
-.menu-perfil ul {
+.menu-perfil .menu-perfil-ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.menu-perfil ul li {
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li {
     display: flex;
     align-items: center; /* Centra verticalmente el icono y el texto */
     padding: 15px 20px;
@@ -255,7 +241,7 @@ section{
     font-size: 1.03em;
 }
 
-.menu-perfil ul li a {
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a {
     display: flex;
     align-items: center; /* Centra los elementos dentro del enlace */
     text-decoration: none;
@@ -263,22 +249,22 @@ section{
     color: var(--white-icons);
 }
 
-.menu-perfil ul li:hover {
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li:hover {
     background-color: var(--white-icons); /* HOVER DEL PERFIL DE USUARIO */
     color: var(--black); /* COLOR DE LA LETRA DEL PERFIL DE USUARIO */
 }
 
-.menu-perfil ul li a .icono-menu-user {
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a .icono-menu-user {
     font-size: 1.5em; /* Ajusta el tamaño del icono para que sea visible */
     margin-right: 10px; /* Añade un espacio entre el icono y el texto */
 }
 
-.menu-perfil ul li a .titulo {
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a .nav-titulo {
     position: relative;
     top: -2.5px;
 }
 
-.menu-perfil ul li:hover a {
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li:hover .menu-perfil-ul-li-a {
     color: var(--black); /* Cambia el color del texto e ícono a blanco */
 }
 
@@ -460,7 +446,7 @@ table tbody tr:hover {
 }
 /* MODAL */
 
-.modal  {
+.custom-modal  {
     position: fixed;
     top: 0;
     left: 0;
@@ -473,13 +459,13 @@ table tbody tr:hover {
     transition: opacity .3s;
 }
 
-.modal--show{
+.custom-modal--show{
     opacity: 1;
     pointer-events: unset;
     transition: opacity .3s;
 }
 
-.modal__container{
+.custom-modal__container{
     margin: auto;
     width: 90%;
     max-width: 600px;
