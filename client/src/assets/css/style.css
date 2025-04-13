@@ -72,6 +72,7 @@ body {
   font-size: 14px;
   position: absolute;
   bottom: auto;
+
 }
 
 /* Caja de contenido (genérica) */
@@ -88,7 +89,7 @@ body {
 fieldset .login-img-container {
   display: flex;
   justify-content: center;
-  margin-top: -60px;
+  margin-top: -90px;
   margin-bottom: 20px;
 }
 
