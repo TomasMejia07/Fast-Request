@@ -11,6 +11,7 @@ import UsuariosDashboard from './pages/Dashboard/UsuariosDashboard';
 import EstadisticasDashboard from './pages/Dashboard/EstadisticasDashboard';
 import PedidosDashboard from './pages/Dashboard/PedidosDashboard';
 import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
+import Configuracion from "./components/Configuracion/configuracion";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
         <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />
         <Route path="/dashboard/pedidos" element={<PedidosDashboard />} />
         <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />
+
+        <Route path="/configuracion" element={<Configuracion />}/>
 
       </Routes>
     </Router>
