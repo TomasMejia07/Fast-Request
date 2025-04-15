@@ -1,0 +1,759 @@
+
+/* COLORES DEL DASHBOARD*/
+:root{
+    --white-text: #c9c9c9; /* COLOR DE LA LETRA */
+    --white-icons: #e9e9e9; /* COLOR DE LOS ICONOS  */
+    --black: #13161C; /* COLOR DE LOS MENU Y DE LAS TABLAS Y TARJETAS */
+    --Gray: #272727; /* COLOR DEL CONTAINER  */
+    --Buton-color: #6366F1; /* COLOR DE LOS BOTONES DE LAS TABLAS Y LOS DEMAS BOTONES */
+    --Buton-hover-color: #5356F2; /* COLOR DE LOS HOVER DE LOS BOTONES */
+    --tabla-linea-color: #ffffff; /* COLOR DE LA RAYA DE LAS TABLAS */
+    --white-red: #d85757; /* POSIBLE COLOR DE LOS HOVERES ICONOS DE ELIMINAR */
+    --white-greens: #1ba73e;
+    --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ol, ul{
+    padding-left: 0 !important;
+}
+
+/* BODY */
+body{
+    background-color: var(--black);
+    overflow-x: hidden;
+}
+/* SECTION */
+
+.SectionDashboard{
+    position: relative;
+    width: 100%; 
+}
+
+/* MENU */
+.navdash{
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--black); /* COLOR DEL MENU */
+    border-left: 10px solid var(--black);
+    overflow: hidden;
+    transition: 0.4s;
+    overflow-y: auto;
+}
+
+.navdash.active{
+    width: 80px;
+    
+}
+
+.navdash .nav-ul{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+}
+
+.navdash .nav-ul .nav-ul-li{
+    position: relative;
+    width: 200%;
+    list-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.navdash .nav-ul .nav-ul-li:hover,
+.navdash .nav-ul .nav-ul-li.active{
+    background-color: var(--white-icons); /* COLOR DEL HOVER EN EL MENU */
+}
+
+.navdash .nav-ul .nav-ul-li:nth-child(1){
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a{
+    position: relative;
+    display: flex;
+    width: 100%;
+    color: var(--white-icons); /* COLOR DE LA LETRA */
+    text-decoration: none;
+}
+
+.navdash .nav-ul .nav-ul-li:hover .nav-ul-li-a,
+.navdash .nav-ul .nav-ul-li.active .nav-ul-li-a{
+    color: var(--black);
+}
+
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a .icono{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 75px;
+    text-align: center;
+}
+
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a .icono ion-icon{
+    font-size: 1.75em;
+}
+
+.navdash .nav-ul .nav-ul-li .nav-ul-li-a .nav-titulo{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+
+}
+
+/* FIN DEL MENU */
+
+/* DASHBOARD */
+
+.containerDashboard{
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh ;
+    background: var(--Gray); /* COLOR DEL CENTRO */
+    transition: 0.4s;
+}
+
+.containerDashboard.active{
+    width: calc(100% - 80px);
+    left: 80px;
+}
+
+/* TOPBAR */
+
+.containerDashboard .topbar{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+   /* background-color: var(--black);  COLOR DEL TOPBAR */
+}
+
+.containerDashboard .topbar .toggle{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    cursor: pointer; 
+    color: var(--white-icons);
+}
+
+.containerDashboard .topbar .buscar{
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+    padding-top: 10px;
+}
+
+.containerDashboard .topbar .buscar .label-buscar{
+    position: relative;
+    width: 100%;
+}
+
+.containerDashboard .topbar .buscar .label-buscar .label-input-buscar{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 1em;
+    outline: none;
+    border: 1px solid var(--white-icons); 
+    background-color: var(--Gray); /* COLOR DEL FONDO DE LA BARRA DE BUSQUEDA*/
+    color: var(--white-text); /* COLOR DEL TEXTO DE LA BARRA DE BUSQUEDA */
+}
+
+.containerDashboard .topbar .buscar .label-buscar ion-icon{
+    position: absolute;
+    color: var(--white-icons); /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
+    top: 20px;
+    left: 10px;
+    font-size: 1.2em;
+}
+
+.containerDashboard .topbar .perfil-usuario{
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: visible;
+    cursor: pointer;
+    border: 1px solid var(--white-text); /* COLOR DEL BORDE DEL PERFIL DE USUARIO */
+}
+
+.containerDashboard .topbar .perfil-usuario img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* MENU PERFIL USUARIO  */
+/* Estilo para el contenedor de la foto de perfil */
+.perfil-usuario {
+    position: relative;  /* Importante para que el menú se posicione correctamente */
+}
+
+/* Estilo del menú del perfil (inicialmente oculto) */
+.menu-perfil {
+    display: none; /* El menú está oculto por defecto */
+    position: absolute; /* Posiciona el menú respecto al contenedor */
+    top: 50px; /* Ajusta esto según lo necesario para posicionarlo debajo de la imagen */
+    right: 0;
+    background-color: var(--black); /* EL COLOR DEL MENU DE USUARIO */
+    box-shadow: 15px 15px 15px 15px rgba(0, 0, 0, 0.1); /* SOMBRA DEL PERFIL DE USUARIO */
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.menu-perfil .menu-perfil-ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li {
+    display: flex;
+    align-items: center; /* Centra verticalmente el icono y el texto */
+    padding: 15px 20px;
+    color: var(--white); /* COLOR DE LOS ICONOS DEL PERFIL DE USUARIO */
+    font-size: 1.03em;
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a {
+    display: flex;
+    align-items: center; /* Centra los elementos dentro del enlace */
+    text-decoration: none;
+    font-size: 1em; /* Ajusta el tamaño de texto para que sea legible */
+    color: var(--white-icons);
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li:hover {
+    background-color: var(--white-icons); /* HOVER DEL PERFIL DE USUARIO */
+    color: var(--black); /* COLOR DE LA LETRA DEL PERFIL DE USUARIO */
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a .icono-menu-user {
+    font-size: 1.5em; /* Ajusta el tamaño del icono para que sea visible */
+    margin-right: 10px; /* Añade un espacio entre el icono y el texto */
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a .nav-titulo {
+    position: relative;
+    top: -2.5px;
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li:hover .menu-perfil-ul-li-a {
+    color: var(--black); /* Cambia el color del texto e ícono a blanco */
+}
+
+/* Mostrar el menú cuando la clase 'active' se aplique a .perfil-usuario */
+.perfil-usuario.active .menu-perfil {
+    display: block;
+}
+
+/* FIN MENU PERFIL DE USUARIO */
+
+/* FIN DEL TOPBAR */
+/* CARDS */
+
+.cards {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 30px;
+}
+
+.cards .card {
+    position: relative;
+    background: var(--black); /* COLOR DE FONDO DE LAS TARJETAS */
+    padding: 30px;
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.6s;
+}
+
+.cards .card:hover{
+    background-color: var(--white-green);
+}
+
+.cards .card .card-numeros{
+    position: relative;
+    font-weight: 700;
+    font-size: 2.5em;
+    color: var(--white-text); /* COLOR DE LOS NUMEROS DE LAS TARJETAS  */
+}
+
+.cards .card .card-nombre{
+    color: var(--white-text); /* COLOR DE LOS NUMEROS DE LAS TARJETAS */
+    font-size: 1.1em;
+    margin-top: 5px;
+    margin-right: 80px;
+}
+
+.cards .card .card-icono {
+    font-size: 3.5em;
+    color: var(--white-icons); /* COLOR DE LOS ICONOS DE LAS TARJETAS */
+
+}
+
+.cards .card:hover .card-numeros,
+.cards .card:hover .card-nombre,
+.cards .card:hover .card-icono{
+    color: var(--white-icons);
+}
+
+/* FIN DE LAS CARDS */
+/* DISEÑO DE LAS TABLAS DE LOS CRUDS DEL SISTEMA DE ADMIN */
+
+.container_tablas {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 8px 8px 5px 8px #bdbdbd13;
+    background-color: var(--black);
+    border-radius: 30px;
+    padding: 20px;
+    margin-top: 30px;
+    margin-left: 50px;
+    width: 92%;
+}
+
+.container_tablas .table_Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px 2px;
+    color: var(--white-text);
+}
+
+.container_tablas .boton_raro{
+    outline: none;
+    border: none;
+    background-color: var(--Buton-color);
+    color: var(--Gray);
+    padding: 10px 30px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container_tablas .boton_raro a{
+    color: var(--white-icons);
+    text-decoration: none;
+    width: 55px;
+    height: 30px;
+    
+}
+
+.boton_raro:hover {
+    background-color: var(--Buton-hover-color);
+}
+
+.select_tabla {
+    border: 1px solid var(--black);
+    background-color: var(--black);
+    color: var(--white-text);
+    border-bottom: 2px solid var(--white-text);
+    width: 200px;
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+.input_search {
+    position: relative;
+}
+
+.input_search input {
+    border-radius: 30px;
+    width: 400px;
+    outline: none;
+    padding: 10px 20px;
+    border: 1px solid var(--white-text);
+    box-sizing: border-box;
+    padding-right: 50px;
+    background-color: var(--black);
+    color: var(--white-text);
+}
+
+.input_search #search-sharp {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-right: 1rem;
+    transform: translateY(-50%);
+    color: var(--white-icons);
+}
+
+table {
+    border-spacing: 0;
+    margin-top: 1rem;
+}
+
+table thead {
+    background-color: var(--tabla-linea-color);
+    color: var(--black);
+}
+
+table thead th {
+    padding: 10px;
+}
+
+table tbody tr td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--white-text);
+    color: var(--white-text);
+}
+
+table tbody tr td #iconosoperacion {
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+    color: var(--white-icons);
+}
+
+table tbody tr:hover {
+    background-color: var(--Gray);
+    transition: 0.5s;
+}
+/* MODAL */
+
+.custom-modal  {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #111111ab;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+
+.custom-modal--show{
+    opacity: 1;
+    pointer-events: unset;
+    transition: opacity .3s;
+}
+
+.custom-modal__container{
+    margin: auto;
+    width: 90%;
+    max-width: 600px;
+    max-height: auto;
+    background-color: var(--black);
+    border-radius: 20px;
+    padding: 3em 2.5em;
+    display: grid;
+    gap: 1.5em;
+    place-items: center;
+    grid-auto-columns: 100%;
+    overflow-y: auto;
+}
+
+.modal__title{
+    font-size: 2.3rem;
+    color: var(--white-text);
+}
+
+.close__modal{
+    text-decoration: none;
+    color: var(--white-icons);
+    background-color: var(--white-red);
+    padding: 0.7em 2.2em ;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 530;
+    font-size: 14;
+    transition: background-color .3s;
+    cursor: pointer;
+}
+
+.boton_formulario{
+    text-decoration: none;
+    color: var(--white-icons);
+    background-color: var(--white-greens);
+    padding: 0.7em 2.2em ;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 530;
+    transition: background-color .3s;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 15px;
+}
+
+.close__modal:hover{
+    background-color: var(--black);
+    color: var(--white-red);
+    border:1px solid var(--white-red);
+}
+
+.boton_formulario:hover{
+    background-color: var(--black);
+    color: var(--white-greens);
+    border:1px solid var(--white-greens);
+}
+
+/* FIN DE MODAL */
+/* FORMULARIOS */
+.inputs_formulario{
+    padding-top: 17px;
+    color: var(--white-text);
+    font-size: 18px;
+}
+
+.inputs_formulario .Labels{
+    width: 100%;
+    height: 38px;
+    background-color: var(--black);
+    border: 1px solid var(--black);
+    border-bottom: 1px solid var(--white-icons);
+    color: var(--white-text);
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-inline-start: 2px;
+}
+
+.Labels:hover{
+    background-color: var(--black);
+}
+
+.Labels:focus {
+    outline: none; /* Quita el contorno azul predeterminado */
+    border-color: var(--white-icons); /* Cambia el borde a un color personalizado */
+    background-color: var(--Gray); /* Fondo personalizado */
+    color: var(--white-text); /* Color del texto */
+}
+
+.botones_formulario{
+    padding-top: 10px;
+
+}
+
+.inputs_formulario select, input, label{
+    padding: 10px 5px;
+}
+
+.inputs_formulario select{
+    cursor: pointer;
+}
+
+.Labels select option {
+    background-color: var(--Gray); /* Fondo para las opciones */
+    color: var(--white-text); /* Color del texto */
+}
+
+/* Hover en las opciones */
+.Labels select option:hover {
+    background-color: var(--Gray); /* Fondo al pasar el cursor */
+    color: var(--white-text); /* Texto al pasar el cursor */
+}
+
+
+/*  DISEÑO DE LA LISTA DE PERMISOS         */
+.dropdown {
+    position: relative;
+    width: 300px;
+}
+
+#search {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: var(--black);
+    border: 1px solid var(--black);
+    border-bottom: 1px solid var(--white-icons);
+}
+
+.options {
+    max-height: 200px; /* Limita la altura del contenedor */
+    overflow-y: auto;  /* Activa el scroll vertical si hay demasiadas opciones */
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    border-top: none;
+    background: var(--black);
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.options label {
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.options label:hover {
+    background:var(--white-icons);
+    color: var(--black);
+}
+
+.options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* FIN DE FORMULARIOS  */
+/* BARRA DE SCROLL */
+/* Selecciona toda la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra vertical */
+    height: 10px; /* Altura de la barra horizontal */
+}
+
+  /* Fondo del área de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+    background: var(--Gray); /* Color del fondo */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+  /* Barra de desplazamiento (la parte que se mueve) */
+::-webkit-scrollbar-thumb {
+    background: var(--white-text); /* Color de la barra */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+  /* Cuando el usuario interactúa con la barra */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color al pasar el cursor */
+}
+/* BREAKPOINTS */
+
+/* PANTALLA LARGA */
+@media only screen and (max-width: 1200px){
+    .cards{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* PANTALLA LAPTOPS */
+
+@media only screen and (max-width: 992px){
+    .nav{
+        left: -300px;
+
+    }
+    .nav.active{
+        left: 0;
+        width: 300px;
+    }
+    .container{
+        width: 100%;
+        left: 0;
+        overflow-x: auto;
+    }
+    .container.active{
+        left: 300px;
+    }
+}
+
+/* PANTALLA CELULAR */
+@media only screen and (max-width: 425px){
+    .nav{
+        width: 100%;
+        left: -100%;
+        z-index: 1000;
+    }
+    .nav.active{
+        left: 0;
+        width: 100%;
+    }  
+
+    .container.active .toggle{
+        color: var(--white-text);
+
+    }
+
+    .toggle{
+        position: fixed;
+        left: initial;
+        right: 0;
+        z-index: 10000;
+    } 
+    
+    .cards{
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .perfil-usuario{
+        min-width: 40px;
+    }
+
+    .container{
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+}
+
+/* FIN DE LOS BREAKPOINTS */
+
+
+/* SECCION DE ESTADISTICAS*/
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: auto auto;       
+    gap: 20px;
+    padding: 20px;
+    background: #f4f6f8;
+    min-height: 100vh;
+  }
+  
+
+  
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    max-height: 400px; 
+    overflow: hidden;  
+}
+  
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+  }
+  
+  
+  .chart-title {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  
