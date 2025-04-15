@@ -1,28 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../assets/css/style.css';
 import { Link } from 'react-router-dom';
+import { useLogin } from '../hooks/useLogin';
+import  { validacionDeCampos } from '../helpers/validacionDeCampos'
 
 function Login() {
 
-  useEffect(() => {
-  document.title = 'Iniciar Sesion - Fast Request'; 
-  }, []); 
+  const initial = {
+    usuario: '',
+    password: ''
+  }
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorUsuario, setErrorUsuario] = useState('');
-  const [errorPassword, setErrorPassword] = useState('');
+  const { usuario, password, OnChangeInput, errores,setErrores } = useLogin(initial)
+
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    setErrorUsuario(email ? '' : 'Por favor ingrese un correo.');
-    setErrorPassword(password ? '' : 'Por favor ingrese una contraseña.');
+    const usuarioError = validacionDeCampos('usuario', usuario)
+    const passwordError = validacionDeCampos('password', password)
 
-    if (email && password) {
-      console.log('Enviando datos:', { email, password });
-    }
+    setErrores({
+        usuario: usuarioError,
+        password: passwordError
+    })
+    if (usuarioError || passwordError) return;
+
   };
+
+
+  const referencia = useRef()
+
+  useEffect(() => {
+    document.title = 'Iniciar Sesion - Fast Request';
+    referencia.current.focus()
+  }, []);
+
 
   return (
     <div className="container login-container">
@@ -37,25 +50,28 @@ function Login() {
           <div className="input-container ic1 mb-3">
             <input
               type="email"
+              ref={referencia}
               className="login-input"
-              id="usuario"
-              value={email}
+              name="usuario"
+              value={usuario}
               placeholder="E-mail"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={OnChangeInput}
+              autoComplete="email"
             />
-            <span className="error">{errorUsuario}</span>
+            {errores.usuario && <div style={{color: 'red'}}>{errores.usuario}</div>}
           </div>
 
           <div className="input-container ic2 mb-3">
             <input
               type="password"
               className="login-input"
-              id="password"
+              name="password"
               value={password}
               placeholder="Contraseña"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={OnChangeInput}
+               autoComplete="current-password"
             />
-            <span className="error">{errorPassword}</span>
+            {errores.password && <div style={{color: 'red'}}>{errores.password}</div>}
           </div>
 
           <Link to="/recuperarContrasena" className="aRecuperar">¿Olvidaste tu contraseña?</Link>

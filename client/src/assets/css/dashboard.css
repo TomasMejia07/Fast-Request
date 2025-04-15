@@ -726,16 +726,16 @@ table tbody tr:hover {
     grid-template-rows: auto auto;       
     gap: 20px;
     padding: 20px;
-    background: #f4f6f8;
+    background: #13161C;
     min-height: 100vh;
   }
   
 
   
 .card {
-    background: #fff;
+    background: #181b20;
     border-radius: 12px;
-    padding: 20px;
+    padding: 3% 8% 10% 8%;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     max-height: 400px; 
@@ -753,7 +753,7 @@ table tbody tr:hover {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 16px;
-    color: #333;
+    color: #ffffff;
   }
   
   
