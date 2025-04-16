@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function TopBar({ onToggleNav }) {
     const perfilRef = useRef(null);
@@ -37,17 +38,17 @@ function TopBar({ onToggleNav }) {
                 <img src={`https://unavatar.io/juanjoloq`} alt="Avatar" />
                 <div className="menu-perfil">
                     <ul className='menu-perfil-ul'>
+                    <li className='menu-perfil-ul-li'>
+                        <Link to="/perfil" className='menu-perfil-ul-li-a'>
+                            <span className="icono-menu-user"><ion-icon name="person-circle"></ion-icon></span>
+                            <span className="nav-titulo">Cuenta</span>
+                        </Link>
+                    </li>
                         <li className='menu-perfil-ul-li'>
-                            <a href="#" className='menu-perfil-ul-li-a'>
+                            <Link to="/configuracion" className='menu-perfil-ul-li-a'>
                                 <span className="icono-menu-user"><ion-icon name="person-circle"></ion-icon></span>
-                                <span className="nav-titulo">Cuenta</span>
-                            </a>
-                        </li>
-                        <li className='menu-perfil-ul-li'>
-                            <a href="#" className='menu-perfil-ul-li-a'>
-                                <span className="icono-menu-user"><ion-icon name="cog"></ion-icon></span>
-                                <span className="nav-titulo">Configuraciones</span>
-                            </a>
+                                <span className="nav-titulo">configuracion</span>
+                            </Link>
                         </li>
                         <li className='menu-perfil-ul-li'>
                             <a href="#" className='menu-perfil-ul-li-a'>

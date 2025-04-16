@@ -1,30 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import "../../assets/css/configuracion.css";
 
+import React, { useState, useRef, useEffect } from 'react';
+import "../../assets/css/configuracion.css"
+import { Link } from 'react-router-dom';
 
-const DashboardConfig = () => {
-  // Estados para la navegación y el menú
+const Dashboard = () => {
+  // Estados para la interfaz
   const [navActive, setNavActive] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  
-  // Estados para las configuraciones
-  const [selectedTheme, setSelectedTheme] = useState('light');
-  const [passwordStrength, setPasswordStrength] = useState({
-    strength: 0,
-    status: 'Fuerza de contraseña',
-    color: ''
-  });
-  const [notifications, setNotifications] = useState({
-    email: false,
-    push: false,
-    updates: false
-  });
-  const [userName, setUserName] = useState('');
+  const [activeMenuItem, setActiveMenuItem] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
-  
-  // Estados para los campos de contraseña
+  const [userName, setUserName] = useState("Usuario");
+  const [selectedTheme, setSelectedTheme] = useState('light');
+  const [notifications, setNotifications] = useState({
+    email: true,
+    push: false,
+    updates: true
+  });
   const [passwords, setPasswords] = useState({
     current: '',
     new: '',
@@ -35,164 +26,120 @@ const DashboardConfig = () => {
     new: false,
     confirm: false
   });
-  
-  // Referencias para el cierre de menús al hacer clic fuera
+  const [passwordStrength, setPasswordStrength] = useState({
+    strength: 0,
+    status: 'Débil',
+    color: '#ea4335'
+  });
+
   const userMenuRef = useRef(null);
-  const navigate = useNavigate();
-  
-  // Manejo de eventos de navegación
-  const handleMenuItemHover = (index) => {
-    setActiveMenuItem(index);
-  };
-  
+
+  // Funciones para manejar eventos
   const toggleMenu = () => {
     setNavActive(!navActive);
   };
-  
-  const toggleUserMenu = (e) => {
-    e.stopPropagation();
+
+  const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
   };
-  
-  // Manejo de campos de formulario
-  const handlePasswordChange = (e) => {
-    const { id, value } = e.target;
-    let fieldName = '';
-    
-    if (id === 'actual-password') fieldName = 'current';
-    else if (id === 'nueva-password') fieldName = 'new';
-    else if (id === 'confirm-password') fieldName = 'confirm';
-    
-    setPasswords({
-      ...passwords,
-      [fieldName]: value
-    });
-    
-    // Evaluar fuerza de contraseña para el campo nueva contraseña
-    if (id === 'nueva-password') {
-      evaluatePasswordStrength(value);
-    }
+
+  const handleMenuItemHover = (index) => {
+    setActiveMenuItem(index);
   };
-  
-  const evaluatePasswordStrength = (password) => {
-    let strength = 0;
-    let status = '';
-    let color = '';
-    
-    // Criterios de fuerza de contraseña
-    if (password.length > 6) strength += 20;
-    if (password.length > 10) strength += 20;
-    if (/[A-Z]/.test(password)) strength += 20;
-    if (/[0-9]/.test(password)) strength += 20;
-    if (/[^A-Za-z0-9]/.test(password)) strength += 20;
-    
-    // Definir color y texto según la fuerza
-    if (strength < 40) {
-      color = '#ea4335'; // Rojo
-      status = 'Débil';
-    } else if (strength < 70) {
-      color = '#fbbc05'; // Amarillo
-      status = 'Moderada';
-    } else {
-      color = '#34a853'; // Verde
-      status = 'Fuerte';
-    }
-    
-    setPasswordStrength({ strength, status, color });
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    // Lógica para cerrar sesión
+    console.log("Cerrando sesión...");
   };
-  
-  const togglePasswordVisibility = (field) => {
-    setPasswordVisibility({
-      ...passwordVisibility,
-      [field]: !passwordVisibility[field]
-    });
-  };
-  
+
   const handleFileChange = (e) => {
-    if (e.target.files.length > 0) {
+    if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
   };
-  
-  const handleThemeChange = (e) => {
-    const themeValue = e.target.value;
-    setSelectedTheme(themeValue);
-    document.documentElement.setAttribute('data-theme', themeValue);
-    showNotification(`Tema cambiado a modo ${themeValue}`, 'success');
-  };
-  
-  const handleNotificationToggle = (type) => {
-    setNotifications({
-      ...notifications,
-      [type]: !notifications[type]
-    });
-  };
-  
-  // Funciones para guardar cambios
+
   const saveName = () => {
-    if (userName.trim() !== '') {
-      showNotification('Nombre actualizado correctamente', 'success');
-    } else {
-      showNotification('Por favor ingrese un nombre válido', 'error');
-    }
+    // Lógica para guardar el nombre
+    console.log("Guardando nombre:", userName);
+    // Mostrar notificación de éxito
   };
-  
+
+  const handlePasswordChange = (e) => {
+    const { id, value } = e.target;
+    let key = '';
+    
+    if (id === 'actual-password') key = 'current';
+    else if (id === 'nueva-password') {
+      key = 'new';
+      // Calcula la fuerza de la contraseña
+      let strength = 0;
+      let status = 'Débil';
+      let color = '#ea4335';
+      
+      if (value.length > 6) strength += 25;
+      if (/[A-Z]/.test(value)) strength += 25;
+      if (/[0-9]/.test(value)) strength += 25;
+      if (/[^A-Za-z0-9]/.test(value)) strength += 25;
+      
+      if (strength >= 75) {
+        status = 'Fuerte';
+        color = '#34a853';
+      } else if (strength >= 50) {
+        status = 'Medio';
+        color = '#fbbc05';
+      }
+      
+      setPasswordStrength({ strength, status, color });
+    } 
+    else key = 'confirm';
+    
+    setPasswords(prev => ({ ...prev, [key]: value }));
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setPasswordVisibility(prev => ({ ...prev, [field]: !prev[field] }));
+  };
+
   const savePassword = () => {
-    if (!passwords.current || !passwords.new || !passwords.confirm) {
-      showNotification('Todos los campos son requeridos', 'error');
-      return;
-    }
-    
+    // Validar que las contraseñas coincidan
     if (passwords.new !== passwords.confirm) {
-      showNotification('Las contraseñas no coinciden', 'error');
+      alert("Las contraseñas no coinciden");
       return;
     }
-    
-    showNotification('Contraseña actualizada correctamente', 'success');
+    // Lógica para guardar la contraseña
+    console.log("Guardando nueva contraseña");
   };
-  
+
+  const handleThemeChange = (e) => {
+    const newTheme = e.target.value;
+    setSelectedTheme(newTheme);
+    // Aplicar tema
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  const handleNotificationToggle = (type) => {
+    setNotifications(prev => ({
+      ...prev,
+      [type]: !prev[type]
+    }));
+  };
+
   const resetConfig = () => {
-    if (window.confirm('¿Está seguro que desea restablecer todas las configuraciones? Esta acción no se puede deshacer.')) {
-      showNotification('Configuraciones restablecidas correctamente', 'success');
+    // Lógica para resetear configuraciones
+    if (window.confirm("¿Estás seguro de que deseas restablecer todas las configuraciones?")) {
+      setSelectedTheme('light');
+      setNotifications({
+        email: true,
+        push: false,
+        updates: true
+      });
+      // Mostrar notificación de éxito
+      console.log("Configuraciones restablecidas");
     }
   };
-  
-  const handleLogout = (e) => {
-    e.preventDefault();
-    const confirmLogout = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
-    if (confirmLogout) {
-      navigate('/CerrarSesion');
-    }
-  };
-  
-  // Notificación
-  const showNotification = (message, type) => {
-    // Crear elemento de notificación
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-      <ion-icon name="${type === 'success' ? 'checkmark-circle' : 'alert-circle'}-outline"></ion-icon>
-      <p>${message}</p>
-    `;
-    
-    // Añadir al DOM
-    document.body.appendChild(notification);
-    
-    // Mostrar con animación
-    setTimeout(() => {
-      notification.classList.add('show');
-    }, 10);
-    
-    // Eliminar después de 3 segundos
-    setTimeout(() => {
-      notification.classList.remove('show');
-      setTimeout(() => {
-        notification.remove();
-      }, 300);
-    }, 3000);
-  };
-  
-  // Efecto para cerrar el menú de usuario al hacer clic fuera
+
+  // Cerrar menú de usuario cuando se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -207,82 +154,76 @@ const DashboardConfig = () => {
   }, []);
 
   return (
-    <section>
-      {/* MENU */}
-      <div className={`nav ${navActive ? 'active' : ''}`}>
-        <ul>
+    <section className="dashboard-section">
+      {/* MENU LATERAL */}
+      <div className={`dashboard-nav ${navActive ? 'active' : ''}`}>
+        <ul className="dashboard-menu">
           <li onMouseOver={() => handleMenuItemHover(0)} className={activeMenuItem === 0 ? 'active' : ''}>
-            <a href="">
-              <span className="icono"><ion-icon name="happy"></ion-icon></span>
-              <span className="titulo">Logo</span>
-            </a>
-          </li>
-          <li onMouseOver={() => handleMenuItemHover(1)} className={activeMenuItem === 1 ? 'active' : ''}>
-            <a href="index.html">
-              <span className="icono"><ion-icon name="home"></ion-icon></span>
-              <span className="titulo">Inicio</span>
+            <a href="#" className="dashboard-link">
+              <span className="dashboard-icon"><ion-icon name="happy"></ion-icon></span>
+              <span className="dashboard-label">Logo</span>
             </a>
           </li>
           <li onMouseOver={() => handleMenuItemHover(2)} className={activeMenuItem === 2 ? 'active' : ''}>
-            <a href="perfil.html">
-              <span className="icono"><ion-icon name="person-circle"></ion-icon></span>
-              <span className="titulo">perfil</span>
-            </a>
+              <Link to="/perfil" className="dashboard-link">
+                <span className="dashboard-icon"><ion-icon name="person-circle"></ion-icon></span>
+                <span className="dashboard-label">Perfil</span>
+            </Link>
           </li>
           <li onMouseOver={() => handleMenuItemHover(3)} className={activeMenuItem === 3 ? 'active' : ''}>
-            <a href="configuracion.html">
-              <span className="icono"><ion-icon name="cog"></ion-icon></span>
-              <span className="titulo"> Configuraciones</span>
-            </a>
+              <Link to="/configuracion" className="dashboard-link">
+                <span className="dashboard-icon"><ion-icon name="cog"></ion-icon></span>
+                <span className="dashboard-label">Configuraciones</span>
+              </Link>
           </li>
           <li onMouseOver={() => handleMenuItemHover(4)} className={activeMenuItem === 4 ? 'active' : ''}>
-            <a href="#" onClick={handleLogout}>
-              <span className="icono"><ion-icon name="log-out"></ion-icon></span>
-              <span className="titulo"> Cerrar sesion</span>
+            <a href="#" onClick={handleLogout} className="dashboard-link">
+              <span className="dashboard-icon"><ion-icon name="log-out"></ion-icon></span>
+              <span className="dashboard-label"> Cerrar sesión</span>
             </a>
           </li>
         </ul>
       </div>
       {/* FIN MENU */}
       
-      {/* DASHBOARD */}
-      <div className={`container ${navActive ? 'active' : ''}`}>
+      {/* DASHBOARD CONTAINER */}
+      <div className={`dashboard-container ${navActive ? 'active' : ''}`}>
         {/* BARRA SUPERIOR (TOPBAR) */}
-        <div className="topbar">
-          <div className="toggle" onClick={toggleMenu}>
+        <div className="dashboard-topbar">
+          <div className="dashboard-toggle" onClick={toggleMenu}>
             <ion-icon name="menu"></ion-icon>
           </div>
-          <div className="buscar">
-            <label>
-              <input type="text" placeholder="Buscar" /> 
-              <ion-icon name="search"></ion-icon>
+          <div className="dashboard-search">
+            <label className="search-label">
+              <input type="text" placeholder="Buscar" className="search-input" /> 
+              <ion-icon name="search" className="search-icon"></ion-icon>
             </label>
           </div>
           <div 
-            className={`perfil-usuario ${userMenuOpen ? 'active' : ''}`} 
+            className={`dashboard-user-profile ${userMenuOpen ? 'active' : ''}`} 
             onClick={toggleUserMenu}
             ref={userMenuRef}
           >
-            <img src="../../../public/img/user.png" alt="" />
+            <img src="../../../public/img/user.png" alt="Usuario" className="user-avatar" />
             {/* Menú desplegable */}
-            <div className="menu-perfil">
-              <ul>
-                <li>
-                  <a href="perfil.html">
-                    <span className="icono-menu-user"><ion-icon name="person-circle"></ion-icon></span>
-                    <span className="titulo">Cuenta</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="configuracion.html">
-                    <span className="icono-menu-user"><ion-icon name="cog"></ion-icon></span>
-                    <span className="titulo">Configuraciones</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={handleLogout}>
-                    <span className="icono-menu-user"><ion-icon name="log-out"></ion-icon></span>
-                    <span className="titulo">Cerrar sesión</span>
+            <div className="user-menu">
+              <ul className="user-menu-list">
+              <li className="user-menu-item">
+                <Link to="/perfil" className="user-menu-link">
+                  <span className="user-menu-icon"><ion-icon name="person-circle"></ion-icon></span>
+                  <span className="user-menu-text">Cuenta</span>
+                </Link>
+              </li>
+            <li className="user-menu-item">
+              <Link to="/configuracion" className="user-menu-link">
+                <span className="user-menu-icon"><ion-icon name="cog"></ion-icon></span>
+                <span className="user-menu-text">Configuraciones</span>
+              </Link>
+            </li>
+                <li className="user-menu-item">
+                  <a href="#" onClick={handleLogout} className="user-menu-link">
+                    <span className="user-menu-icon"><ion-icon name="log-out"></ion-icon></span>
+                    <span className="user-menu-text">Cerrar sesión</span>
                   </a>
                 </li>
               </ul>
@@ -291,28 +232,28 @@ const DashboardConfig = () => {
         </div>
         {/* FIN DE LA TOPBAR */}
         
-        {/* configuraciones */}
-        <div className="config-container">
+        {/* CONFIGURACIONES */}
+        <div className="dashboard-config">
           <div className="config-header">
-            <h2>Configuraciones</h2>
-            <p className="config-subtitle">Personaliza tu experiencia según tus preferencias</p>
+            <h2 className="config-title">Configuraciones</h2>
+            <p className="config-desc">Personaliza tu experiencia según tus preferencias</p>
           </div>
           
-          <div className="config-section">
-            <div className="section-title">
-              <ion-icon name="image-outline"></ion-icon>
-              <h3>Perfil</h3>
+          <div className="config-block">
+            <div className="block-header">
+              <ion-icon name="image-outline" className="block-icon"></ion-icon>
+              <h3 className="block-title">Perfil</h3>
             </div>
-            <div className="config-card">
-              <div className="card-content">
-                <div className="card-icon">
+            <div className="config-panel">
+              <div className="panel-content">
+                <div className="panel-icon">
                   <ion-icon name="image-outline"></ion-icon>
                 </div>
-                <div className="card-details">
-                  <h4>Subir Nuevo Logo</h4>
-                  <p>Actualiza el logo de tu perfil con una imagen personalizada</p>
-                  <div className="form-group">
-                    <label htmlFor="nuevo-logo" className="custom-file-upload">
+                <div className="panel-details">
+                  <h4 className="panel-title">Subir Nuevo Logo</h4>
+                  <p className="panel-desc">Actualiza el logo de tu perfil con una imagen personalizada</p>
+                  <div className="input-group">
+                    <label htmlFor="nuevo-logo" className="custom-file-selector">
                       <ion-icon name="cloud-upload-outline"></ion-icon>
                       {selectedFile ? selectedFile.name : 'Seleccionar imagen'}
                     </label>
@@ -321,9 +262,10 @@ const DashboardConfig = () => {
                       id="nuevo-logo" 
                       accept="image/*" 
                       onChange={handleFileChange}
+                      className="file-input"
                     />
                   </div>
-                  <button className="btn-primary">
+                  <button className="dashboard-btn dashboard-btn-primary">
                     <ion-icon name="save-outline"></ion-icon>
                     Guardar Logo
                   </button>
@@ -332,25 +274,26 @@ const DashboardConfig = () => {
             </div>
             
             {/* Cambiar Nombre */}
-            <div className="config-card">
-              <div className="card-content">
-                <div className="card-icon">
+            <div className="config-panel">
+              <div className="panel-content">
+                <div className="panel-icon">
                   <ion-icon name="person-outline"></ion-icon>
                 </div>
-                <div className="card-details">
-                  <h4>Cambiar Nombre de Usuario</h4>
-                  <p>Modifica como aparece tu nombre en la plataforma</p>
-                  <div className="form-group">
-                    <label htmlFor="nombre-usuario">Nuevo Nombre:</label>
+                <div className="panel-details">
+                  <h4 className="panel-title">Cambiar Nombre de Usuario</h4>
+                  <p className="panel-desc">Modifica como aparece tu nombre en la plataforma</p>
+                  <div className="input-group">
+                    <label htmlFor="nombre-usuario" className="input-label">Nuevo Nombre:</label>
                     <input 
                       type="text" 
                       id="nombre-usuario" 
                       placeholder="Ingrese su nuevo nombre"
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
+                      className="text-input"
                     />
                   </div>
-                  <button className="btn-primary" onClick={saveName}>
+                  <button className="dashboard-btn dashboard-btn-primary" onClick={saveName}>
                     <ion-icon name="save-outline"></ion-icon>
                     Guardar Nombre
                   </button>
@@ -359,88 +302,91 @@ const DashboardConfig = () => {
             </div>
           </div>
           
-          <div className="config-section">
-            <div className="section-title">
-              <ion-icon name="shield-outline"></ion-icon>
-              <h3>Seguridad</h3>
+          <div className="config-block">
+            <div className="block-header">
+              <ion-icon name="shield-outline" className="block-icon"></ion-icon>
+              <h3 className="block-title">Seguridad</h3>
             </div>
             
             {/* Cambiar Contraseña */}
-            <div className="config-card">
-              <div className="card-content">
-                <div className="card-icon">
+            <div className="config-panel">
+              <div className="panel-content">
+                <div className="panel-icon">
                   <ion-icon name="lock-closed-outline"></ion-icon>
                 </div>
-                <div className="card-details">
-                  <h4>Cambiar Contraseña</h4>
-                  <p>Actualiza tu contraseña para mantener tu cuenta segura</p>
-                  <div className="form-group password-group">
-                    <label htmlFor="actual-password">Contraseña Actual:</label>
-                    <div className="password-input">
+                <div className="panel-details">
+                  <h4 className="panel-title">Cambiar Contraseña</h4>
+                  <p className="panel-desc">Actualiza tu contraseña para mantener tu cuenta segura</p>
+                  <div className="input-group password-group">
+                    <label htmlFor="actual-password" className="input-label">Contraseña Actual:</label>
+                    <div className="password-wrapper">
                       <input 
                         type={passwordVisibility.current ? "text" : "password"} 
                         id="actual-password" 
                         placeholder="Ingrese su contraseña actual"
                         value={passwords.current}
                         onChange={handlePasswordChange}
+                        className="password-input"
                       />
                       <span 
-                        className="toggle-password" 
+                        className="toggle-visibility" 
                         onClick={() => togglePasswordVisibility('current')}
                       >
                         <ion-icon name={passwordVisibility.current ? "eye-off-outline" : "eye-outline"}></ion-icon>
                       </span>
                     </div>
                   </div>
-                  <div className="form-group password-group">
-                    <label htmlFor="nueva-password">Nueva Contraseña:</label>
-                    <div className="password-input">
+                  <div className="input-group password-group">
+                    <label htmlFor="nueva-password" className="input-label">Nueva Contraseña:</label>
+                    <div className="password-wrapper">
                       <input 
                         type={passwordVisibility.new ? "text" : "password"} 
                         id="nueva-password" 
                         placeholder="Ingrese su nueva contraseña"
                         value={passwords.new}
                         onChange={handlePasswordChange}
+                        className="password-input"
                       />
                       <span 
-                        className="toggle-password" 
+                        className="toggle-visibility" 
                         onClick={() => togglePasswordVisibility('new')}
                       >
                         <ion-icon name={passwordVisibility.new ? "eye-off-outline" : "eye-outline"}></ion-icon>
                       </span>
                     </div>
                   </div>
-                  <div className="form-group password-group">
-                    <label htmlFor="confirm-password">Confirmar Contraseña:</label>
-                    <div className="password-input">
+                  <div className="input-group password-group">
+                    <label htmlFor="confirm-password" className="input-label">Confirmar Contraseña:</label>
+                    <div className="password-wrapper">
                       <input 
                         type={passwordVisibility.confirm ? "text" : "password"} 
                         id="confirm-password" 
                         placeholder="Confirme su nueva contraseña"
                         value={passwords.confirm}
                         onChange={handlePasswordChange}
+                        className="password-input"
                       />
                       <span 
-                        className="toggle-password" 
+                        className="toggle-visibility" 
                         onClick={() => togglePasswordVisibility('confirm')}
                       >
                         <ion-icon name={passwordVisibility.confirm ? "eye-off-outline" : "eye-outline"}></ion-icon>
                       </span>
                     </div>
                   </div>
-                  <div className="password-strength">
-                    <div className="strength-meter">
+                  <div className="password-meter">
+                    <div className="meter-wrapper">
                       <div 
-                        className="strength-bar" 
+                        className="meter-bar" 
                         style={{ 
                           width: `${passwordStrength.strength}%`,
                           backgroundColor: passwordStrength.color 
                         }}
                       ></div>
                     </div>
-                    <span>{`Fuerza de contraseña: ${passwordStrength.status}`}</span>
+                    <span className="meter-text">{`Fuerza de contraseña: ${passwordStrength.status}`}</span>
                   </div>
-                  <button className="btn-primary" onClick={savePassword}>
+                  <button className="dashboard-btn dashboard-btn-primary" onClick={savePassword}>
                     <ion-icon name="shield-checkmark-outline"></ion-icon>
                     Cambiar Contraseña
                   </button>
@@ -449,24 +395,24 @@ const DashboardConfig = () => {
             </div>
           </div>
           
-          <div className="config-section">
-            <div className="section-title">
-              <ion-icon name="options-outline"></ion-icon>
-              <h3>Preferencias</h3>
+          <div className="config-block">
+            <div className="block-header">
+              <ion-icon name="options-outline" className="block-icon"></ion-icon>
+              <h3 className="block-title">Preferencias</h3>
             </div>
             
             {/* Alternar Tema */}
-            <div className="config-card">
-              <div className="card-content">
-                <div className="card-icon">
+            <div className="config-panel">
+              <div className="panel-content">
+                <div className="panel-icon">
                   <ion-icon name="contrast-outline"></ion-icon>
                 </div>
-                <div className="card-details">
-                  <h4>Modo de Tema</h4>
-                  <p>Personaliza la apariencia de la plataforma</p>
-                  <div className="theme-toggle-container">
-                    <div className="theme-option">
-                      <label htmlFor="theme-light" className="theme-label">
+                <div className="panel-details">
+                  <h4 className="panel-title">Modo de Tema</h4>
+                  <p className="panel-desc">Personaliza la apariencia de la plataforma</p>
+                  <div className="theme-options">
+                    <div className="theme-choice">
+                      <label htmlFor="theme-light" className="theme-option-label">
                         <input 
                           type="radio" 
                           id="theme-light" 
@@ -474,6 +420,7 @@ const DashboardConfig = () => {
                           value="light" 
                           checked={selectedTheme === 'light'}
                           onChange={handleThemeChange}
+                          className="theme-radio"
                         />
                         <div className="theme-preview light">
                           <ion-icon name="sunny-outline"></ion-icon>
@@ -481,8 +428,8 @@ const DashboardConfig = () => {
                         </div>
                       </label>
                     </div>
-                    <div className="theme-option">
-                      <label htmlFor="theme-dark" className="theme-label">
+                    <div className="theme-choice">
+                      <label htmlFor="theme-dark" className="theme-option-label">
                         <input 
                           type="radio" 
                           id="theme-dark" 
@@ -490,6 +437,7 @@ const DashboardConfig = () => {
                           value="dark"
                           checked={selectedTheme === 'dark'}
                           onChange={handleThemeChange}
+                          className="theme-radio"
                         />
                         <div className="theme-preview dark">
                           <ion-icon name="moon-outline"></ion-icon>
@@ -497,8 +445,8 @@ const DashboardConfig = () => {
                         </div>
                       </label>
                     </div>
-                    <div className="theme-option">
-                      <label htmlFor="theme-auto" className="theme-label">
+                    <div className="theme-choice">
+                      <label htmlFor="theme-auto" className="theme-option-label">
                         <input 
                           type="radio" 
                           id="theme-auto" 
@@ -506,6 +454,7 @@ const DashboardConfig = () => {
                           value="auto"
                           checked={selectedTheme === 'auto'}
                           onChange={handleThemeChange}
+                          className="theme-radio"
                         />
                         <div className="theme-preview auto">
                           <ion-icon name="sync-outline"></ion-icon>
@@ -519,54 +468,57 @@ const DashboardConfig = () => {
             </div>
             
             {/* Notificaciones */}
-            <div className="config-card">
-              <div className="card-content">
-                <div className="card-icon">
+            <div className="config-panel">
+              <div className="panel-content">
+                <div className="panel-icon">
                   <ion-icon name="notifications-outline"></ion-icon>
                 </div>
-                <div className="card-details">
-                  <h4>Gestión de Notificaciones</h4>
-                  <p>Configura cómo quieres recibir tus notificaciones</p>
-                  <div className="toggle-switches">
-                    <div className="toggle-group">
-                      <label className="toggle">
+                <div className="panel-details">
+                  <h4 className="panel-title">Gestión de Notificaciones</h4>
+                  <p className="panel-desc">Configura cómo quieres recibir tus notificaciones</p>
+                  <div className="notification-options">
+                    <div className="notification-option">
+                      <label className="toggle-switch">
                         <input 
                           type="checkbox" 
                           checked={notifications.email}
                           onChange={() => handleNotificationToggle('email')}
+                          className="toggle-checkbox"
                         />
-                        <span className="toggle-slider"></span>
-                        <div className="toggle-label">
-                          <ion-icon name="mail-outline"></ion-icon>
-                          <span>Correo electrónico</span>
+                        <span className="toggle-track"></span>
+                        <div className="toggle-label-wrapper">
+                          <ion-icon name="mail-outline" className="toggle-icon"></ion-icon>
+                          <span className="toggle-text">Correo electrónico</span>
                         </div>
                       </label>
                     </div>
-                    <div className="toggle-group">
-                      <label className="toggle">
+                    <div className="notification-option">
+                      <label className="toggle-switch">
                         <input 
                           type="checkbox" 
                           checked={notifications.push}
                           onChange={() => handleNotificationToggle('push')}
+                          className="toggle-checkbox"
                         />
-                        <span className="toggle-slider"></span>
-                        <div className="toggle-label">
-                          <ion-icon name="phone-portrait-outline"></ion-icon>
-                          <span>Notificaciones push</span>
+                        <span className="toggle-track"></span>
+                        <div className="toggle-label-wrapper">
+                          <ion-icon name="phone-portrait-outline" className="toggle-icon"></ion-icon>
+                          <span className="toggle-text">Notificaciones push</span>
                         </div>
                       </label>
                     </div>
-                    <div className="toggle-group">
-                      <label className="toggle">
+                    <div className="notification-option">
+                      <label className="toggle-switch">
                         <input 
                           type="checkbox" 
                           checked={notifications.updates}
                           onChange={() => handleNotificationToggle('updates')}
+                          className="toggle-checkbox"
                         />
-                        <span className="toggle-slider"></span>
-                        <div className="toggle-label">
-                          <ion-icon name="refresh-outline"></ion-icon>
-                          <span>Actualizaciones del sistema</span>
+                        <span className="toggle-track"></span>
+                        <div className="toggle-label-wrapper">
+                          <ion-icon name="refresh-outline" className="toggle-icon"></ion-icon>
+                          <span className="toggle-text">Actualizaciones del sistema</span>
                         </div>
                       </label>
                     </div>
@@ -576,22 +528,22 @@ const DashboardConfig = () => {
             </div>
           </div>
           
-          <div className="config-section">
-            <div className="section-title">
-              <ion-icon name="settings-outline"></ion-icon>
-              <h3>Avanzado</h3>
+          <div className="config-block">
+            <div className="block-header">
+              <ion-icon name="settings-outline" className="block-icon"></ion-icon>
+              <h3 className="block-title">Avanzado</h3>
             </div>
             
             {/* Restablecer Configuraciones */}
-            <div className="config-card danger-zone">
-              <div className="card-content">
-                <div className="card-icon danger">
+            <div className="config-panel danger">
+              <div className="panel-content">
+                <div className="panel-icon danger">
                   <ion-icon name="refresh-outline"></ion-icon>
                 </div>
-                <div className="card-details">
-                  <h4>Restablecer Configuraciones</h4>
-                  <p>Esto restablecerá todas las configuraciones a sus valores predeterminados.</p>
-                  <button className="btn-danger" onClick={resetConfig}>
+                <div className="panel-details">
+                  <h4 className="panel-title">Restablecer Configuraciones</h4>
+                  <p className="panel-desc">Esto restablecerá todas las configuraciones a sus valores predeterminados.</p>
+                  <button className="dashboard-btn dashboard-btn-danger" onClick={resetConfig}>
                     <ion-icon name="refresh-outline"></ion-icon>
                     Restablecer Configuraciones
                   </button>
@@ -605,4 +557,4 @@ const DashboardConfig = () => {
   );
 };
 
-export default DashboardConfig;
+export default Dashboard;
