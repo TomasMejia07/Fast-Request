@@ -31,27 +31,27 @@ const CategoriaDashboard = ({ onClose }) => {
             <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
           </div>
         </div>
-        <table>
-          <thead>
+        <table className='tabladashb'>
+          <thead className='tabladashb_thead'> 
             <tr>
-              <th>Nombre de la categoria<ion-icon name="chevron-expand-outline"></ion-icon></th>
-              <th>Estado<ion-icon name="chevron-expand-outline"></ion-icon></th>
-              <th>Operaciones<ion-icon name="chevron-expand-outline"></ion-icon></th>
+              <th className='tabladashb_thead_th'>Nombre de la categoria<ion-icon name="chevron-expand-outline"></ion-icon></th>
+              <th className='tabladashb_thead_th'>Estado<ion-icon name="chevron-expand-outline"></ion-icon></th>
+              <th className='tabladashb_thead_th'>Operaciones<ion-icon name="chevron-expand-outline"></ion-icon></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Categoria 1</td>
-              <td>Inactiva</td>
-              <td>
+          <tbody className='tabladashb_tbody'>
+            <tr className='tabladashb_tbody_tr'>
+              <td className='tabladashb_tbody_tr_td'>Categoria 1</td>
+              <td className='tabladashb_tbody_tr_td'>Inactiva</td>
+              <td className='tabladashb_tbody_tr_td'>
                 <a href="#"><ion-icon id="iconosoperacion" name="pencil"></ion-icon></a>
                 <a href="#"><ion-icon id="iconosoperacion" name="trash"></ion-icon></a>
               </td>
             </tr>
-            <tr>
-              <td>Categoria 2</td>
-              <td>Activa</td>
-              <td>
+            <tr className='tabladashb_tbody_tr'>
+              <td className='tabladashb_tbody_tr_td'>Categoria 2</td>
+              <td className='tabladashb_tbody_tr_td'>Activa</td>
+              <td className='tabladashb_tbody_tr_td'>
                 <a href="#"><ion-icon id="iconosoperacion" name="pencil"></ion-icon></a>
                 <a href="#"><ion-icon id="iconosoperacion" name="trash"></ion-icon></a>
               </td>
@@ -63,14 +63,14 @@ const CategoriaDashboard = ({ onClose }) => {
       <ModalDashboard show={modalVisible} onClose={closeModal}>
         <form id="miFormulario" ref={formRef}>
           <h2 className="modal__title">Crear Categoria</h2>
-          <div className="inputs_formulario">
+          <div className="dashinputs_formulario">
             <label htmlFor="nombre">Nombre De La Categoria:</label>
-            <input type="text" name="nombre" id="nombre" className="Labels" />
+            <input type="text" name="nombre" id="nombre" className="dashinputs_formulario_Labels" />
             <span className="error"></span>
           </div>
-          <div className="inputs_formulario">
+          <div className="dashinputs_formulario">
             <label htmlFor="estado">Estado:</label>
-            <select name="estado" id="estado" className="Labels">
+            <select name="estado" id="estado" className="dashinputs_formulario_Labels">
               <option defaultValue>Seleciona Uno</option>
               <option value="">Activo</option>
               <option value="">Inactivo</option>

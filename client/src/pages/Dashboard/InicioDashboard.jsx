@@ -6,40 +6,40 @@ import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 const InicioDashboard = () => {
     return (
         <DashboardLayout title="Inicio">
-            <div className="cards" >
-                <div className="card">
+            <div className="cardsDas" >
+                <div className="cardDas">
                     <div>
-                        <span className="card-numeros">10</span>
-                        <span className="card-nombre">Pedidos en espera</span>
+                        <span className="cardDas-numeros">10</span>
+                        <span className="cardDas-nombre">Pedidos en espera</span>
                     </div>
-                    <div className="card-icono">
+                    <div className="cardDas-icono">
                         <ion-icon name="time"></ion-icon>
                     </div>
                 </div>
-                <div className="card">
+                <div className="cardDas">
                     <div>
-                        <span className="card-numeros">5</span>
-                        <span className="card-nombre">Pedidos en proceso</span>
+                        <span className="cardDas-numeros">5</span>
+                        <span className="cardDas-nombre">Pedidos en proceso</span>
                     </div>
-                    <div className="card-icono">
+                    <div className="cardDas-icono">
                         <ion-icon name="bicycle"></ion-icon>
                     </div>
                 </div>
-                <div className="card">
+                <div className="cardDas">
                     <div>
-                        <span className="card-numeros">30</span>
-                        <span className="card-nombre">Pedidos Terminados</span>
+                        <span className="cardDas-numeros">30</span>
+                        <span className="cardDas-nombre">Pedidos Terminados</span>
                     </div>
-                    <div className="card-icono">
+                    <div className="cardDas-icono">
                         <ion-icon name="checkbox"></ion-icon>
                     </div>
                 </div>
-                <div className="card">
+                <div className="cardDas">
                     <div>
-                        <span className="card-numeros">$500.000</span>
-                        <span className="card-nombre">Ventas de hoy</span>
+                        <span className="cardDas-numeros">$500.000</span>
+                        <span className="cardDas-nombre">Ventas de hoy</span>
                     </div>
-                    <div className="card-icono">
+                    <div className="cardDas-icono">
                         <ion-icon name="cash"></ion-icon>
                     </div>
                 </div>

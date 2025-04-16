@@ -11,6 +11,7 @@
     --white-red: #d85757; /* POSIBLE COLOR DE LOS HOVERES ICONOS DE ELIMINAR */
     --white-greens: #1ba73e;
     --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
+    --font:  "General Sans", sans-serif;
 }
 
 *{
@@ -27,6 +28,7 @@ ol, ul{
 body{
     background-color: var(--black);
     overflow-x: hidden;
+    font-family: var(--font);
 }
 /* SECTION */
 
@@ -161,7 +163,7 @@ body{
     position: relative;
     width: 400px;
     margin: 0 10px;
-    padding-top: 10px;
+    padding-top: 20px;
 }
 
 .containerDashboard .topbar .buscar .label-buscar{
@@ -185,7 +187,7 @@ body{
 .containerDashboard .topbar .buscar .label-buscar ion-icon{
     position: absolute;
     color: var(--white-icons); /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
-    top: 20px;
+    top: 12px;
     left: 10px;
     font-size: 1.2em;
 }
@@ -278,7 +280,7 @@ body{
 /* FIN DEL TOPBAR */
 /* CARDS */
 
-.cards {
+.cardsDas {
     position: relative;
     width: 100%;
     padding: 20px;
@@ -287,7 +289,7 @@ body{
     grid-gap: 30px;
 }
 
-.cards .card {
+.cardsDas .cardDas {
     position: relative;
     background: var(--black); /* COLOR DE FONDO DE LAS TARJETAS */
     padding: 30px;
@@ -299,33 +301,33 @@ body{
     transition: 0.6s;
 }
 
-.cards .card:hover{
+.cardsDas .cardDas:hover{
     background-color: var(--white-green);
 }
 
-.cards .card .card-numeros{
+.cardsDas .cardDas .cardDas-numeros{
     position: relative;
     font-weight: 700;
     font-size: 2.5em;
     color: var(--white-text); /* COLOR DE LOS NUMEROS DE LAS TARJETAS  */
 }
 
-.cards .card .card-nombre{
+.cardsDas .cardDas .cardDas-nombre{
     color: var(--white-text); /* COLOR DE LOS NUMEROS DE LAS TARJETAS */
     font-size: 1.1em;
     margin-top: 5px;
     margin-right: 80px;
 }
 
-.cards .card .card-icono {
+.cardsDas .cardDas .cardDas-icono {
     font-size: 3.5em;
     color: var(--white-icons); /* COLOR DE LOS ICONOS DE LAS TARJETAS */
 
 }
 
-.cards .card:hover .card-numeros,
-.cards .card:hover .card-nombre,
-.cards .card:hover .card-icono{
+.cardsDas .cardDas:hover .cardDas-numeros,
+.cardsDas .cardDas:hover .cardDas-nombre,
+.cardsDas .cardDas:hover .cardDas-icono{
     color: var(--white-icons);
 }
 
@@ -412,38 +414,66 @@ body{
     color: var(--white-icons);
 }
 
-table {
+.tabladashb {
     border-spacing: 0;
     margin-top: 1rem;
 }
 
-table thead {
+.tabladashb .tabladashb_thead {
     background-color: var(--tabla-linea-color);
     color: var(--black);
 }
 
-table thead th {
+.tabladashb .tabladashb_thead .tabladashb_thead_th {
     padding: 10px;
+    text-align: center;
 }
 
-table tbody tr td {
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td {
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid var(--white-text);
     color: var(--white-text);
 }
 
-table tbody tr td #iconosoperacion {
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion {
     font-size: 20px;
     cursor: pointer;
     margin-left: 10px;
     color: var(--white-icons);
 }
 
-table tbody tr:hover {
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr:hover {
     background-color: var(--Gray);
     transition: 0.5s;
 }
+
+.detalles_pedido {
+    background-color: #f1f1f1; /* Gris claro */
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.detalles_pedido:hover {
+    background-color: #e0e0e0; /* Gris un poco más oscuro */
+    transform: scale(1.05);
+}
+
+#iconosoperaciondetalles {
+    font-size: 18px;
+    color: #555;
+    transition: color 0.3s;
+    display: flex;
+    justify-content: center;
+}
+
+.detalles_pedido:hover #iconosoperaciondetalles {
+    color: #000;
+}
+
 /* MODAL */
 
 .custom-modal  {
@@ -526,13 +556,13 @@ table tbody tr:hover {
 
 /* FIN DE MODAL */
 /* FORMULARIOS */
-.inputs_formulario{
+.dashinputs_formulario{
     padding-top: 17px;
     color: var(--white-text);
     font-size: 18px;
 }
 
-.inputs_formulario .Labels{
+.dashinputs_formulario .dashinputs_formulario_Labels{
     width: 100%;
     height: 38px;
     background-color: var(--black);
@@ -545,11 +575,11 @@ table tbody tr:hover {
     margin-inline-start: 2px;
 }
 
-.Labels:hover{
+.dashinputs_formulario_Labels:hover{
     background-color: var(--black);
 }
 
-.Labels:focus {
+.dashinputs_formulario_Labels:focus {
     outline: none; /* Quita el contorno azul predeterminado */
     border-color: var(--white-icons); /* Cambia el borde a un color personalizado */
     background-color: var(--Gray); /* Fondo personalizado */
@@ -557,25 +587,26 @@ table tbody tr:hover {
 }
 
 .botones_formulario{
-    padding-top: 10px;
-
+    padding-top: 15px;
+    text-align: center;
 }
 
-.inputs_formulario select, input, label{
+.dashinputs_formulario select, input, label{
     padding: 10px 5px;
 }
 
-.inputs_formulario select{
+.dashinputs_formulario select{
     cursor: pointer;
 }
 
-.Labels select option {
+.dashinputs_formulario_Labels select option {
+    bottom: 20px;
     background-color: var(--Gray); /* Fondo para las opciones */
     color: var(--white-text); /* Color del texto */
 }
 
 /* Hover en las opciones */
-.Labels select option:hover {
+.dashinputs_formulario_Labels select option:hover {
     background-color: var(--Gray); /* Fondo al pasar el cursor */
     color: var(--white-text); /* Texto al pasar el cursor */
 }
