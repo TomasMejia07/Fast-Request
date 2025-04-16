@@ -61,7 +61,7 @@ const UserProfile = () => {
   
   // Handle menu item hover
   const handleMenuHover = (e) => {
-    const liElements = document.querySelectorAll('.nav li');
+    const liElements = document.querySelectorAll('.dashboard-menu li');
     liElements.forEach(item => item.classList.remove('active'));
     e.currentTarget.classList.add('active');
   };
@@ -180,106 +180,107 @@ const UserProfile = () => {
   };
   
   return (
-    <section>
-      {/* MENU */}
-      <div className={`nav ${navActive ? 'active' : ''}`}>
-        <ul>
+    <section className="dashboard-section">
+      {/* MENU - Actualizado con el nuevo diseño */}
+      <div className={`dashboard-nav ${navActive ? 'active' : ''}`}>
+        <ul className="dashboard-menu">
           <li onMouseOver={handleMenuHover}>
-            <a href="">
-              <span className="icono">
+            <a href="" className="dashboard-link">
+              <span className="dashboard-icon">
                 <ion-icon name="happy"></ion-icon>
               </span>
-              <span className="titulo">Logo</span>
+              <span className="dashboard-label">Logo</span>
             </a>
           </li>
           <li onMouseOver={handleMenuHover}>
-            <a href="index.html">
-              <span className="icono">
+            <a href="/dashboard" className="dashboard-link">
+              <span className="dashboard-icon">
                 <ion-icon name="home"></ion-icon>
               </span>
-              <span className="titulo">Inicio</span>
+              <span className="dashboard-label">Inicio</span>
             </a>
           </li>
           <li onMouseOver={handleMenuHover}>
-            <Link to="/perfil">
-                <span className="icono">
-                    <ion-icon name="person-circle"></ion-icon>
-                </span>
-                <span className="titulo">Perfil</span>
-            </Link>
-        </li>
-          <li onMouseOver={handleMenuHover}>
-            <Link to="/configuracion">
-                <span className="icono">
-                    <ion-icon name="cog"></ion-icon>
-                </span>
-                <span className="titulo">Configuraciones</span>
-            </Link>
-            </li>
-          <li onMouseOver={handleMenuHover}>
-            <a href="#" id="logout-link" onClick={handleLogout}>
-              <span className="icono">
-                <ion-icon name="log-out"></ion-icon>
+            <Link to="/perfil" className="dashboard-link">
+              <span className="dashboard-icon">
+                <ion-icon name="person-circle"></ion-icon>
               </span>
-              <span className="titulo">Cerrar sesion</span>
-            </a>
+              <span className="dashboard-label">Perfil</span>
+            </Link>
+          </li>
+          <li onMouseOver={handleMenuHover}>
+            <Link to="/configuracion" className="dashboard-link">
+              <span className="dashboard-icon">
+                <ion-icon name="cog"></ion-icon>
+              </span>
+              <span className="dashboard-label">Configuraciones</span>
+            </Link>
+          </li>
+          <li onMouseOver={handleMenuHover}>
+            <Link to="/registro" className="dashboard-link" onClick={handleLogout}>
+              <span className="dashboard-icon">
+              <ion-icon name="log-out"></ion-icon>
+              </span>
+              <span className="dashboard-label">Cerrar sesión</span>
+            </Link>
           </li>
         </ul>
       </div>
       {/* FIN MENU */}
       
-      {/* DASHBOARD */}
-      <div className={`container ${navActive ? 'active' : ''}`}>
-        {/* BARRA SUPERIOR (TOPBAR) */}
-        <div className="topbar">
-          <div className="toggle" onClick={toggleNav}>
+      {/* DASHBOARD CONTAINER - Actualizado con el nuevo diseño */}
+      <div className={`dashboard-container ${navActive ? 'active' : ''}`}>
+        {/* TOPBAR - Actualizado con el nuevo diseño */}
+        <div className="dashboard-topbar">
+          <div className="dashboard-toggle" onClick={toggleNav}>
             <ion-icon name="menu"></ion-icon>
           </div>
-          <div className="buscar">
-            <label>
-              <input type="text" placeholder="Buscar" />
-              <ion-icon name="search"></ion-icon>
+          <div className="dashboard-search">
+            <label className="search-label">
+              <input type="text" placeholder="Buscar" className="search-input" />
+              <ion-icon name="search" className="search-icon"></ion-icon>
             </label>
           </div>
           <div 
-            className={`perfil-usuario ${profileMenuActive ? 'active' : ''}`} 
+            className={`dashboard-user-profile ${profileMenuActive ? 'active' : ''}`} 
             onClick={toggleProfileMenu}
             ref={profileMenuRef}
           >
-            <img src={userData.profileImage} alt="Foto de perfil" />
+            <img src="../../../public/img/user.png" alt="Foto de perfil" className="user-avatar" />
             {/* Menú desplegable */}
-            <div className="menu-perfil">
-              <ul>
-              <li>
-                <Link to="/perfil">
-                    <span className="icono-menu-user">
-                        <ion-icon name="person-circle"></ion-icon>
+            <div className="user-menu">
+              <ul className="user-menu-list">
+                <li className="user-menu-item">
+                  <Link to="/perfil" className="user-menu-link">
+                    <span className="user-menu-icon">
+                      <ion-icon name="person-circle"></ion-icon>
                     </span>
-                    <span className="titulo">Cuenta</span>
-                </Link>
-            </li>
-            <li>
-                <Link to="/configuracion">
-                    <span className="icono-menu-user">
-                        <ion-icon name="cog"></ion-icon>
-                    </span>
-                    <span className="titulo">Configuraciones</span>
-                </Link>
-            </li>
-                <li>
-                  <a href="#" onClick={handleLogout}>
-                    <span className="icono-menu-user">
-                      <ion-icon name="log-out"></ion-icon>
-                    </span>
-                    <span className="titulo">Cerrar sesión</span>
-                  </a>
+                    <span className="user-menu-text">Cuenta</span>
+                  </Link>
                 </li>
+                <li className="user-menu-item">
+                  <Link to="/configuracion" className="user-menu-link">
+                    <span className="user-menu-icon">
+                      <ion-icon name="cog"></ion-icon>
+                    </span>
+                    <span className="user-menu-text">Configuraciones</span>
+                  </Link>
+                </li>
+                  <li className="user-menu-item">
+                    <Link to="/registro" onClick={handleLogout} className="user-menu-link">
+                      <span className="user-menu-icon">
+                      <ion-icon name="log-out"></ion-icon>
+                      </span>
+                      <span className="user-menu-text">Cerrar sesión</span>
+                    </Link>
+                  </li>
               </ul>
             </div>
           </div>
         </div>
         {/* FIN DE LA TOPBAR */}
         
+        {/* Contenido del perfil - Mantenemos el mismo diseño pero con ajustes para que coincida con los nuevos estilos */}
         <div className="perfil-container1">
           <div className="perfil-header">
             <div className="perfil-title">
@@ -291,8 +292,7 @@ const UserProfile = () => {
               <div className="foto-container">
                 <img 
                   id="profile-picture" 
-                  src={userData.profileImage} 
-                  alt="Foto de Perfil"
+                  src="../../assets/img/user.png" 
                 />
                 <div className="overlay">
                   <label htmlFor="file-input" className="edit-icon" title="Cambiar foto">
