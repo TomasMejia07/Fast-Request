@@ -46,7 +46,7 @@ export const Configuraciones = (Config) => {
                 plugins: {
                     ...baseConfig.plugins,
                     legend: {
-                        position: 'bottom'
+                        position: 'top'
                     },
                     interaction: {
                         ...baseConfig.interaction,
@@ -63,7 +63,12 @@ export const Configuraciones = (Config) => {
                 plugins: {
                     ...baseConfig.plugins,
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 20,
+                            padding: 10,
+                            // Puedes limitar cuántos aparecen si lo combinas con scroll
+                        }
                     },
                     title: {
                         display: true,
@@ -81,46 +86,47 @@ export const Configuraciones = (Config) => {
                         beginAtZero: true,
                         min: -200,
                         max: 200
-                    }
-                }
+                    },
+
             }
+        }
         case 'Config3':
             return {
                 ...baseConfig,
                 plugins: {
                     ...baseConfig.plugins,
                     legend: {
-                        position: 'bottom', 
+                        position: 'top',
                     },
                     title: {
-                        display: true, 
+                        display: true,
                         font: {
-                            size: 18, 
-                            family: 'Arial, sans-serif' 
+                            size: 18,
+                            family: 'Arial, sans-serif'
                         },
                     },
                 },
                 hover: {
-                    mode: null, 
+                    mode: null,
                 },
                 interaction: {
                     ...baseConfig.interaction,
-                    mode: 'point', 
+                    mode: 'point',
                 },
                 scales: {
-                    r: { 
+                    r: {
                         beginAtZero: true,
                         ticks: {
-                            display: true, 
+                            display: true,
                             stepSize: 50,
                         },
                         grid: {
-                            circular: true, 
-                            lineWidth: 1, 
+                            circular: true,
+                            lineWidth: 1,
                         },
                         angleLines: {
-                            display: true, 
-                            lineWidth: 1, 
+                            display: true,
+                            lineWidth: 1,
                         }
                     },
                 }

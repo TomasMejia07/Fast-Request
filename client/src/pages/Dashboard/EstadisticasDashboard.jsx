@@ -48,6 +48,7 @@ const MiGrafico = ({ tipoGrafico, Config, Dates, RefDatos }) => {
     );
 };
 
+
 const EstadisticasDashboard = () => {
     return (
         <DashboardLayout title="Estadisticas">
@@ -74,7 +75,7 @@ const EstadisticasDashboard = () => {
                     <div className="chart-title">Ventas Semanales</div>
                     <MiGrafico
                       tipoGrafico="bar"
-                      Config="Config2"
+                      Config="Config1"
                       Dates="data2"
                       RefDatos={ventasSemanales[0]}
                    />
