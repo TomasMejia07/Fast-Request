@@ -333,11 +333,11 @@ body {
     transition: 0.6s;
 }
 
-.cards .card:hover{
+.cardsDas .cardDas:hover{
     background-color: var(--white-green);
 }
 
-.cards .card .card-numeros{
+.cardsDas .cardDas .cardDas-numeros{
     position: relative;
     font-weight: 700;
     font-size: 2.5em;
@@ -345,9 +345,9 @@ body {
     /* COLOR DE LOS NUMEROS DE LAS TARJETAS  */
 }
 
-.cards .card .card-nombre{
+.cardsDas .cardDas .cardDas-nombre{
     color: var(--white-text); /* COLOR DE LOS NUMEROS DE LAS TARJETAS */
-    font-size: 1.1em;
+    font-size: 1.1em; 
     margin-top: 5px;
     margin-right: 80px;
 }
@@ -356,12 +356,11 @@ body {
     font-size: 3.5em;
     color: var(--white-icons);
     /* COLOR DE LOS ICONOS DE LAS TARJETAS */
-
 }
 
-.cards .card:hover .card-numeros,
-.cards .card:hover .card-nombre,
-.cards .card:hover .card-icono{
+.cardsDas .cardDas:hover .cardDas-numeros,
+.cardsDas .cardDas:hover .cardDas-nombre,
+.cardsDas .cardDas:hover  .cardDas-icono{
     color: var(--white-icons);
 }
 
