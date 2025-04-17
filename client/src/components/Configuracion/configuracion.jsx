@@ -136,13 +136,13 @@ const Dashboard = () => {
   
   const handleLogout = (e) => {
     e.preventDefault();
-    // Simulación de logout
-    showToast("Cerrando sesión...", "success");
-    setTimeout(() => {
-      alert("Has cerrado sesión correctamente");
-      // Aquí normalmente redirigirías al usuario a la página de login
-      // history.push('/login');
-    }, 1000);
+
+    if (window.confirm('¿Estás seguro de que deseas cerrar sesión?')) 
+      {
+      window.location.href = "/";
+    } else {
+      console.log("El usuario decidió no cerrar sesión.");
+    }
   };
 
   const handleFileChange = (e) => {
@@ -181,19 +181,23 @@ const Dashboard = () => {
     }, 1000);
   };
 
+  // CÓDIGO ACTUALIZADO: Manejador mejorado para cambios en campos de contraseña
   const handlePasswordChange = (e) => {
     const { id, value } = e.target;
     let key = '';
-    
+  
     if (id === 'actual-password') key = 'current';
     else if (id === 'nueva-password') {
       key = 'new';
+      // Calcula la fuerza de la contraseña mientras el usuario escribe
       setPasswordStrength(calculatePasswordStrength(value));
     } 
     else key = 'confirm';
-    
+  
+    // Actualiza el estado con el valor completo de la contraseña
     setPasswords(prev => ({ ...prev, [key]: value }));
   };
+  
 
   const savePassword = () => {
     if (!passwords.current) {
@@ -287,7 +291,7 @@ const Dashboard = () => {
     }, 2000);
   };
 
-  // Componente para campos de contraseña
+  // CÓDIGO ACTUALIZADO: Componente mejorado para campos de contraseña
   const PasswordInput = ({ id, label, placeholder, value, visible }) => (
     <div className="input-group password-group">
       <label htmlFor={id} className="input-label">{label}</label>
@@ -298,17 +302,20 @@ const Dashboard = () => {
           placeholder={placeholder}
           value={value}
           onChange={handlePasswordChange}
+          onCopy={(e) => e.stopPropagation()}
           className="password-input"
         />
         <span 
           className="toggle-visibility" 
-          onClick={() => togglePasswordVisibility(id === 'actual-password' ? 'current' : id === 'nueva-password' ? 'new' : 'confirm')}>
+          onClick={() => togglePasswordVisibility(id === 'actual-password' ? 'current' : id === 'nueva-password' ? 'new' : 'confirm')}
+        >
           <ion-icon name={visible ? "eye-off-outline" : "eye-outline"}></ion-icon>
         </span>
       </div>
     </div>
   );
-
+  
+  
   // Componente para toggles de notificación
   const NotificationToggle = ({ type, icon, label, checked }) => (
     <div className="notification-option">
@@ -418,7 +425,7 @@ const Dashboard = () => {
                     </Link>
                   </li>
                   <li className="user-menu-item">
-                    <a href="#" onClick={handleLogout} className="user-menu-link">
+                    <a href="/" onClick={handleLogout} className="user-menu-link">
                       <span className="user-menu-icon"><ion-icon name="log-out"></ion-icon></span>
                       <span className="user-menu-text">Cerrar sesión</span>
                     </a>
@@ -546,6 +553,7 @@ const Dashboard = () => {
                     placeholder="Confirme su nueva contraseña"
                     value={passwords.confirm}
                     visible={passwordVisibility.confirm}
+                    
                   />
                   
                   <div className="password-meter">

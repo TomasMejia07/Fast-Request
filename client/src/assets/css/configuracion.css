@@ -708,3 +708,364 @@ body{
 
 /*perfil*/
 
+/* Estilos para el Perfil de Usuario */
+:root {
+    --white-text: #c9c9c9; /* COLOR DE LA LETRA */
+    --white-icons: #e9e9e9; /* COLOR DE LOS ICONOS  */
+    --black: #13161C; /* COLOR DE LOS MENU Y DE LAS TABLAS Y TARJETAS */
+    --Gray: #272727; /* COLOR DEL CONTAINER  */
+    --Buton-color: #6366F1; /* COLOR DE LOS BOTONES DE LAS TABLAS Y LOS DEMAS BOTONES */
+    --Buton-hover-color: #5356F2; /* COLOR DE LOS HOVER DE LOS BOTONES */
+    --tabla-linea-color: #ffffff; /* COLOR DE LA RAYA DE LAS TABLAS */
+    --white-red: #d85757; /* POSIBLE COLOR DE LOS HOVERES ICONOS DE ELIMINAR */
+    --white-greens: #1ba73e;
+    --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
+}
+
+/* Contenedor principal */
+.perfil-container1 {
+    background-color: var(--Gray);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    padding: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Cabecera del perfil */
+.perfil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.perfil-title h2 {
+    color: var(--white-text);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.perfil-title .subtitle {
+    color: var(--white-text);
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+/* Sección de la foto de perfil */
+.perfil-foto {
+    position: relative;
+}
+
+.foto-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--black);
+    border: 3px solid var(--Buton-color);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+}
+
+.foto-container:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+}
+
+.foto-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(19, 22, 28, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.foto-container:hover .overlay {
+    opacity: 1;
+}
+
+.edit-icon {
+    cursor: pointer;
+    color: var(--white-icons);
+    font-size: 1.8rem;
+    background-color: rgba(99, 102, 241, 0.7);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.edit-icon:hover {
+    background-color: var(--Buton-color);
+    transform: scale(1.1);
+}
+
+#file-input {
+    display: none;
+}
+
+/* Contenido del perfil */
+.perfil-content {
+    position: relative;
+}
+
+/* Información del perfil */
+.perfil-info {
+    padding: 1rem 0;
+}
+
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.8rem;
+}
+
+.info-group {
+    display: flex;
+    align-items: flex-start;
+    width: 48%;
+    position: relative;
+    padding: 1rem;
+    border-radius: 12px;
+    background-color: var(--black);
+    transition: all 0.3s ease;
+}
+
+.info-group:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-left: 3px solid var(--Buton-color);
+}
+
+.info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(99, 102, 241, 0.15);
+    border-radius: 10px;
+    margin-right: 15px;
+    color: var(--Buton-color);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.info-group:hover .info-icon {
+    background-color: var(--Buton-color);
+    color: white;
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-text label {
+    display: block;
+    color: var(--white-text);
+    opacity: 0.6;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.info-text p {
+    color: var(--white-text);
+    margin: 0;
+    font-size: 1rem;
+    word-break: break-word;
+}
+
+/* Botón de editar */
+.btn-edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem auto 0;
+    padding: 0.9rem 2rem;
+    background-color: var(--Buton-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-edit i {
+    margin-right: 8px;
+}
+
+.btn-edit:hover {
+    background-color: var(--Buton-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+}
+
+/* Formulario de edición */
+.perfil-editar {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: var(--black);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.perfil-editar h3 {
+    color: var(--white-text);
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--white-text);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--white-text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--Buton-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Botones de acción en el formulario */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-save, .btn-cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-save {
+    background-color: var(--Buton-color);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-save:hover {
+    background-color: var(--Buton-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: var(--white-text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-save i, .btn-cancel i {
+    margin-right: 8px;
+}
+
+/* Animaciones y transiciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.perfil-info, .perfil-editar.active {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .perfil-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .perfil-title {
+        margin-bottom: 1.5rem;
+    }
+    
+    .info-section {
+        flex-direction: column;
+    }
+    
+    .info-group {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    .btn-save, .btn-cancel {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Efectos de hover adicionales para mejorar la interactividad */
+.perfil-container1:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.form-group input:hover:not(:focus) {
+    border-color: rgba(255, 255, 255, 0.2);
+}
