@@ -562,13 +562,13 @@ body {
 
 /* FIN DE MODAL */
 /* FORMULARIOS */
-.inputs_formulario{
+.dashinputs_formulario{
     padding-top: 17px;
     color: var(--white-text);
     font-size: 18px;
 }
 
-.inputs_formulario .Labels{
+.dashinputs_formulario .dashinputs_formulario_Labels{
     width: 100%;
     height: 38px;
     background-color: var(--black);
@@ -581,11 +581,11 @@ body {
     margin-inline-start: 2px;
 }
 
-.Labels:hover{
+.dashinputs_formulario_Labels:hover{
     background-color: var(--black);
 }
 
-.Labels:focus {
+.dashinputs_formulario_Labels:focus {
     outline: none; /* Quita el contorno azul predeterminado */
     border-color: var(--white-icons); /* Cambia el borde a un color personalizado */
     background-color: var(--Gray); /* Fondo personalizado */
@@ -594,28 +594,53 @@ body {
 
 .botones_formulario{
     padding-top: 10px;
-
+    text-align: center;
 }
 
-.inputs_formulario select, input, label{
+.dashinputs_formulario select, input, label{
     padding: 10px 5px;
 }
 
-.inputs_formulario select{
+.dashinputs_formulario select{
     cursor: pointer;
 }
 
-.Labels select option {
+.dashinputs_formulario_Labels select option {
     background-color: var(--Gray); /* Fondo para las opciones */
     color: var(--white-text); /* Color del texto */
 }
 
 /* Hover en las opciones */
-.Labels select option:hover {
+.dashinputs_formulario_Labels select option:hover {
     background-color: var(--Gray); /* Fondo al pasar el cursor */
     color: var(--white-text); /* Texto al pasar el cursor */
 }
 
+.detalles_pedido {
+    background-color: #f1f1f1; /* Gris claro */
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.detalles_pedido:hover {
+    background-color: #e0e0e0; /* Gris un poco más oscuro */
+    transform: scale(1.05);
+}
+
+#iconosoperaciondetalles {
+    font-size: 18px;
+    color: #555;
+    transition: color 0.3s;
+    display: flex;
+}
+
+.detalles_pedido:hover #iconosoperaciondetalles {
+    color: #000;
+}
 
 /*  DISEÑO DE LA LISTA DE PERMISOS         */
 .dropdown {
