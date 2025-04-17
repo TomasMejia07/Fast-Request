@@ -11,8 +11,13 @@ const baseConfig = {
     },
     plugins: {
         legend: {
+            display: true,
             position: 'top'
         },
+        title: {
+            display: false,
+            text: ''
+        }
     },
     interaction: {
         mode: 'nearest',
@@ -40,13 +45,13 @@ const baseConfig = {
 
 export const Configuraciones = (Config) => {
     switch (Config) {
-        case 'Config1':
+        case 'ConfigGraficosDeLinea':
             return {
                 ...baseConfig,
                 plugins: {
                     ...baseConfig.plugins,
                     legend: {
-                        position: 'top'
+                        display: false
                     },
                     interaction: {
                         ...baseConfig.interaction,
@@ -57,18 +62,13 @@ export const Configuraciones = (Config) => {
                     }
                 },
             };
-        case 'Config2':
+        case 'ConfigGraficosRedondos':
             return {
                 ...baseConfig,
                 plugins: {
                     ...baseConfig.plugins,
                     legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 20,
-                            padding: 10,
-                            // Puedes limitar cuántos aparecen si lo combinas con scroll
-                        }
+                        display: false
                     },
                     title: {
                         display: true,
@@ -83,20 +83,20 @@ export const Configuraciones = (Config) => {
                 },
                 scales: {
                     y: {
-                        beginAtZero: true,
-                        min: -200,
-                        max: 200
+                        display: null
                     },
-
+                    x: {
+                        display: null
+                    }
+                }
             }
-        }
-        case 'Config3':
+        case 'ConfigGraficosEnBarras':
             return {
                 ...baseConfig,
                 plugins: {
                     ...baseConfig.plugins,
                     legend: {
-                        position: 'top',
+                        display: false
                     },
                     title: {
                         display: true,
@@ -131,12 +131,34 @@ export const Configuraciones = (Config) => {
                     },
                 }
             };
+        case 'ConfigGraficosDeArea':
+            return {
+                ...baseConfig,
+                plugins: {
+                    ...baseConfig.plugins,
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: false,
+                    },
+                    interaction: {
+                        ...baseConfig.interaction,
+                        mode: 'point'
+                    },
+                    hover: {
+                        mode: null
+                    },
+                },
+                animations: false, 
+            };
+
     }
 }
 
 export const setData = (Dates, labels, RefDatos, label) => {
     switch (Dates) {
-        case 'data1':
+        case 'dataParaVentasDiarias':
             return {
                 labels: labels,
                 datasets: [
@@ -150,31 +172,30 @@ export const setData = (Dates, labels, RefDatos, label) => {
                     },
                 ]
             };
-        case 'data2':
+        case 'dataParaVentasSemanales':
             return {
                 labels: labels,
                 datasets: [
                     {
                         label: label,
-                        data: [30, -150, 30, -25, 30, -35, 73, -80, -90, 100, -110, 120],
-                        borderColor: '#ffcd56',
-                        backgroundColor: 'rgb(255, 205, 86)',
-                        borderWidth: 2,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                    },
-                    {
-                        label: label,
-                        data: [-50, 109, -15, 60, -25, 30, -35, 73, -80, -90, 100, -111, 120],
-                        borderColor: '#a936eb',
-                        backgroundColor: 'rgb(169, 54, 235)',
+                        data: RefDatos,
+                        borderColor: 'black',
+                        backgroundColor: [
+                            'rgb(255, 179, 0)',
+                            'rgb(255, 48, 48)',
+                            'rgb(0, 255, 123)',
+                            'rgb(0, 85, 255)',
+                            'rgb(255, 0, 115)',
+                            'rgb(212, 0, 255)',
+                            'rgb(221, 255, 0)',
+                        ],
                         borderWidth: 2,
                         borderRadius: 5,
                         borderSkipped: false,
                     }
                 ]
             };
-        case 'data3':
+        case 'dataParaVentasMensuales':
             return {
                 labels: labels,
                 datasets: [{
@@ -189,23 +210,62 @@ export const setData = (Dates, labels, RefDatos, label) => {
                     hoverOffset: 4
                 }],
             };
-        case 'data4':
+        case 'dataParaProductoMasVendidoDeLaSemana':
             return {
                 labels: labels,
                 datasets: [{
                     label: label,
                     data: RefDatos,
                     backgroundColor: [
-                        'rgba(255, 99, 133, 0.8)',
-                        'rgba(54, 163, 235, 0.8)',
-                        'rgba(255, 207, 86, 0.87)',
-                        'rgba(75, 192, 192, 0.9)',
+                        'rgb(255, 0, 55)',
+                        'rgb(0, 153, 255)',
+                        'rgb(255, 183, 0)',
+                        'rgb(0, 255, 255)',
+                        'rgb(85, 0, 255)',
+                        'rgb(255, 128, 0)',
+                        'rgb(132, 132, 132)'
+                    ],
+                    borderColor: 'rgb(0, 0, 0)',
+                    borderWidth: 2
+                }]
+            };
+        case 'dataParaAnálisisDeClientes':
+            return {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: RefDatos,
+                    backgroundColor: [
+                        'rgb(255, 99, 133)',
+                        'rgb(54, 163, 235)',
+                        'rgb(255, 207, 86)',
+                        'rgb(75, 192, 192)',
                         'rgb(153, 102, 255)',
-                        'rgba(255, 160, 64, 0.9)',
-                        'rgba(201, 203, 207, 0.76)'
+                        'rgb(255, 160, 64)',
+                        'rgb(201, 203, 207)',
+                        'rgb(0, 255, 145)',
+                        'rgb(179, 255, 0)',
+                        'rgb(255, 242, 0)',
+                        'rgb(119, 0, 255)',
+                        'rgb(255, 0, 85)',
                     ],
                     borderColor: 'rgb(34, 12, 12)',
                     borderWidth: 2
+                }]
+            };
+        case 'dataParaRendimientoPorRegión':
+            return {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: RefDatos,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                    ],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
                 }]
             };
         default:
@@ -213,12 +273,4 @@ export const setData = (Dates, labels, RefDatos, label) => {
     }
 
 }
-
-
-
-
-
-
-
-
 
