@@ -1,42 +1,20 @@
 import React from "react";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
-import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, BarElement, ArcElement } from 'chart.js';
+
+/* IMPORTACIONES PARA LOS GRAFICOS */
+import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, BarElement, ArcElement, Filler } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
-import { Configuraciones , setData } from "../../helpers/graficoHelper";
+
+/* IMPORTACIONES DE HELPERS NECESARIOS PARA LOS GRAFICOS */
+import { Configuraciones, setData } from "../../helpers/graficoHelper";
+import { valuesGraficos } from "../../helpers/valuesGraficos";
 
 
-ChartJS.register(CategoryScale, BarElement, ArcElement, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, BarElement, ArcElement, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const ventasDiarias = [
-    {
-        label: 'ventas Del Dia',
-        data: [23,45,67,89,34,56,12,56,34],
-        labels: ['10:00 Am','12:00 Pm','1:00 Pm','2:00 Pm','4:00 Pm','6:00 Pm','8:00 Pm','10:00 Pm','12:00 Am', ]
-    }
-]
 
-const ventasSemanales = [
-    {
-        label: 'ventas De La Semana',
-        data: [23,45,67,89,34],
-        labels: ['Dia 1','Dia 2','Dia 3','Dia 4','Dia 5','Dia 6','Dia 7']
-    }
-]
-const ventasMensuales = [
-    {
-        label: 'ventas Mensuales',
-        data: [2300, 1800, 2500, 3200, 2900, 3100, 2700, 3000, 2400, 2800, 2600, 3500],
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    }
-]
+const { resumenGeneral, datosParaLosGraficos } = valuesGraficos()
 
-const productoMasVendidoDeLaSemana = [
-    {
-        label: 'ventas Mensuales',
-        data: [34, 56, 43, 29, 58, 63, 89],
-        labels:  ['Dia 1','Dia 2','Dia 3','Dia 4','Dia 5','Dia 6','Dia 7']
-    }
-]
 
 const MiGrafico = ({ tipoGrafico, Config, Dates, RefDatos }) => {
     const { labels, data, label } = RefDatos;
@@ -44,49 +22,135 @@ const MiGrafico = ({ tipoGrafico, Config, Dates, RefDatos }) => {
     const info = setData(Dates, labels, data, label);
 
     return (
-        <Chart type={tipoGrafico} data={info} options={opciones} />
+        <Chart key={`chart-${info}`}  type={tipoGrafico} data={info} options={opciones} />
     );
 };
 
+
+
 const EstadisticasDashboard = () => {
     return (
-        <DashboardLayout title="Estadisticas">
-            <div className="parent">
-                <div className="card ">
-                    <div className="chart-title">Ventas Diarias</div>
-                   <MiGrafico
-                      tipoGrafico="line"
-                      Config="Config1"
-                      Dates="data1"
-                      RefDatos={ventasDiarias[0]}
-                   />
+        <DashboardLayout title="Estadísticas">
+            <div className="stats-dashboard">
+                {/* Resumen general */}
+                <div className="stats-card summary-card">
+                    <div className="card-header">
+                        <h3>Resumen General</h3>
+                    </div>
+                    <div className="card-content">
+                        <div className="summary-metrics">
+                            <div className="metric">
+                                <span className="metric-value">{resumenGeneral.ingresosTotales.total}</span>
+                                <span className="metric-label">Ingresos Totales</span>
+                                <span className="metric-change positive">{resumenGeneral.ingresosTotales.porcentaje}</span>
+                            </div>
+                            <div className="metric">
+                                <span className="metric-value">{resumenGeneral.ventasTotale.total}</span>
+                                <span className="metric-label">Ventas Totales</span>
+                                <span className="metric-change positive">{resumenGeneral.ventasTotale.porcentaje}</span>
+                            </div>
+                            <div className="metric">
+                                <span className="metric-value">{resumenGeneral.nuevosClientes.total}</span>
+                                <span className="metric-label">Nuevos Clientes</span>
+                                <span className="metric-change positive">{resumenGeneral.nuevosClientes.porcentaje}</span>
+                            </div>
+                            <div className="metric">
+                                <span className="metric-value">{resumenGeneral.ValorPromedioPorVenta.total}</span>
+                                <span className="metric-label">Valor Promedio Por Venta</span>
+                                <span className="metric-change positive">{resumenGeneral.ValorPromedioPorVenta.porcentaje}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="card ">
-                    <div className="chart-title">Ventas Mensuales</div>
-                    <MiGrafico
-                      tipoGrafico="doughnut"
-                      Config="Config2"
-                      Dates="data3"
-                      RefDatos={ventasMensuales[0]}
-                   />
+
+                {/* Ventas Diarias */}
+                <div className="stats-card daily-sales">
+                    <div className="card-header">
+                        <h3>Ventas Diarias</h3>
+                    </div>
+                    <div className="card-content">
+                        <MiGrafico
+                            tipoGrafico="line"
+                            Config="ConfigGraficosDeLinea"
+                            Dates="dataParaVentasDiarias"
+                            RefDatos={datosParaLosGraficos.ventasDiarias}
+                        />
+                    </div>
                 </div>
-                <div className="card ">
-                    <div className="chart-title">Ventas Semanales</div>
-                    <MiGrafico
-                      tipoGrafico="bar"
-                      Config="Config2"
-                      Dates="data2"
-                      RefDatos={ventasSemanales[0]}
-                   />
+
+                {/* Ventas Mensuales */}
+                <div className="stats-card monthly-sales">
+                    <div className="card-header">
+                        <h3>Ventas Mensuales</h3>
+                    </div>
+                    <div className="card-content">
+                        <MiGrafico
+                            tipoGrafico="doughnut"
+                            Config="ConfigGraficosRedondos"
+                            Dates="dataParaVentasMensuales"
+                            RefDatos={datosParaLosGraficos.ventasMensuales}
+                        />
+                    </div>
                 </div>
-                <div className="card ">
-                    <div className="chart-title">Producto Mas vendido De La Semana</div>
-                    <MiGrafico
-                      tipoGrafico="bar"
-                      Config="Config3"
-                      Dates="data4"
-                      RefDatos={productoMasVendidoDeLaSemana[0]}
-                   />
+
+                {/* Ventas Semanales */}
+                <div className="stats-card weekly-sales">
+                    <div className="card-header">
+                        <h3>Ventas Semanales</h3>
+                    </div>
+                    <div className="card-content">
+                        <MiGrafico
+                            tipoGrafico="bar"
+                            Config="ConfigGraficosEnBarras"
+                            Dates="dataParaVentasSemanales"
+                            RefDatos={datosParaLosGraficos.ventasSemanales}
+                        />
+                    </div>
+                </div>
+
+                {/* Producto Más Vendido */}
+                <div className="stats-card top-product">
+                    <div className="card-header">
+                        <h3>Análisis de Clientes</h3>
+                    </div>
+                    <div className="card-content">
+                        <MiGrafico
+                            tipoGrafico="pie"
+                            Config="ConfigGraficosRedondos"
+                            Dates="dataParaAnálisisDeClientes"
+                            RefDatos={datosParaLosGraficos.AnálisisDeClientes}
+                        />
+                    </div>
+                </div>
+
+                {/* Análisis de Clientes */}
+                <div className="stats-card customer-analysis">
+                    <div className="card-header">
+                        <h3>Productos Más Vendido De La Semana</h3>
+                    </div>
+                    <div className="card-content">
+                        <MiGrafico
+                            tipoGrafico="bar"
+                            Config="ConfigGraficosEnBarras"
+                            Dates="dataParaProductoMasVendidoDeLaSemana"
+                            RefDatos={datosParaLosGraficos.productoMasVendidoDeLaSemana}
+                        />
+                    </div>
+                </div>
+
+                {/* Rendimiento por Municipio */}
+                <div className="stats-card regional-performance">
+                    <div className="card-header">
+                        <h3>Rendimiento por Municipio</h3>
+                    </div>
+                    <div className="card-content">
+                        <MiGrafico
+                            tipoGrafico="line" 
+                            Config="ConfigGraficosDeArea"
+                            Dates="dataParaRendimientoPorRegión"
+                            RefDatos={datosParaLosGraficos.RendimientoPorRegión}
+                        />
+                    </div>
                 </div>
             </div>
         </DashboardLayout>
@@ -94,3 +158,5 @@ const EstadisticasDashboard = () => {
 };
 
 export default EstadisticasDashboard;
+
+
