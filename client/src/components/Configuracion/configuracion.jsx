@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import "../../assets/css/configuracion.css";
 import { Link } from 'react-router-dom';
 
 // Componente para mostrar notificaciones toast
@@ -22,6 +21,49 @@ const Toast = ({ message, type, onClose }) => {
   );
 };
 
+// Componente para campos de contraseña - corregido
+const PasswordInput = ({ id, label, placeholder, value, onChange, toggleVisibility, visible }) => (
+  <div className="input-group password-group">
+    <label htmlFor={id} className="input-label">{label}</label>
+    <div className="password-wrapper">
+      <input 
+        type={visible ? "text" : "password"} 
+        id={id} 
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onCopy={(e) => e.preventDefault()}
+        className="password-input"
+      />
+      <span 
+        className="toggle-visibility" 
+        onClick={() => toggleVisibility(id)}
+      >
+        <ion-icon name={visible ? "eye-off-outline" : "eye-outline"}></ion-icon>
+      </span>
+    </div>
+  </div>
+);
+
+// Componente para toggles de notificación - corregido
+const NotificationToggle = ({ type, icon, label, checked, onChange }) => (
+  <div className="notification-option">
+    <label className="toggle-switch">
+      <input 
+        type="checkbox" 
+        checked={checked}
+        onChange={() => onChange(type)}
+        className="toggle-checkbox"
+      />
+      <span className="toggle-track"></span>
+      <div className="toggle-label-wrapper">
+        <ion-icon name={icon} className="toggle-icon"></ion-icon>
+        <span className="toggle-text">{label}</span>
+      </div>
+    </label>
+  </div>
+);
+
 const Dashboard = () => {
   // Estados para la interfaz
   const [navActive, setNavActive] = useState(false);
@@ -41,9 +83,9 @@ const Dashboard = () => {
     confirm: ''
   });
   const [passwordVisibility, setPasswordVisibility] = useState({
-    current: false,
-    new: false,
-    confirm: false
+    'actual-password': false,
+    'nueva-password': false,
+    'confirm-password': false
   });
   const [passwordStrength, setPasswordStrength] = useState({
     strength: 0,
@@ -95,8 +137,13 @@ const Dashboard = () => {
   // Funciones toggle
   const toggleMenu = () => setNavActive(prev => !prev);
   const toggleUserMenu = () => setUserMenuOpen(prev => !prev);
-  const togglePasswordVisibility = (field) => {
-    setPasswordVisibility(prev => ({ ...prev, [field]: !prev[field] }));
+  
+  // Función corregida para toggle de visibilidad de contraseña
+  const togglePasswordVisibility = (id) => {
+    setPasswordVisibility(prev => ({ 
+      ...prev, 
+      [id]: !prev[id] 
+    }));
   };
 
   // Calcular fuerza de contraseña
@@ -137,8 +184,7 @@ const Dashboard = () => {
   const handleLogout = (e) => {
     e.preventDefault();
 
-    if (window.confirm('¿Estás seguro de que deseas cerrar sesión?')) 
-      {
+    if (window.confirm('¿Estás seguro de que deseas cerrar sesión?')) {
       window.location.href = "/";
     } else {
       console.log("El usuario decidió no cerrar sesión.");
@@ -181,23 +227,31 @@ const Dashboard = () => {
     }, 1000);
   };
 
-  // CÓDIGO ACTUALIZADO: Manejador mejorado para cambios en campos de contraseña
+  // Manejador para cambios en campos de contraseña - corregido
   const handlePasswordChange = (e) => {
     const { id, value } = e.target;
-    let key = '';
-  
-    if (id === 'actual-password') key = 'current';
-    else if (id === 'nueva-password') {
-      key = 'new';
-      // Calcula la fuerza de la contraseña mientras el usuario escribe
-      setPasswordStrength(calculatePasswordStrength(value));
-    } 
-    else key = 'confirm';
-  
-    // Actualiza el estado con el valor completo de la contraseña
-    setPasswords(prev => ({ ...prev, [key]: value }));
+    let fieldName = '';
+    
+    switch(id) {
+      case 'actual-password':
+        fieldName = 'current';
+        break;
+      case 'nueva-password':
+        fieldName = 'new';
+        // Actualiza la fuerza de la contraseña
+        setPasswordStrength(calculatePasswordStrength(value));
+        break;
+      case 'confirm-password':
+        fieldName = 'confirm';
+        break;
+      default:
+        fieldName = '';
+    }
+    
+    if (fieldName) {
+      setPasswords(prev => ({ ...prev, [fieldName]: value }));
+    }
   };
-  
 
   const savePassword = () => {
     if (!passwords.current) {
@@ -246,12 +300,10 @@ const Dashboard = () => {
     showToast(`Tema cambiado a ${newTheme === 'light' ? 'claro' : newTheme === 'dark' ? 'oscuro' : 'automático'}`, "success");
   };
 
+  // Función para manejar cambios en notificaciones - corregida
   const handleNotificationToggle = (type) => {
     setNotifications(prev => {
-      const updated = {
-        ...prev,
-        [type]: !prev[type]
-      };
+      const updated = { ...prev, [type]: !prev[type] };
       
       const status = updated[type] ? "activadas" : "desactivadas";
       const typeText = type === 'email' ? 'correo electrónico' : 
@@ -290,50 +342,6 @@ const Dashboard = () => {
       showToast("Imagen subida correctamente: " + selectedFile.name, "success");
     }, 2000);
   };
-
-  // CÓDIGO ACTUALIZADO: Componente mejorado para campos de contraseña
-  const PasswordInput = ({ id, label, placeholder, value, visible }) => (
-    <div className="input-group password-group">
-      <label htmlFor={id} className="input-label">{label}</label>
-      <div className="password-wrapper">
-        <input 
-          type={visible ? "text" : "password"} 
-          id={id} 
-          placeholder={placeholder}
-          value={value}
-          onChange={handlePasswordChange}
-          onCopy={(e) => e.stopPropagation()}
-          className="password-input"
-        />
-        <span 
-          className="toggle-visibility" 
-          onClick={() => togglePasswordVisibility(id === 'actual-password' ? 'current' : id === 'nueva-password' ? 'new' : 'confirm')}
-        >
-          <ion-icon name={visible ? "eye-off-outline" : "eye-outline"}></ion-icon>
-        </span>
-      </div>
-    </div>
-  );
-  
-  
-  // Componente para toggles de notificación
-  const NotificationToggle = ({ type, icon, label, checked }) => (
-    <div className="notification-option">
-      <label className="toggle-switch">
-        <input 
-          type="checkbox" 
-          checked={checked}
-          onChange={() => handleNotificationToggle(type)}
-          className="toggle-checkbox"
-        />
-        <span className="toggle-track"></span>
-        <div className="toggle-label-wrapper">
-          <ion-icon name={icon} className="toggle-icon"></ion-icon>
-          <span className="toggle-text">{label}</span>
-        </div>
-      </label>
-    </div>
-  );
 
   return (
     <section className="dashboard-section">
@@ -521,7 +529,7 @@ const Dashboard = () => {
               <h3 className="block-title">Seguridad</h3>
             </div>
             
-            {/* Cambiar Contraseña */}
+            {/* Cambiar Contraseña - CORREGIDO */}
             <div className="config-panel">
               <div className="panel-content">
                 <div className="panel-icon">
@@ -536,7 +544,9 @@ const Dashboard = () => {
                     label="Contraseña Actual:"
                     placeholder="Ingrese su contraseña actual"
                     value={passwords.current}
-                    visible={passwordVisibility.current}
+                    onChange={handlePasswordChange}
+                    toggleVisibility={togglePasswordVisibility}
+                    visible={passwordVisibility['actual-password']}
                   />
                   
                   <PasswordInput 
@@ -544,16 +554,18 @@ const Dashboard = () => {
                     label="Nueva Contraseña:"
                     placeholder="Ingrese su nueva contraseña"
                     value={passwords.new}
-                    visible={passwordVisibility.new}
+                    onChange={handlePasswordChange}
+                    toggleVisibility={togglePasswordVisibility}
+                    visible={passwordVisibility['nueva-password']}
                   />
-                  
                   <PasswordInput 
                     id="confirm-password"
                     label="Confirmar Contraseña:"
                     placeholder="Confirme su nueva contraseña"
                     value={passwords.confirm}
-                    visible={passwordVisibility.confirm}
-                    
+                    onChange={handlePasswordChange}
+                    toggleVisibility={togglePasswordVisibility}
+                    visible={passwordVisibility['confirm-password']}
                   />
                   
                   <div className="password-meter">
@@ -622,7 +634,7 @@ const Dashboard = () => {
               </div>
             </div>
             
-            {/* Notificaciones */}
+            {/* Notificaciones - CORREGIDO */}
             <div className="config-panel">
               <div className="panel-content">
                 <div className="panel-icon">
@@ -637,6 +649,7 @@ const Dashboard = () => {
                       icon="mail-outline"
                       label="Correo electrónico"
                       checked={notifications.email}
+                      onChange={handleNotificationToggle}
                     />
                     
                     <NotificationToggle 
@@ -644,6 +657,7 @@ const Dashboard = () => {
                       icon="phone-portrait-outline"
                       label="Notificaciones push"
                       checked={notifications.push}
+                      onChange={handleNotificationToggle}
                     />
                     
                     <NotificationToggle 
@@ -651,6 +665,7 @@ const Dashboard = () => {
                       icon="refresh-outline"
                       label="Actualizaciones del sistema"
                       checked={notifications.updates}
+                      onChange={handleNotificationToggle}
                     />
                   </div>
                 </div>
@@ -683,71 +698,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      
-      {/* Estilos CSS para las notificaciones toast */}
-      <style jsx>{`
-        .toast {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          padding: 12px 20px;
-          border-radius: 6px;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          animation: slideIn 0.3s ease-out;
-          z-index: 9999;
-          min-width: 250px;
-          max-width: 450px;
-        }
-        
-        .toast-success {
-          background-color: #d4edda;
-          color: #155724;
-          border-left: 5px solid #28a745;
-        }
-        
-        .toast-error {
-          background-color: #f8d7da;
-          color: #721c24;
-          border-left: 5px solid #dc3545;
-        }
-        
-        .toast-content {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        
-        .toast-content ion-icon {
-          font-size: 20px;
-        }
-        
-        .toast-close {
-          background: none;
-          border: none;
-          font-size: 20px;
-          cursor: pointer;
-          color: inherit;
-          opacity: 0.7;
-        }
-        
-        .toast-close:hover {
-          opacity: 1;
-        }
-        
-        @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-      `}</style>
     </section>
   );
 };
