@@ -202,7 +202,7 @@ body {
     position: absolute;
     color: var(--white-icons);
     /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
-    top: 20px;
+    top: 12px;
     left: 10px;
     font-size: 1.2em;
 }

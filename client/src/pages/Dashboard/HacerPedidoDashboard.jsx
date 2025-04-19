@@ -51,7 +51,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
     return (
         <DashboardLayout title="Hacer Pedido">
             <section className="agenda-pedido">
-                <h2>Tomar De Pedidos</h2>
+                <h2>Tomar Pedido</h2>
                 <form id="form-agenda" onSubmit={handleSubmit}>
                     <label className="form-label" htmlFor="nombreCliente" >Nombre del cliente:</label>
                     <input
@@ -413,7 +413,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     >
                     </textarea>
 
-                    <button className="form-btn-pedidos" type="submit">Agendar Pedido</button>
+                    <button className="form-btn-pedidos" type="submit">Tomar Pedido</button>
                 </form>
             </section>
         </DashboardLayout>
