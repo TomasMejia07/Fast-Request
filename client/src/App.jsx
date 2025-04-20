@@ -12,8 +12,8 @@ import EstadisticasDashboard from './pages/Dashboard/EstadisticasDashboard';
 import PedidosDashboard from './pages/Dashboard/PedidosDashboard';
 import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
 import ConditionalBootstrap from './components/ConditionalBootstrap';
-import Configuracion from './pages/Configuracion/Configuracion';
-import Perfil from './pages/Perfil/Perfil';
+import Configuracion from './components/Configuracion/configuracion';
+import Perfil from './components/Configuracion/perfil';
 
 function App() {
   return (
