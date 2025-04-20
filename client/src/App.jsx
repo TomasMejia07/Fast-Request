@@ -11,13 +11,12 @@ import UsuariosDashboard from './pages/Dashboard/UsuariosDashboard';
 import EstadisticasDashboard from './pages/Dashboard/EstadisticasDashboard';
 import PedidosDashboard from './pages/Dashboard/PedidosDashboard';
 import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
-import Configuracion from "./components/Configuracion/configuracion";
-import Perfil from './components/Configuracion/perfil';
-
+import ConditionalBootstrap from './components/ConditionalBootstrap';
 
 function App() {
   return (
     <Router>
+      <ConditionalBootstrap /> 
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
