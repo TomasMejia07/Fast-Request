@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 5000
 
 # Comando por defecto para iniciar la app
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
