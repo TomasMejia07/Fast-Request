@@ -6,13 +6,12 @@ const ConditionalBootstrap = () => {
 const location = useLocation();
 
 useEffect(() => {
-    // Si estamos en /login o /registro, cargamos Bootstrap
-        if (location.pathname === "/" || location.pathname === "/registro") {
+        if (location.pathname === "/" || location.pathname === "/registro", "/recuperar/contrasena") {
             import("bootstrap/dist/css/bootstrap.min.css");
         }
 }, [location.pathname]);
 
-  return null; // No renderiza nada
+  return null; 
 };
 
 export default ConditionalBootstrap;

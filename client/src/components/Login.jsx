@@ -74,7 +74,7 @@ function Login() {
             {errores.password && <div style={{color: 'red'}}>{errores.password}</div>}
           </div>
 
-          <Link to="/recuperarContrasena" className="aRecuperar">¿Olvidaste tu contraseña?</Link>
+          <Link to="/recuperar/contrasena" className="aRecuperar">¿Olvidaste tu contraseña?</Link>
 
           <button type="submit" className="login-btn btn btn-outline-light login-btn-ingresar">Ingresar</button>
 

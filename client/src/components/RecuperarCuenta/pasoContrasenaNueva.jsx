@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../assets/css/style.css';
 
-const PasoCorreo = ({ siguiente, datos, actualizar }) => {
+const PasoContrasenaNueva = ({ siguiente, datos, actualizar }) => {
     useEffect(() => {
         document.title = 'Ingresa tu Email - Fast Request';
     }, []);
@@ -48,4 +48,4 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
     );
 };
 
-export default PasoCorreo;
+export default PasoContrasenaNueva;
