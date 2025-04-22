@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'; 
 import '../../assets/css/style.css';
 
-const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos}) => {
+const PasoContrasena = ({ anterior, datos, actualizar }) => {
     useEffect(() => {
         document.title = 'Crea una Contraseña - Fast Request';
     }, []);
@@ -10,41 +12,61 @@ const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos}) => {
     const [confirmarPassword, setConfirmarPassword] = useState('');
     const [error, setError] = useState('');
 
-    const manejarEnvio = (e) => {
+    const navigate = useNavigate();
+
+    const manejarEnvio = async (e) => {
         e.preventDefault();
 
         if (!password || !confirmarPassword) {
             setError('Por favor ingrese ambas contraseñas.');
-        } else if (password !== confirmarPassword) {
+            return;
+        }
+
+        if (password !== confirmarPassword) {
             setError('Las contraseñas no coinciden.');
-        } else {
-            setError('');
-            actualizar({ ...datos, password });
-            finalizarRegistro();
+            return;
+        }
+
+        const datosActualizados = { ...datos, password };
+        actualizar(datosActualizados);
+
+        try {
+            const response = await fetch('http://localhost:5000/api/usuarios/registro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datosActualizados)
+            });
+    
+            const resultado = await response.json();
+            console.log('Resultado:', resultado); // útil para depurar
+    
+            if (response.ok) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Registro exitoso!',
+                  text: 'Tu usuario ha sido creado correctamente.',
+                  confirmButtonText: 'Continuar'
+                }).then(() => {
+                  navigate('/');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error en el registro',
+                    text: resultado.error || 'Intenta de nuevo más tarde.'
+                });
+            }
+        } catch (error) {
+            console.error('Error de conexión:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor.'
+            });
         }
     };
-    const finalizarRegistro = async () => {
-        try {
-          const response = await fetch('http://localhost:5000/api/usuarios/registro', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datos) 
-          });
-      
-          const resultado = await response.json();
-      
-          if (response.ok) {
-            console.log('Usuario registrado:', resultado);
-            // Redirigir, mostrar mensaje, limpiar formulario, etc.
-          } else {
-            console.error('Error en el registro:', resultado);
-          }
-        } catch (error) {
-          console.error('Error de conexión:', error);
-        }
-      };
 
     return (
         <form className="form-group login-form-group" onSubmit={manejarEnvio}>
@@ -80,7 +102,7 @@ const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos}) => {
                     <button type="button" className="btn btn-outline-light" onClick={anterior}>
                         Atrás
                     </button>
-                    <button type="submit" className="btn btn-outline-light" onClick={finalizarRegistro}>
+                    <button type="submit" className="btn btn-outline-light">
                         Finalizar
                     </button>
                 </div>

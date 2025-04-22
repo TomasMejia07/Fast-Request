@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PasoCorreo from './PasoCorreo';
 import PasoNombre from './PasoNombre';
 import PasoCodigo from './PasoCodigo';
-import PasoPassword from './PasoPassword';
+import PasoContrasena from './PasoContrasena';
 
 function RegistroFormulario() {
   const [paso, setPaso] = useState(1);
@@ -47,7 +47,7 @@ function RegistroFormulario() {
         />
       )}
       {paso === 4 && (
-        <PasoPassword 
+        <PasoContrasena
           datos={formData} 
           actualizar={actualizarDatos} 
           anterior={retrocederPaso} 
