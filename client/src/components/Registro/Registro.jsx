@@ -12,7 +12,6 @@ function RegistroFormulario() {
     apellido: '',
     codigo: '',
     password: '',
-    confirmarPassword: ''
   });
 
   const avanzarPaso = () => setPaso((prev) => prev + 1);

@@ -6,17 +6,17 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
         document.title = 'Ingresa tu Email - Fast Request';
     }, []);
 
-    const [email, setEmail] = useState(datos.email || '');
+    const [correo, setCorreo] = useState(datos.correo || '');
     const [errorEmail, setErrorEmail] = useState('');
 
     const manejarEnvio = (e) => {
         e.preventDefault();
 
-        if (!email.trim()) {
+        if (!correo.trim()) {
             setErrorEmail('Por favor ingrese un correo.');
         } else {
             setErrorEmail('');
-            actualizar({ ...datos, email });
+            actualizar({ ...datos, correo });
             siguiente(); 
         }
     };
@@ -36,8 +36,8 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
                             type="email"
                             className="login-input"
                             placeholder="E-mail"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={correo}
+                            onChange={(e) => setCorreo(e.target.value)}
                         />
                         {errorEmail && <span className="error">{errorEmail}</span>}
                     </div>

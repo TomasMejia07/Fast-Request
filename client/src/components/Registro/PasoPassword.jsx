@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../assets/css/style.css';
 
-const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos, finalizarRegistro }) => {
+const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos}) => {
     useEffect(() => {
         document.title = 'Crea una Contraseña - Fast Request';
     }, []);
@@ -23,6 +23,28 @@ const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos, finalizar
             finalizarRegistro();
         }
     };
+    const finalizarRegistro = async () => {
+        try {
+          const response = await fetch('http://localhost:5000/api/usuarios/registro', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos) 
+          });
+      
+          const resultado = await response.json();
+      
+          if (response.ok) {
+            console.log('Usuario registrado:', resultado);
+            // Redirigir, mostrar mensaje, limpiar formulario, etc.
+          } else {
+            console.error('Error en el registro:', resultado);
+          }
+        } catch (error) {
+          console.error('Error de conexión:', error);
+        }
+      };
 
     return (
         <form className="form-group login-form-group" onSubmit={manejarEnvio}>
@@ -58,7 +80,7 @@ const PasoContrasena = ({ anterior, siguiente, datos, actualizarDatos, finalizar
                     <button type="button" className="btn btn-outline-light" onClick={anterior}>
                         Atrás
                     </button>
-                    <button type="submit" className="btn btn-outline-light">
+                    <button type="submit" className="btn btn-outline-light" onClick={finalizarRegistro}>
                         Finalizar
                     </button>
                 </div>
