@@ -23,9 +23,12 @@ sequelize.sync()
 
 // Importacion de rutas
 const usuarioRoutes = require("./routers/usuario.routes");
+const pedidoRoutes = require("./routers/hacerPedido.routes.js");
 
 // api Rutas
 app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/pedidos", pedidoRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("API de registro de usuarios en funcionamiento.");
