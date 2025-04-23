@@ -1,5 +1,6 @@
 // variables de app
 const express = require("express");
+const autenticarToken = require('./middlewares/verificarJWT');
 
 const { sequelize } = require("./config/db.js");
 const app = express();

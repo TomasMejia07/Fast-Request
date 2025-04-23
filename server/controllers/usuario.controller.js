@@ -1,15 +1,18 @@
 const { Usuario } = require('../models');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 exports.registrarUsuario = async (req, res) => {
   try {
     const { nombre, apellido, correo, codigo, password } = req.body;
-    
+    const hashedPassword = await bcrypt.hash(password, 10);
     const nuevoUsuario = await Usuario.create({
       nombre,
       apellido,
       correo,
       codigo,
-      password
+      password: hashedPassword
     });
 
     res.status(201).json(nuevoUsuario);
@@ -38,14 +41,21 @@ exports.loginUsuario = async (req, res) => {
     const user = await Usuario.findOne({ where: { correo: usuario } });
 
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
-    if (user.password !== password) {
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
       return res.status(401).json({ error: 'Contraseña incorrecta' });
     }
 
-    return res.status(200).json({ message: 'Login exitoso', usuario: user });
+    const token = jwt.sign(
+      { id: user.id, correo: usuario.correo }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    res.json({ token, mensaje: 'Inicio de sesión exitoso' });
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     return res.status(500).json({ error: 'Error del servidor' });

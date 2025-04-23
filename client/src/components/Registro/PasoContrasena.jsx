@@ -40,7 +40,6 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
             });
     
             const resultado = await response.json();
-            console.log('Resultado:', resultado); // útil para depurar
     
             if (response.ok) {
                 Swal.fire({
