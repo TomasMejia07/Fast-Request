@@ -24,21 +24,21 @@ export const validacionDeCampos = (name, value) => {
         }
     }
 
-    if (name === 'password') {
-        if (value.length < 8 || value.length > 15) {
-            errores = 'La contraseña debe tener entre 8 y 15 caracteres'
-        } else if (!/[A-Z]/.test(value)) {
-            errores = 'La contraseña debe incluir al menos una letra mayúscula'
-        } else if (!/[a-z]/.test(value)) {
-            errores = 'La contraseña debe incluir al menos una letra minúscula'
-        } else if (!/\d/.test(value)) {
-            errores = 'La contraseña debe incluir al menos un número'
-        } else if (!/[!@#$%^&*]/.test(value)) {
-            errores = 'La contraseña debe incluir un carácter especial (!@#$%^&*)'
-        } else {
-            errores = ''
-        }
-    }
+    // if (name === 'password') {
+    //     if (value.length < 8 || value.length > 15) {
+    //         errores = 'La contraseña debe tener entre 8 y 15 caracteres'
+    //     } else if (!/[A-Z]/.test(value)) {
+    //         errores = 'La contraseña debe incluir al menos una letra mayúscula'
+    //     } else if (!/[a-z]/.test(value)) {
+    //         errores = 'La contraseña debe incluir al menos una letra minúscula'
+    //     } else if (!/\d/.test(value)) {
+    //         errores = 'La contraseña debe incluir al menos un número'
+    //     } else if (!/[!@#$%^&*]/.test(value)) {
+    //         errores = 'La contraseña debe incluir un carácter especial (!@#$%^&*)'
+    //     } else {
+    //         errores = ''
+    //     }
+    // }
     
     return errores;
 }

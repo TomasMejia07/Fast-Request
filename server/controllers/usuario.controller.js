@@ -30,3 +30,24 @@ exports.seleccionarUsuarios = async (req, res) => {
     res.status(500).json({ error: 'No se pudo traer los usuarios.' });
   }
 };
+
+exports.loginUsuario = async (req, res) => {
+  const { usuario, password } = req.body;
+
+  try {
+    const user = await Usuario.findOne({ where: { correo: usuario } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ error: 'Contraseña incorrecta' });
+    }
+
+    return res.status(200).json({ message: 'Login exitoso', usuario: user });
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+    return res.status(500).json({ error: 'Error del servidor' });
+  }
+};

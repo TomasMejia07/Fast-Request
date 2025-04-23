@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import '../assets/css/style.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
 import  { validacionDeCampos } from '../helpers/validacionDeCampos'
 
 function Login() {
+
+  const navigate = useNavigate();
 
   const initial = {
     usuario: '',
@@ -14,7 +17,7 @@ function Login() {
   const { usuario, password, OnChangeInput, errores,setErrores } = useLogin(initial)
 
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const usuarioError = validacionDeCampos('usuario', usuario)
@@ -26,6 +29,26 @@ function Login() {
     })
     if (usuarioError || passwordError) return;
 
+    try {
+      const response = await fetch('http://localhost:5000/api/usuarios/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ usuario, password })
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        navigate('/dashboard');
+      } else {
+        alert(data.error || 'Error al iniciar sesión');
+      }
+    } catch (error) {
+      console.error('Error al conectar con el servidor:', error);
+      alert('No se pudo conectar con el servidor');
+    }
   };
 
 
