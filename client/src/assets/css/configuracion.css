@@ -484,26 +484,94 @@ body{
   }
   
   /* PASSWORD METER */
+  .password-input-container {
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  
+  .password-input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    padding-right: 2.5rem;
+    font-size: 0.875rem;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    color: var(--text-primary);
+    background-color: var(--bg-white);
+  }
+  
+  .password-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+  
+  .password-input::placeholder {
+    color: #a0aec0;
+  }
+  
+  .password-toggle-btn {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0;
+    transition: var(--transition);
+  }
+  
+  .password-toggle-btn:hover {
+    color: var(--primary-color);
+  }
+  
+  .password-toggle-btn ion-icon {
+    font-size: 1.25rem;
+  }
+  
+  /* Medidor de fuerza de contraseña */
   .password-meter {
-    margin: 15px 0 20px;
+    margin: 1.5rem 0;
   }
   
   .meter-wrapper {
-    height: 6px;
-    background-color: var(--border-color);
-    border-radius: 3px;
+    height: 0.5rem;
+    background-color: #e2e8f0;
+    border-radius: 999px;
     overflow: hidden;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
   }
   
   .meter-bar {
     height: 100%;
+    border-radius: 999px;
     transition: width 0.3s ease, background-color 0.3s ease;
   }
   
   .meter-text {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--text-secondary);
+    display: block;
   }
 
 /* BOTONES */
@@ -1168,3 +1236,97 @@ body{
     from { width: 100%; }
     to { width: 0%; }
 }
+
+
+.notification-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-white);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .notification-toggle:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .toggle-icon {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+  }
+  
+  .toggle-label {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  
+  /* Estilos para el switch del toggle */
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 3rem;
+    height: 1.5rem;
+  }
+  
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e7eb;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 1.2rem;
+    width: 1.2rem;
+    left: 0.15rem;
+    bottom: 0.15rem;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .toggle-slider {
+    background-color: var(--primary-color);
+  }
+  
+  input:focus + .toggle-slider {
+    box-shadow: 0 0 1px var(--primary-color);
+  }
+  
+  input:checked + .toggle-slider:before {
+    transform: translateX(1.5rem);
+  }
+  
+  /* Responsive - para pantallas más pequeñas */
+  @media (max-width: 640px) {
+    .panel-content {
+      flex-direction: column;
+    }
+    
+    .panel-icon {
+      margin-bottom: 1rem;
+      margin-right: 0;
+    }
+  }
