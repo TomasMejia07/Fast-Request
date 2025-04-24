@@ -19,6 +19,7 @@
     --white-greens: #1ba73e;
     --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
     --font:  "General Sans", sans-serif; 
+    --color-prueba: #00c5ff; /* COLOR DEL HOVER DEL ICONO DE EDITAR */
 }
 * {
     margin: 0;
@@ -470,11 +471,19 @@ body {
     color: var(--white-text);
 }
 
-.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion {
-    font-size: 20px;
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion, #iconosoperacionEditar, #iconosoperacionEliminar {
+    font-size: 22px;
     cursor: pointer;
     margin-left: 10px;
     color: var(--white-icons);
+}
+
+#iconosoperacionEditar:hover{
+    color: var(--color-prueba);
+}
+
+#iconosoperacionEliminar:hover{
+    color: var(--white-red);
 }
 
 .tabladashb .tabladashb_tbody .tabladashb_tbody_tr:hover {

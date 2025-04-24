@@ -16,7 +16,7 @@ const PedidosDashboard = ({ onClose }) => {
     };
     return (
         <DashboardLayout title="Pedidos">
-                <div className="container_tablas">
+            <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Pedidos</h2>
                     <select className="select_tabla" name="" id="">
