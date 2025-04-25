@@ -2,9 +2,11 @@ import React from "react";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import { useHacerPedido } from "../../hooks/useHacerPedido";
-
+import axios from "axios";
+import Swal from 'sweetalert2';
 
 const HacerPedidoDashboard = ({ onClose }) => {
+
 
     const initial = {
         nombreCliente: '',
@@ -20,7 +22,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
         notasAdicionales: ''
     }
 
-    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, tipos_salsas, tipos_gaseosas, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa } = useHacerPedido(initial)
+    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData } = useHacerPedido(initial)
 
     const {
         nombreCliente,
@@ -31,22 +33,50 @@ const HacerPedidoDashboard = ({ onClose }) => {
         puntoDeReferencia,
         deseaSalsas,
         deseaGaseosa,
-        notasAdicionales
-    } = formPedidosData;
+        notasAdicionales,
+        tipos_salsas,
+        tipos_gaseosas,
+    } = formPedidosData
 
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
     };
 
-    const handleCrearSalsas = () => {
-        closeModalSalsas();
-    };
-
-    const handleCrearGaseosas = () => {
-        closeModalGaseosa();
-    };
-    
+    const handleCrearPedido = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/pedidos/nuevoPedido', formPedidosData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.status === 200 || response.status === 201) {
+                Swal.fire({
+                    title: "Pedido Agendado Correctamente",
+                    text: "El pedido ha sido creado con éxito 🚀😉",
+                    icon: "success",
+                    draggable: true
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se pudo crear el pedido",
+                    icon: "error",
+                });
+            }
+            setFormPedidosData(initial);
+            console.log('Pedido creado:', response.data);
+        } catch (err) {
+            console.error('Error al crear el pedido:', err)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor.'
+            });
+            setFormPedidosData(initial);
+        }
+    }
 
     return (
         <DashboardLayout title="Hacer Pedido">
@@ -161,7 +191,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='rosada'
                                         checked={tipos_salsas.includes('rosada')}
@@ -172,18 +201,16 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
-                                        value='piña'
-                                        checked={tipos_salsas.includes('piña')}
+                                        value='guacamole'
+                                        checked={tipos_salsas.includes('guacamole')}
                                         onChange={checkboxs}
                                     />
-                                    Salsa De Piña
+                                    Salsa Guacamole
                                 </label>
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='mayonesa'
                                         checked={tipos_salsas.includes('mayonesa')}
@@ -194,7 +221,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='tomate'
                                         checked={tipos_salsas.includes('tomate')}
@@ -205,7 +231,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='cebolla'
                                         checked={tipos_salsas.includes('cebolla')}
@@ -216,7 +241,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='showy'
                                         checked={tipos_salsas.includes('showy')}
@@ -227,7 +251,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='ajo'
                                         checked={tipos_salsas.includes('ajo')}
@@ -238,7 +261,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='bbq'
                                         checked={tipos_salsas.includes('bbq')}
@@ -249,7 +271,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox">
                                     <input
                                         type="checkbox"
-                                        id="tipos_salsas"
                                         name="tipos_salsas"
                                         value='DeLaCasa'
                                         checked={tipos_salsas.includes('DeLaCasa')}
@@ -258,8 +279,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                     Salsa De La Casa
                                 </label>
                                 <div className="botones_formulario">
-                                    <button className="boton_formulario" onClick={handleCrearSalsas}>Crear</button>
-                                    <button className="close__modal" onClick={onClose}>Cancelar</button>
+                                    <button className="close__modal" onClick={closeModalSalsas} disabled={isCreatingSalsas}>Cerrar</button>
                                 </div>
                             </div>
                         </ModalDashboard>
@@ -272,7 +292,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                             type="radio"
                             name="deseaGaseosa"
                             className="form-radio-pedidos"
-                            id="deseaGaseosa"
                             value='si'
                             checked={deseaGaseosa === 'si'}
                             onChange={OnChangeInputs}
@@ -283,7 +302,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                             type="radio"
                             name="deseaGaseosa"
                             className="form-radio-pedidos"
-                            id="deseaGaseosa"
                             value='no'
                             checked={deseaGaseosa === 'no'}
                             onChange={OnChangeInputs}
@@ -297,7 +315,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='manzana'
                                         checked={tipos_gaseosas.includes('manzana')}
@@ -308,18 +325,16 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
-                                        value='piña'
-                                        checked={tipos_gaseosas.includes('piña')}
+                                        value='hit_de_mango'
+                                        checked={tipos_gaseosas.includes('hit_de_mango')}
                                         onChange={checkboxs}
                                     />
-                                    Piña
+                                    Hit De Mango
                                 </label>
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='pepsi'
                                         checked={tipos_gaseosas.includes('pepsi')}
@@ -330,7 +345,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='uva'
                                         checked={tipos_gaseosas.includes('uva')}
@@ -341,7 +355,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='premio'
                                         checked={tipos_gaseosas.includes('premio')}
@@ -352,7 +365,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='sprite'
                                         checked={tipos_gaseosas.includes('sprite')}
@@ -363,7 +375,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='colombiana'
                                         checked={tipos_gaseosas.includes('colombiana')}
@@ -374,7 +385,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox" >
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='cuatro'
                                         checked={tipos_gaseosas.includes('cuatro')}
@@ -385,7 +395,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                 <label className="form-input-checkbox">
                                     <input
                                         type="checkbox"
-                                        id="tipos_gaseosas"
                                         name="tipos_gaseosas"
                                         value='Coca-Cola'
                                         checked={tipos_gaseosas.includes('Coca-Cola')}
@@ -394,8 +403,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
                                     Coca-Cola
                                 </label>
                                 <div className="botones_formulario">
-                                    <button className="boton_formulario" onClick={handleCrearGaseosas}>Crear</button>
-                                    <button className="close__modal" onClick={onClose}>Cancelar</button>
+                                    <button className="close__modal" onClick={closeModalGaseosa} disabled={isCreatingGaseosas}>Cerrar</button>
+
                                 </div>
                             </div>
                         </ModalDashboard>
@@ -413,7 +422,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     >
                     </textarea>
 
-                    <button className="form-btn-pedidos" type="submit">Tomar Pedido</button>
+                    <button className="form-btn-pedidos" type="submit" onClick={handleCrearPedido}>Tomar Pedido</button>
                 </form>
             </section>
         </DashboardLayout>
