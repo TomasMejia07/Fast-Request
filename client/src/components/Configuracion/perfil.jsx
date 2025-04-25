@@ -27,6 +27,156 @@ const UserProfile = () => {
   const profileMenuRef = useRef(null);
   const fileInputRef = useRef(null);
   
+  // Add CSS for notifications on component mount
+  useEffect(() => {
+    // Create style element for notification styles if it doesn't exist
+    if (!document.getElementById('notification-styles')) {
+      const styleEl = document.createElement('style');
+      styleEl.id = 'notification-styles';
+      styleEl.textContent = `
+        /* Estilos para las notificaciones */
+        .notification-container {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          max-width: 350px;
+          pointer-events: none;
+        }
+        
+        .notification {
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          color: #333;
+          display: flex;
+          align-items: center;
+          padding: 16px;
+          transform: translateY(100px);
+          opacity: 0;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          pointer-events: auto;
+        }
+        
+        .notification::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 5px;
+          height: 100%;
+        }
+        
+        .notification.success::before {
+          background-color: #4CAF50;
+        }
+        
+        .notification.error::before {
+          background-color: #F44336;
+        }
+        
+        .notification.warning::before {
+          background-color: #FF9800;
+        }
+        
+        .notification.info::before {
+          background-color: #2196F3;
+        }
+        
+        .notification-icon {
+          margin-right: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+        }
+        
+        .notification.success .notification-icon {
+          color: #4CAF50;
+        }
+        
+        .notification.error .notification-icon {
+          color: #F44336;
+        }
+        
+        .notification.warning .notification-icon {
+          color: #FF9800;
+        }
+        
+        .notification.info .notification-icon {
+          color: #2196F3;
+        }
+        
+        .notification-content {
+          flex: 1;
+        }
+        
+        .notification-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+          font-size: 14px;
+        }
+        
+        .notification-message {
+          font-size: 13px;
+          color: #666;
+        }
+        
+        .notification-close {
+          cursor: pointer;
+          opacity: 0.7;
+          transition: opacity 0.2s;
+          margin-left: 8px;
+        }
+        
+        .notification-close:hover {
+          opacity: 1;
+        }
+        
+        .notification-progress {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 3px;
+          width: 100%;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-progress-bar {
+          height: 100%;
+          width: 100%;
+        }
+        
+        .notification.success .notification-progress-bar {
+          background-color: #4CAF50;
+        }
+        
+        .notification.error .notification-progress-bar {
+          background-color: #F44336;
+        }
+        
+        .notification.warning .notification-progress-bar {
+          background-color: #FF9800;
+        }
+        
+        .notification.info .notification-progress-bar {
+          background-color: #2196F3;
+        }
+        
+        @keyframes progress {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
+      `;
+      document.head.appendChild(styleEl);
+    }
+  }, []);
+  
   // Initialize form data when editing mode is activated
   useEffect(() => {
     if (isEditing) {
@@ -110,7 +260,7 @@ const UserProfile = () => {
     setIsEditing(false);
     
     // Show notification
-    showNotification('Perfil actualizado con éxito', 'success');
+    showNotification('Perfil actualizado con éxito', 'success', 'Datos guardados');
   };
   
   // Handle profile picture change
@@ -118,7 +268,7 @@ const UserProfile = () => {
     const file = e.target.files[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        showNotification('Por favor, selecciona un archivo de imagen válido', 'error');
+        showNotification('Por favor, selecciona un archivo de imagen válido', 'error', 'Error de formato');
         return;
       }
       
@@ -128,44 +278,112 @@ const UserProfile = () => {
           ...userData,
           profileImage: e.target.result
         });
-        showNotification('Foto de perfil actualizada', 'success');
+        showNotification('Foto de perfil actualizada', 'success', 'Imagen cambiada');
       };
       reader.readAsDataURL(file);
     }
   };
   
-  // Show notification
-  const showNotification = (message, type) => {
+  // Función mejorada para mostrar notificaciones
+  const showNotification = (message, type = 'info', title = null) => {
+    // Definir títulos predeterminados según el tipo
+    const defaultTitles = {
+      success: 'Éxito',
+      error: 'Error',
+      warning: 'Advertencia',
+      info: 'Información'
+    };
+    
+    // Definir iconos según el tipo
+    const icons = {
+      success: '<ion-icon name="checkmark-circle"></ion-icon>',
+      error: '<ion-icon name="close-circle"></ion-icon>',
+      warning: '<ion-icon name="warning"></ion-icon>',
+      info: '<ion-icon name="information-circle"></ion-icon>'
+    };
+    
+    // Usar el título personalizado o el predeterminado
+    const notificationTitle = title || defaultTitles[type];
+    
+    // Verificar si existe el contenedor de notificaciones
+    let container = document.querySelector('.notification-container');
+    
+    // Si no existe el contenedor, crearlo
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'notification-container';
+      document.body.appendChild(container);
+    }
+    
     // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     
-    const icon = type === 'success' 
-        ? '<i class="fas fa-check-circle"></i>' 
-        : '<i class="fas fa-exclamation-circle"></i>';
-        
+    // Estructura HTML de la notificación
     notification.innerHTML = `
-        ${icon}
-        <span>${message}</span>
+      <div class="notification-icon">
+        ${icons[type]}
+      </div>
+      <div class="notification-content">
+        <div class="notification-title">${notificationTitle}</div>
+        <div class="notification-message">${message}</div>
+      </div>
+      <div class="notification-close">
+        <ion-icon name="close-outline"></ion-icon>
+      </div>
+      <div class="notification-progress">
+        <div class="notification-progress-bar"></div>
+      </div>
     `;
     
-    // Añadir al DOM
-    document.body.appendChild(notification);
+    // Agregar al contenedor
+    container.appendChild(notification);
+    
+    // Animación de la barra de progreso
+    const progressBar = notification.querySelector('.notification-progress-bar');
+    progressBar.style.animation = 'progress 3s linear forwards';
     
     // Mostrar con animación
     setTimeout(() => {
-        notification.style.transform = 'translateY(0)';
-        notification.style.opacity = '1';
+      notification.style.transform = 'translateY(0)';
+      notification.style.opacity = '1';
     }, 10);
     
+    // Configurar botón de cerrar
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+      closeNotification(notification);
+    });
+    
     // Eliminar después de 3 segundos
-    setTimeout(() => {
-        notification.style.transform = 'translateY(100px)';
-        notification.style.opacity = '0';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
+    const timeout = setTimeout(() => {
+      closeNotification(notification);
     }, 3000);
+    
+    // Pausar el tiempo si se pasa el mouse por encima
+    notification.addEventListener('mouseenter', () => {
+      progressBar.style.animationPlayState = 'paused';
+      clearTimeout(timeout);
+    });
+    
+    // Reanudar al quitar el mouse
+    notification.addEventListener('mouseleave', () => {
+      progressBar.style.animationPlayState = 'running';
+      setTimeout(() => {
+        closeNotification(notification);
+      }, 3000);
+    });
+    
+    // Función para cerrar la notificación
+    function closeNotification(element) {
+      element.style.transform = 'translateX(100%)';
+      element.style.opacity = '0';
+      setTimeout(() => {
+        if (element.parentElement) {
+          element.parentElement.removeChild(element);
+        }
+      }, 300);
+    }
   };
   
   // Handle logout
@@ -174,12 +392,17 @@ const UserProfile = () => {
     
     // Show confirmation dialog
     if (window.confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      window.location.href = "/";
+      // Mostrar notificación antes de redirigir
+      showNotification('Cerrando sesión...', 'info');
+      
+      // Pequeño retraso para que se vea la notificación antes de redirigir
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
     } else {
       console.log("El usuario decidió no cerrar sesión.");
     }
   };
-  
   return (
     <section className="dashboard-section">
       {/* MENU - Actualizado con el nuevo diseño */}
@@ -394,7 +617,10 @@ const UserProfile = () => {
                 <button 
                   id="edit-profile"
                   className="btn-edit"
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => {
+                    setIsEditing(true);
+                    showNotification('Modo de edición activado', 'info');
+                  }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" style={{marginRight: '8px'}}>
                     <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>

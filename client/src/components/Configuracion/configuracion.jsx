@@ -1,27 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// Componente para mostrar notificaciones toast
-const Toast = ({ message, type, onClose }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [onClose]);
-
-  return (
-    <div className={`toast toast-${type}`}>
-      <div className="toast-content">
-        <ion-icon name={type === 'success' ? 'checkmark-circle' : 'alert-circle'}></ion-icon>
-        <span>{message}</span>
-      </div>
-      <button className="toast-close" onClick={onClose}>×</button>
-    </div>
-  );
-};
-
-// Componente para campos de contraseña - corregido
+// Componente para campos de contraseña
 const PasswordInput = ({ id, label, placeholder, value, onChange, toggleVisibility, visible }) => (
   <div className="input-group password-group">
     <label htmlFor={id} className="input-label">{label}</label>
@@ -45,24 +25,27 @@ const PasswordInput = ({ id, label, placeholder, value, onChange, toggleVisibili
   </div>
 );
 
-// Componente para toggles de notificación - corregido
-const NotificationToggle = ({ type, icon, label, checked, onChange }) => (
-  <div className="notification-option">
-    <label className="toggle-switch">
-      <input 
-        type="checkbox" 
-        checked={checked}
-        onChange={() => onChange(type)}
-        className="toggle-checkbox"
-      />
-      <span className="toggle-track"></span>
-      <div className="toggle-label-wrapper">
-        <ion-icon name={icon} className="toggle-icon"></ion-icon>
-        <span className="toggle-text">{label}</span>
+// Componente para toggles de notificación
+const NotificationToggle = ({ type, icon, label, checked, onChange }) => {
+  return (
+    <div className="notification-toggle">
+      <div className="toggle-left">
+        <div className="toggle-icon">
+          <ion-icon name={icon}></ion-icon>
+        </div>
+        <span className="toggle-label">{label}</span>
       </div>
-    </label>
-  </div>
-);
+      <label className="toggle-switch">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={() => onChange(type)}
+        />
+        <span className="toggle-slider"></span>
+      </label>
+    </div>
+  );
+};
 
 const Dashboard = () => {
   // Estados para la interfaz
@@ -72,6 +55,7 @@ const Dashboard = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [userName, setUserName] = useState("Usuario");
   const [selectedTheme, setSelectedTheme] = useState('light');
+  const [actionStatus, setActionStatus] = useState('');
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
@@ -93,29 +77,33 @@ const Dashboard = () => {
     color: '#ea4335'
   });
 
-  // Estado para notificaciones toast
-  const [toast, setToast] = useState({
-    show: false,
-    message: '',
-    type: 'success'
-  });
-
   const userMenuRef = useRef(null);
   const fileInputRef = useRef(null);
+  const statusTimeoutRef = useRef(null);
 
-  // Mostrar mensaje toast
-  const showToast = (message, type = 'success') => {
-    setToast({
-      show: true,
-      message,
-      type
-    });
+  // Mostrar mensaje de estado
+  const showStatus = (message) => {
+    setActionStatus(message);
+    
+    // Limpiar cualquier timeout existente
+    if (statusTimeoutRef.current) {
+      clearTimeout(statusTimeoutRef.current);
+    }
+    
+    // Establecer un nuevo timeout para limpiar el mensaje después de 3 segundos
+    statusTimeoutRef.current = setTimeout(() => {
+      setActionStatus('');
+    }, 3000);
   };
 
-  // Cerrar toast
-  const closeToast = () => {
-    setToast(prev => ({ ...prev, show: false }));
-  };
+  // Limpiar timeout al desmontar el componente
+  useEffect(() => {
+    return () => {
+      if (statusTimeoutRef.current) {
+        clearTimeout(statusTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Aplicar tema cuando cambia
   useEffect(() => {
@@ -138,7 +126,7 @@ const Dashboard = () => {
   const toggleMenu = () => setNavActive(prev => !prev);
   const toggleUserMenu = () => setUserMenuOpen(prev => !prev);
   
-  // Función corregida para toggle de visibilidad de contraseña
+  // Función para toggle de visibilidad de contraseña
   const togglePasswordVisibility = (id) => {
     setPasswordVisibility(prev => ({ 
       ...prev, 
@@ -198,36 +186,46 @@ const Dashboard = () => {
       const maxSize = 5 * 1024 * 1024; // 5MB
       
       if (!validTypes.includes(file.type)) {
-        showToast("Por favor selecciona una imagen (JPG, PNG, GIF)", "error");
+        alert("Por favor selecciona una imagen (JPG, PNG, GIF)");
         return;
       }
       
       if (file.size > maxSize) {
-        showToast("La imagen no debe superar los 5MB", "error");
+        alert("La imagen no debe superar los 5MB");
         return;
       }
       
       setSelectedFile(file);
-      showToast("Imagen seleccionada: " + file.name, "success");
+      showStatus(`Imagen seleccionada: ${file.name}`);
     }
   };
 
   const saveName = () => {
     if (!userName.trim()) {
-      showToast("El nombre de usuario no puede estar vacío", "error");
+      alert("El nombre de usuario no puede estar vacío");
       return;
     }
     
     // Simulando solicitud al servidor
-    showToast("Guardando nombre...", "success");
+    showStatus("Guardando nombre...");
     
     // Simulación de respuesta exitosa después de 1 segundo
     setTimeout(() => {
-      showToast("Nombre guardado correctamente: " + userName, "success");
+      const oldName = userName;
+      // Guardar el nombre actual en una variable temporal
+      const tempName = userName;
+      // Limpiar el campo
+      setUserName("");
+      // Mostrar mensaje
+      showStatus(`Nombre guardado correctamente: ${tempName}`);
+      // Opcional: restaurar el nombre después de un segundo para mejor UX
+      setTimeout(() => {
+        setUserName(tempName);
+      }, 200);
     }, 1000);
   };
 
-  // Manejador para cambios en campos de contraseña - corregido
+  // Manejador para cambios en campos de contraseña
   const handlePasswordChange = (e) => {
     const { id, value } = e.target;
     let fieldName = '';
@@ -253,54 +251,7 @@ const Dashboard = () => {
     }
   };
 
-  const savePassword = () => {
-    if (!passwords.current) {
-      showToast("Por favor ingresa tu contraseña actual", "error");
-      return;
-    }
-    
-    if (!passwords.new) {
-      showToast("Por favor ingresa una nueva contraseña", "error");
-      return;
-    }
-    
-    if (passwords.new !== passwords.confirm) {
-      showToast("Las contraseñas no coinciden", "error");
-      return;
-    }
-    
-    if (passwordStrength.strength < 40) {
-      showToast("Tu contraseña es demasiado débil", "error");
-      return;
-    }
-    
-    // Simulando solicitud al servidor
-    showToast("Cambiando contraseña...", "success");
-    
-    // Simulación de respuesta exitosa después de 1 segundo
-    setTimeout(() => {
-      showToast("Contraseña cambiada correctamente", "success");
-      // Limpiar formulario
-      setPasswords({
-        current: '',
-        new: '',
-        confirm: ''
-      });
-      setPasswordStrength({
-        strength: 0,
-        status: 'Débil',
-        color: '#ea4335'
-      });
-    }, 1000);
-  };
-
-  const handleThemeChange = (e) => {
-    const newTheme = e.target.value;
-    setSelectedTheme(newTheme);
-    showToast(`Tema cambiado a ${newTheme === 'light' ? 'claro' : newTheme === 'dark' ? 'oscuro' : 'automático'}`, "success");
-  };
-
-  // Función para manejar cambios en notificaciones - corregida
+  // Función para manejar cambios en notificaciones
   const handleNotificationToggle = (type) => {
     setNotifications(prev => {
       const updated = { ...prev, [type]: !prev[type] };
@@ -309,49 +260,163 @@ const Dashboard = () => {
       const typeText = type === 'email' ? 'correo electrónico' : 
                       type === 'push' ? 'push' : 'actualizaciones';
       
-      showToast(`Notificaciones de ${typeText} ${status}`, "success");
+      showStatus(`Notificaciones de ${typeText} ${status}`);
       return updated;
     });
   };
 
+  const savePassword = () => {
+    if (!passwords.current) {
+      alert("Por favor ingresa tu contraseña actual");
+      return;
+    }
+    
+    if (!passwords.new) {
+      alert("Por favor ingresa una nueva contraseña");
+      return;
+    }
+    
+    if (passwords.new !== passwords.confirm) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+    
+    if (passwordStrength.strength < 40) {
+      alert("Tu contraseña es demasiado débil");
+      return;
+    }
+    
+    // Simulando solicitud al servidor
+    showStatus("Cambiando contraseña...");
+    
+    // Simulación de respuesta exitosa después de 1 segundo
+    setTimeout(() => {
+      // Guardar temporalmente el estado de fuerza de contraseña
+      const oldStrength = passwordStrength;
+      
+      // Limpiar formulario
+      setPasswords({
+        current: '',
+        new: '',
+        confirm: ''
+      });
+      
+      setPasswordStrength({
+        strength: 0,
+        status: 'Débil',
+        color: '#ea4335'
+      });
+      
+      // Mostrar confirmación
+      showStatus("Contraseña cambiada correctamente");
+      
+      // Efecto visual para mostrar éxito (cambio de color en la barra de fuerza)
+      setTimeout(() => {
+        setPasswordStrength({
+          ...oldStrength,
+          color: '#4CAF50' // Verde para indicar éxito
+        });
+        
+        setTimeout(() => {
+          setPasswordStrength({
+            strength: 0,
+            status: 'Débil',
+            color: '#ea4335'
+          });
+        }, 500);
+      }, 300);
+    }, 1000);
+  };
+
+  const handleThemeChange = (e) => {
+    const oldTheme = selectedTheme;
+    const newTheme = e.target.value;
+    
+    // Añadir clase de animación
+    document.documentElement.classList.add('theme-transition');
+    
+    // Cambiar tema
+    setSelectedTheme(newTheme);
+    
+    // Mostrar estado
+    showStatus(`Tema cambiado a ${newTheme === 'light' ? 'claro' : newTheme === 'dark' ? 'oscuro' : 'automático'}`);
+    
+    // Quitar clase de animación después de la transición
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transition');
+    }, 500);
+  };
+
   const resetConfig = () => {
     if (window.confirm("¿Estás seguro de que deseas restablecer todas las configuraciones?")) {
+      // Guardar tema actual
+      const oldTheme = selectedTheme;
+      
+      // Aplicar tema predeterminado
       setSelectedTheme('light');
+      document.documentElement.setAttribute('data-theme', 'light');
+      
+      // Restablecer notificaciones
       setNotifications({
         email: true,
         push: false,
         updates: true
       });
       
-      document.documentElement.setAttribute('data-theme', 'light');
-      showToast("Configuraciones restablecidas correctamente", "success");
+      // Añadir animación
+      document.documentElement.classList.add('reset-animation');
+      
+      showStatus("Configuraciones restablecidas correctamente");
+      
+      // Quitar animación después de completarse
+      setTimeout(() => {
+        document.documentElement.classList.remove('reset-animation');
+      }, 1000);
     }
   };
 
   const saveProfilePicture = () => {
     if (!selectedFile) {
-      showToast("Por favor selecciona una imagen primero", "error");
+      alert("Por favor selecciona una imagen primero");
       return;
     }
     
     // Simulando carga de archivo
-    showToast("Subiendo imagen...", "success");
+    showStatus("Subiendo imagen...");
+    
+    // Guardar referencia del archivo actual para mostrar en el mensaje
+    const currentFile = selectedFile;
     
     // Simulación de respuesta exitosa después de 2 segundos
     setTimeout(() => {
-      showToast("Imagen subida correctamente: " + selectedFile.name, "success");
+      // Limpiar el campo de archivo
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      // Mostrar animación de éxito
+      const filePreview = document.querySelector('.custom-file-selector');
+      if (filePreview) {
+        filePreview.classList.add('upload-success');
+        setTimeout(() => {
+          filePreview.classList.remove('upload-success');
+        }, 1000);
+      }
+      
+      showStatus(`Imagen subida correctamente: ${currentFile.name}`);
+      
+      // Limpiar el estado de archivo seleccionado
+      setSelectedFile(null);
     }, 2000);
   };
 
   return (
     <section className="dashboard-section">
-      {/* Sistema de notificaciones toast */}
-      {toast.show && (
-        <Toast 
-          message={toast.message} 
-          type={toast.type} 
-          onClose={closeToast} 
-        />
+      {/* Indicador de estado de acción */}
+      {actionStatus && (
+        <div className="action-status">
+          {actionStatus}
+        </div>
       )}
       
       {/* MENU LATERAL */}
@@ -529,7 +594,7 @@ const Dashboard = () => {
               <h3 className="block-title">Seguridad</h3>
             </div>
             
-            {/* Cambiar Contraseña - CORREGIDO */}
+            {/* Cambiar Contraseña */}
             <div className="config-panel">
               <div className="panel-content">
                 <div className="panel-icon">
@@ -634,7 +699,7 @@ const Dashboard = () => {
               </div>
             </div>
             
-            {/* Notificaciones - CORREGIDO */}
+            {/* Notificaciones - AÑADIDO */}
             <div className="config-panel">
               <div className="panel-content">
                 <div className="panel-icon">
@@ -698,6 +763,80 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      
+      {/* Estilos para las nuevas funcionalidades */}
+      <style jsx>{`
+        .action-status {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background-color: rgba(0, 0, 0, 0.7);
+          color: white;
+          padding: 10px 20px;
+          border-radius: 4px;
+          z-index: 1000;
+          animation: fadeIn 0.3s, fadeOut 0.3s 2.7s;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+          from { opacity: 1; transform: translateY(0); }
+          to { opacity: 0; transform: translateY(-20px); }
+        }
+        
+        .theme-transition {
+          transition: all 0.5s ease;
+        }
+        
+        .custom-file-selector.upload-success {
+          background-color: #4CAF50;
+          color: white;
+          transition: all 0.3s ease;
+        }
+        
+        .reset-animation {
+          animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+          10%, 90% { transform: translate3d(-1px, 0, 0); }
+          20%, 80% { transform: translate3d(2px, 0, 0); }
+          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+          40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        
+        .dashboard-btn {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .dashboard-btn:after {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+          background-repeat: no-repeat;
+          background-position: 50%;
+          transform: scale(10, 10);
+          opacity: 0;
+          transition: transform .5s, opacity 1s;
+        }
+        
+        .dashboard-btn:active:after {
+          transform: scale(0, 0);
+          opacity: .3;
+          transition: 0s;
+        }
+      `}</style>
     </section>
   );
 };
