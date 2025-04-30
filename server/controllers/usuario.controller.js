@@ -11,6 +11,7 @@ exports.registrarUsuario = async (req, res) => {
     if (existe) {
       return res.status(400).json({ message: 'Este correo ya está registrado.' });
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const nuevoUsuario = await Usuario.create({
       nombre,
