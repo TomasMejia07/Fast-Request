@@ -6,6 +6,11 @@ require('dotenv').config();
 exports.registrarUsuario = async (req, res) => {
   try {
     const { nombre, apellido, correo, codigo, password } = req.body;
+    const existe = await Usuario.findOne({ where: { correo } });
+
+    if (existe) {
+      return res.status(400).json({ message: 'Este correo ya está registrado.' });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const nuevoUsuario = await Usuario.create({
       nombre,
@@ -21,7 +26,6 @@ exports.registrarUsuario = async (req, res) => {
     res.status(500).json({ error: 'No se pudo registrar el usuario.' });
   }
 };
-
 
 exports.seleccionarUsuarios = async (req, res) => {
   try {
@@ -61,3 +65,20 @@ exports.loginUsuario = async (req, res) => {
     return res.status(500).json({ error: 'Error del servidor' });
   }
 };
+
+
+exports.verificarEmail = async (req, res) => {
+  try {
+    const { correo } = req.query;
+    const existe = await Usuario.findOne({ where: { correo } });
+
+    if (existe) {
+      return res.status(200).json({ existe: true, mensaje: 'Este correo ya está registrado.' });
+    } else {
+      return res.status(200).json({ existe: false, mensaje: 'Este correo no está registrado.' });
+    }
+  } catch (error) {
+    console.error('Error al verificar el correo:', error);
+    res.status(500).json({ error: 'No se pudo verificar el correo.' });
+  }
+}

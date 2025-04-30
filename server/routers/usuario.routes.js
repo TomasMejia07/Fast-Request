@@ -7,5 +7,5 @@ router.post('/login', usuarioController.loginUsuario);
 router.get('/registro', usuarioController.seleccionarUsuarios);
 
 
-
+router.get('/verificarEmail', usuarioController.verificarEmail);
 module.exports = router;
