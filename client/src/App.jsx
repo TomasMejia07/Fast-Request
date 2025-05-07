@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 
 import Registro from './components/Registro/Registro';
+import RecuperarContrasena from './components/RecuperarCuenta/Rcontraseña';
 
 import InicioDashboard from './pages/Dashboard/InicioDashboard';
 import CategoriaDashboard from './pages/Dashboard/CategoriaDashboard';
@@ -16,7 +17,7 @@ import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
 import ConditionalBootstrap from './components/ConditionalBootstrap';
 import Configuracion from './components/Configuracion/configuracion';
 import Perfil from './components/Configuracion/perfil';
-// import RecuperarContrasena from './components/RecuperarCuenta/Rcontraseña';
+
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
-        {/* <Route path="/recuperar/contrasena" element={<RecuperarContrasena />} /> */}
+        <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
 
         <Route path="/dashboard" element={<InicioDashboard />} />
         <Route path="/dashboard/categoria" element={<CategoriaDashboard />} />

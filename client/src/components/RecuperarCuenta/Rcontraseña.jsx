@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PasoCorreo from './pasoCorreo';
-import PasoNombre from './pasoCodigo';
-import PasoCodigo from './PasoContrasenaNueva';
+import PasoCorreo from './PasoCorreoRecuperar';
+import PasoCodigo from './PasoCodigoRecuperar';
+import PasoContrasenaNueva from './PasoContrasenaNueva';
 
 function RecuperarContrasena() {
   const [paso, setPaso] = useState(1);
@@ -13,7 +13,6 @@ function RecuperarContrasena() {
   });
 
   const avanzarPaso = () => setPaso((prev) => prev + 1);
-  const retrocederPaso = () => setPaso((prev) => prev - 1);
 
   const actualizarDatos = (nuevosDatos) => {
     setFormData((prevData) => ({ ...prevData, ...nuevosDatos }));
@@ -29,19 +28,17 @@ function RecuperarContrasena() {
         />
       )}
       {paso === 2 && (
-        <PasoNombre 
-          datos={formData} 
-          actualizar={actualizarDatos} 
-          siguiente={avanzarPaso} 
-          anterior={retrocederPaso} 
-        />
-      )}
-      {paso === 3 && (
         <PasoCodigo 
           datos={formData} 
           actualizar={actualizarDatos} 
           siguiente={avanzarPaso} 
-          anterior={retrocederPaso} 
+        />
+      )}
+      {paso === 3 && (
+        <PasoContrasenaNueva
+          datos={formData} 
+          actualizar={actualizarDatos} 
+          siguiente={avanzarPaso} 
         />
       )}
     </div>

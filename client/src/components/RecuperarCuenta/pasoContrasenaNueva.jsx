@@ -3,7 +3,7 @@ import '../../assets/css/style.css';
 
 const PasoContrasenaNueva = ({ siguiente, datos, actualizar }) => {
     useEffect(() => {
-        document.title = 'Ingresa tu Email - Fast Request';
+        document.title = 'Recuperar Cuenta - Fast Request';
     }, []);
 
     const [email, setEmail] = useState(datos.email || '');
