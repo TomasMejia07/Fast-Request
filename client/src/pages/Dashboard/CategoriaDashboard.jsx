@@ -17,7 +17,8 @@ const CategoriaDashboard = () => {
         openModal,
         closeModal,
         isCreating,
-        formRef
+        formRef,
+        errores
     } = useCategorias();
 
     useEffect(() => {
@@ -101,9 +102,11 @@ const CategoriaDashboard = () => {
                         className="dashinputs_formulario_Labels"
                         value={formCategoriaData.NombreCategoria}
                         onChange={onChangeInputs}
-                        required
+                        
                     />
-                    <span className="error"></span>
+                    {errores.NombreCategoria && (
+                        <span className="errores">{errores.NombreCategoria}</span>
+                    )}
                 </div>
 
                 <div className="dashinputs_formulario">
@@ -114,13 +117,15 @@ const CategoriaDashboard = () => {
                         className="dashinputs_formulario_Labels"
                         value={formCategoriaData.EstadoCategoria}
                         onChange={onChangeInputs}
-                        required
+                        
                     >
                         <option value="">Selecciona uno</option>
                         <option value="Activo">Activo</option>
                         <option value="Inactivo">Inactivo</option>
                     </select>
-                    <span className="error"></span>
+                    {errores.EstadoCategoria && (
+                        <span className="errores">{errores.EstadoCategoria}</span>
+                    )}
                 </div>
 
                 <div className="botones_formulario">

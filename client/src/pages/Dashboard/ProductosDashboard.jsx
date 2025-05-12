@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
+//import { useProductos } from "../../hooks/useProductos"
 
 const ProductosDashboard = ({ onClose }) => {
     const [modalVisible, setModalVisible] = useState(false);
