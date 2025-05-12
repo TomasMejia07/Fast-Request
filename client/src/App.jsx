@@ -17,6 +17,7 @@ import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
 import ConditionalBootstrap from './components/ConditionalBootstrap';
 import Configuracion from './components/Configuracion/configuracion';
 import Perfil from './components/Configuracion/perfil';
+import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/dashboard/productos" element={<ProductosDashboard />} />
         <Route path="/dashboard/roles" element={<RolesDashboard />} />
         <Route path="/dashboard/usuarios" element={<UsuariosDashboard />} />
+        <Route path="/dashboard/clientes" element={<ClientesDashboard />} />
         <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />
         <Route path="/dashboard/pedidos" element={<PedidosDashboard />} />
         <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />

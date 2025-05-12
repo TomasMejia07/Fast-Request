@@ -20,6 +20,7 @@ function MenuDashboard() {
                     { to: '/dashboard/productos', icon: 'fast-food', title: 'Productos' },
                     { to: '/dashboard/roles', icon: 'id-card', title: 'Roles' },
                     { to: '/dashboard/usuarios', icon: 'people', title: 'Usuarios' },
+                    { to: '/dashboard/clientes', icon: 'person', title: 'Clientes' },
                     { to: '/dashboard/estadisticas', icon: 'stats-chart', title: 'Estadísticas' },
                 ].map((item, index) => (
                     <li
