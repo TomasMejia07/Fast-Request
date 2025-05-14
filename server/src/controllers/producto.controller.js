@@ -5,7 +5,7 @@ exports.VisualizarProductos = async (req, res) => {
         const productos = await Producto.findAll({
             include: [{
                 model: Categoria,
-                attributes: ['Id', 'NombreCategoria']
+                attributes: ['id', 'NombreCategoria']
             }]
         });
         res.json(productos);

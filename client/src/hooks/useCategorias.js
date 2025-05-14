@@ -61,7 +61,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
             if (name === "NombreCategoria") {
                 if (!value.trim()) {
                     erroresTemp.NombreCategoria = "El nombre es obligatorio";
-                } else if (!/^[A-Za-z0-9]/.test(value)) {
+                } else if (!/^[A-Za-z]/.test(value)) {
                     erroresTemp.NombreCategoria = "Nombre no valido";
                 } else if (
                     categorias.some((cat) =>
@@ -163,7 +163,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
                     icon: "error",
                     background: "#272727",
                     color: "#c9c9c9"
-                    });
+                });
             }
         }
     };

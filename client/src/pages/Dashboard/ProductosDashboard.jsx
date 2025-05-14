@@ -1,20 +1,32 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
-//import { useProductos } from "../../hooks/useProductos"
+import { useProductos } from "../../hooks/useProductos"
 
-const ProductosDashboard = ({ onClose }) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const formRef = useRef(null);
-    
-    const openModal = () => {
-        setModalVisible(true);
-    };
-    
-    const closeModal = () => {
-        setModalVisible(false);
-        if (formRef.current) formRef.current.reset(); // Resetea el formulario
-    };
+
+const ProductosDashboard = () => {
+    const {
+        productos,
+        cargarProductos,
+        guardarProducto,
+        eliminarProducto,
+        editarProducto,
+        formProductoData,
+        setFormProductoData,
+        onChangeInputs,
+        modalVisible,
+        openModal,
+        closeModal,
+        isCreating,
+        formRef,
+        errores,
+        categorias
+    } = useProductos();
+
+    useEffect(() =>{
+        cargarProductos();
+    }, []);
+
 
     return (
         <DashboardLayout title="Productos">
@@ -44,59 +56,136 @@ const ProductosDashboard = ({ onClose }) => {
                     </tr>
                 </thead>
                 <tbody className="tabladashb_tbody">
-                    <tr className="tabladashb_tbody_tr">
-                        <td className="tabladashb_tbody_tr_td">Producto 1</td>
-                        <td className="tabladashb_tbody_tr_td">Categoría 1</td>
-                        <td className="tabladashb_tbody_tr_td">$100.00</td>
-                        <td className="tabladashb_tbody_tr_td">Descripción del producto 1</td>
-                        <td className="tabladashb_tbody_tr_td">Inactiva</td>
+                    {productos.map((producto) => (
+                    <tr className="tabladashb_tbody_tr" product={producto.Id}>
+                        <td className="tabladashb_tbody_tr_td">{producto.NombreProducto}</td>
+                        <td className="tabladashb_tbody_tr_td">{producto.categorium?.NombreCategoria}</td>
+                        <td className="tabladashb_tbody_tr_td">{producto.PrecioProducto}</td>
+                        <td className="tabladashb_tbody_tr_td">{producto.DescripcionProducto}</td>
+                        <td className="tabladashb_tbody_tr_td">{producto.EstadoProducto}</td>
                         <td className="tabladashb_tbody_tr_td">
-                            <a href="#"><ion-icon id="iconosoperacion" name="pencil"></ion-icon></a>
-                            <a href="#"><ion-icon id="iconosoperacion" name="trash"></ion-icon></a>
+                        <a 
+                            href="#"
+                            onClick={(e) => {
+                            e.preventDefault();
+                            editarProducto(producto);
+                            }}>
+                            <ion-icon id="iconosoperacion" name="pencil"></ion-icon>
+                        </a>
+                        <a 
+                            href="#"
+                            onClick={(e) => {
+                            e.preventDefault()
+                            eliminarProducto(producto.Id);
+                            }}>
+                            <ion-icon id="iconosoperacion" name="trash"></ion-icon>
+                            </a>
                         </td>
                     </tr>
+                    ))}
                 </tbody>
             </table>
             </div>
             <ModalDashboard show={modalVisible} onClose={closeModal}>
-            <form  id="miFormulario" ref={formRef}>
-            <h2 className="modal__title">Crear Producto</h2>
+            <form  
+                id="miFormularioProduc" 
+                ref={formRef}
+                onSubmit={(e) => {
+                e.preventDefault();
+                guardarProducto();
+                }}
+            >
+                <h2 className="modal__title">
+                    {isCreating ? "Crear Producto" : "Editar Producto"}
+                </h2>
+
                 <div className="dashinputs_formulario">
-                    <label htmlFor="nombreP">Nombre Del Producto:</label>
-                    <input type="text" name="nombreP" id="nombreP" className="dashinputs_formulario_Labels" />
-                    <span id="" className="error"></span>
+                    <label htmlFor="NombreProducto">Nombre Del Producto:</label>
+                    <input 
+                        type="text" 
+                        name="NombreProducto" 
+                        id="NombreProducto" 
+                        className="dashinputs_formulario_Labels" 
+                        value={formProductoData.NombreProducto}
+                        onChange={onChangeInputs}
+                    />
+                    {errores.NombreProducto && (
+                        <span className="errores">{errores.NombreProducto}</span>
+                    )}
                 </div>
                 <div className="dashinputs_formulario">
-                    <label htmlFor="categoria">Categoria:</label>
-                    <select name="categoria" id="categoria" className="dashinputs_formulario_Labels">
-                        <option defaultValue>Seleciona Uno</option>
-                        <option value="" >Categoria 1</option>
-                        <option value="">Categoria 2</option>
+                    <label htmlFor="IdCategoria">Categoria:</label>
+                    <select 
+                        name="IdCategoria" 
+                        id="IdCategoria" 
+                        className="dashinputs_formulario_Labels"
+                        value={formProductoData.IdCategoria}
+                        onChange={onChangeInputs}
+                    >
+                        <option value="">Seleccione una categoría</option>
+                        {categorias.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.NombreCategoria}
+                            </option>
+                        ))}
                     </select>
-                    <span id="" className="error"></span>
+                    {errores.IdCategoria && (
+                        <span className="errores">{errores.IdCategoria}</span>
+                    )}
+                </div>
+
+                <div className="dashinputs_formulario">
+                    <label htmlFor="PrecioProducto">Precio:</label>
+                    <input 
+                        type="text" 
+                        name="PrecioProducto" 
+                        id="precio" 
+                        className="dashinputs_formulario_Labels"
+                        value={formProductoData.PrecioProducto}
+                        onChange={onChangeInputs}
+                    />
+                    {errores.PrecioProducto && (
+                        <span className="errores">{errores.PrecioProducto}</span>
+                    )}
                 </div>
                 <div className="dashinputs_formulario">
-                    <label htmlFor="precio">Precio:</label>
-                    <input type="text" name="precio" id="precio" className="dashinputs_formulario_Labels" />
-                    <span id="" className="error"></span>
+                    <label htmlFor="DescripcionProducto">Descripcion:</label>
+                    <input 
+                        type="text" 
+                        name="DescripcionProducto" 
+                        id="DescripcionProducto" 
+                        className="dashinputs_formulario_Labels" 
+                        value={formProductoData.DescripcionProducto}
+                        onChange={onChangeInputs}    
+                    />
+                    {errores.DescripcionProducto && (
+                        <span className="errores">{errores.DescripcionProducto}</span>
+                    )}
                 </div>
                 <div className="dashinputs_formulario">
-                    <label htmlFor="descripcion">Descripcion:</label>
-                    <input type="text" name="descripcion" id="descripcion" className="dashinputs_formulario_Labels" />
-                    <span id="" className="error"></span>
-                </div>
-                <div className="dashinputs_formulario">
-                    <label htmlFor="estado">Estado:</label>
-                    <select name="estado" id="estado" className="dashinputs_formulario_Labels">
-                        <option defaultValue>Seleciona Uno</option>
-                        <option value="" >Activo</option>
-                        <option value="">Inactivo</option>
+                    <label htmlFor="EstadoProducto">Estado:</label>
+                    <select 
+                        name="EstadoProducto" 
+                        id="EstadoProducto" 
+                        className="dashinputs_formulario_Labels"
+                        value={formProductoData.EstadoProducto}
+                        onChange={onChangeInputs}
+                    >
+                        <option value="">Seleciona Uno</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
                     </select>
-                    <span id="" className="error"></span>
+                    {errores.EstadoProducto && (
+                        <span className="errores">{errores.EstadoProducto}</span>
+                    )}
                 </div>  
                 <div className="botones_formulario">
-                    <button type="submit" className="boton_formulario">Crear</button>
-                    <button className="close__modal" onClick={onClose}>Cancelar</button>
+                    <button type="submit" className="boton_formulario">
+                        {isCreating ? "Crear" : "Actualizar"}
+                    </button>
+                    <button type="button" className="close__modal" onClick={closeModal}>
+                        Cancelar
+                    </button>
                 </div>
 
             </form>
