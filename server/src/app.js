@@ -28,15 +28,23 @@ const pedidoRoutes = require("./routers/hacerPedido.routes.js");
 const categoriaRoutes = require("./routers/categoria.routes.js");
 const validarEmailRoutes = require("./routers/validarEmail.routes")
 const recuperarCuenta = require("./routers/recuperarCuenta.routes")
+<<<<<<< HEAD
 const clienteRouter = require('./routers/cliente.routes')
 
+=======
+const productoRoutes = require("./routers/producto.routes")
+>>>>>>> 14450183f63ba169a981e2f7927aeff8b0e2b636
 // api Rutas
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/pedidos", pedidoRoutes);
 app.use("/api/categorias", categoriaRoutes);
 app.use("/api/validarEmail", validarEmailRoutes);
 app.use("/api/recuperarCuenta", recuperarCuenta);
+<<<<<<< HEAD
 app.use("/api/cliente", clienteRouter)
+=======
+app.use("/api/productos", productoRoutes);
+>>>>>>> 14450183f63ba169a981e2f7927aeff8b0e2b636
 
 app.get("/", (req, res) => {
   res.send("API de registro de usuarios en funcionamiento.");
