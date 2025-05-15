@@ -46,7 +46,7 @@ function TopBar({ onToggleNav }) {
                     </li>
                         <li className='menu-perfil-ul-li'>
                             <Link to="/configuracion" className='menu-perfil-ul-li-a'>
-                                <span className="icono-menu-user"><ion-icon name="person-circle"></ion-icon></span>
+                                <span className="icono-menu-user"><ion-icon name="cog"></ion-icon></span>
                                 <span className="nav-titulo">configuracion</span>
                             </Link>
                         </li>

@@ -38,6 +38,15 @@ body {
     overflow-x: hidden;
     font-family: var(--font);
 }
+/* MENSAJE DE ERROR */
+.errores {
+    color: rgb(255, 0, 0);
+    left: 2px;
+    font-size: 14px;
+    bottom: auto;
+    display: flex;
+    gap: 1px;
+}
 
 /* SECTION */
 
@@ -203,7 +212,7 @@ body {
     position: absolute;
     color: var(--white-icons);
     /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
-    top: 12px;
+    top: 10px;
     left: 10px;
     font-size: 1.2em;
 }
