@@ -19,11 +19,13 @@ const HacerPedidoDashboard = ({ onClose }) => {
         tipos_salsas: [],
         deseaGaseosa: 'no',
         tipos_gaseosas: [],
-        notasAdicionales: ''
+        notasAdicionales: '',
     }
 
-    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData } = useHacerPedido(initial)
+  
 
+    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData } = useHacerPedido(initial)
+    
     const {
         nombreCliente,
         tipoProducto,
@@ -95,7 +97,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         value={nombreCliente}
                         onChange={OnChangeInputs}
                     />
-
 
                     <label className="form-label" htmlFor="tipoProducto">Tipo de producto:</label>
                     <input

@@ -471,7 +471,7 @@ body {
     color: var(--white-text);
 }
 
-.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion, #iconosoperacionEditar, #iconosoperacionEliminar {
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion, #iconosoperacionEditar, #iconosoperacionEliminar, #iconosoperacionVisualizar, #iconosoperacionVisualizar {
     font-size: 22px;
     cursor: pointer;
     margin-left: 10px;
@@ -484,6 +484,9 @@ body {
 
 #iconosoperacionEliminar:hover{
     color: var(--white-red);
+}
+#iconosoperacionVisualizar:hover{
+    color: var(--white-greens);
 }
 
 .tabladashb .tabladashb_tbody .tabladashb_tbody_tr:hover {
@@ -1300,3 +1303,5 @@ body {
   }
   
   
+
+

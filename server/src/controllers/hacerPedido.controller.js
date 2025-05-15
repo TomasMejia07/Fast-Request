@@ -1,4 +1,3 @@
-
 const { Pedido }= require('../models')
 
 exports.nuevoPedido = async (req, res) => {
@@ -14,7 +13,7 @@ exports.nuevoPedido = async (req, res) => {
                 tipos_salsas,
                 deseaGaseosa,
                 tipos_gaseosas,
-                notasAdicionales
+                notasAdicionales,
             } = req.body;
 
         const nuevoPedido = await Pedido.create(
@@ -29,7 +28,7 @@ exports.nuevoPedido = async (req, res) => {
             tipos_salsas,
             deseaGaseosa,
             tipos_gaseosas,
-            notasAdicionales
+            notasAdicionales,
         });
 
         console.log('Pedido creado:', nuevoPedido);

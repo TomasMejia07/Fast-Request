@@ -27,6 +27,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
             setCategorias(res.data);
         } catch (error) {
             console.error("Error al cargar categorías:", error);
+            Swal.fire("Error", "No se pudo cargar los datos de la categoría", "error");
         }
     };
 

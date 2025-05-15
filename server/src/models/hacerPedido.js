@@ -51,7 +51,6 @@ const Pedido = sequelize.define('Pedido', {
 }, {
     tableName: 'pedidos',
     timestamps: true,
-}
-);
+});
 
 module.exports = Pedido
