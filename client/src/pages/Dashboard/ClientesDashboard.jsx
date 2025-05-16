@@ -3,6 +3,7 @@ import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
 import { useClientes } from "../../hooks/useClientes";
 import { useEffect } from "react";
+import { validacionDeCampos } from '../../helpers/validacionDeCampos'
 
 const ClientesDashboard = () => {
     const {

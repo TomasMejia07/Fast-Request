@@ -39,6 +39,205 @@ export const validacionDeCampos = (name, value) => {
     //         errores = ''
     //     }
     // }
-    
+
+
+    // Validaciones para en componente HacerPedido.
+
+    if (name === 'nombreCliente' || name === 'tipoProducto') {
+        const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length < 3) {
+            errores = 'este valor es demasiado corto.'
+        } else if (trimmed.length > 50) {
+            errores = 'este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener letras y espacios.'
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = ''
+        }
+    }
+
+    if (name === 'cantidadProducto') {
+        const regex = /^[0-9]+$/
+        const trimmed = value.trim()
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (parseInt(trimmed) < 1) {
+            errores = 'debes diligencial al menos la cantidad de 1 producto.'
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener numeros.'
+        } else {
+            errores = ''
+        }
+    }
+
+    if (name === 'municipioLocalidad') {
+        const regex = /^(Caldas|Bello|Itagui|Envigado|Sabaneta|Medellin|Copacabana|La Estrella)$/i
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length < 3) {
+            errores = 'este valor es demasiado corto.'
+        } else if (trimmed.length > 15) {
+            errores = 'este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Solo se permiten municipios predeterminados: Caldas, Bello, Itagui, Envigado, Sabaneta, Medellín'
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = ''
+        }
+    }
+
+    if (name === 'direccion') {
+        const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s#\-/\.]+$/;
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.';
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'La dirección solo debe contener letras, números, y símbolos como #, -, /, .';
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = '';
+        }
+    }
+
+
+    if (name === 'puntoDeReferencia') {
+        const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,()#\-\/]+$/;
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.';
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Solo se permiten letras, números y símbolos como ., (), #, -, /.';
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = '';
+        }
+    }
+
+
+    if (name === 'notasAdicionales') {
+        const regex = /^[A-Za-z0-9\s.,;:()-]+$/
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length < 5) {
+            errores = 'este valor es demasiado corto.'
+        } else if (trimmed.length > 150) {
+            errores = 'este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener letras y espacios y simbolos como ., ;: ()'
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = ''
+        }
+    }
+
+
+
+    // Validaciones para en componente exactamente para el modal para crear un cliente
+
+
+    if (name === 'NombreCliente') {
+        const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length <= 3) {
+            errores = 'este valor es demasiado corto.'
+        } else if (trimmed.length >= 30) {
+            errores = 'este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener letras y espacios.'
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = ''
+        }
+    }
+
+    if (name === 'NumeroDocumento') {
+        const regex = /^[0-9]+$/
+        const trimmed = value.trim()
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length < 10) {
+            errores = 'este valor es demasiado corto.'
+        } else if (trimmed.length > 30) {
+            errores = 'este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener numeros.'
+        } else {
+            errores = ''
+        }
+    }
+
+    if (name === 'CorreoElectronico') {
+        const regex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'El correo debe tener un formato válido, como ejemplo@dominio.com.';
+        } else {
+            errores = '';
+        }
+    }
+
+
+
+    if (name === 'NumeroContacto') {
+        const regex = /^[0-9]+$/
+        const trimmed = value.trim()
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.'
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length < 10) {
+            errores = 'este valor es demasiado corto.'
+        } else if (trimmed.length > 12) {
+            errores = 'este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener numeros.'
+        } else {
+            errores = ''
+        }
+    }
+
+
     return errores;
 }

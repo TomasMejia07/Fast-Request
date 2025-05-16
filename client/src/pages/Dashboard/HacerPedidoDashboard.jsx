@@ -4,9 +4,9 @@ import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import { useHacerPedido } from "../../hooks/useHacerPedido";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import { validacionDeCampos } from '../../helpers/validacionDeCampos'
 
 const HacerPedidoDashboard = ({ onClose }) => {
-
 
     const initial = {
         nombreCliente: '',
@@ -22,10 +22,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
         notasAdicionales: '',
     }
 
-  
+    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData, setErrores, errores } = useHacerPedido(initial)
 
-    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData } = useHacerPedido(initial)
-    
     const {
         nombreCliente,
         tipoProducto,
@@ -44,6 +42,23 @@ const HacerPedidoDashboard = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const nombreClienteError = validacionDeCampos('nombreCliente', nombreCliente)
+        const cantidadProductoError = validacionDeCampos('cantidadProducto', cantidadProducto)
+        const municipioLocalidadError = validacionDeCampos('municipioLocalidad', municipioLocalidad)
+        const direccionError = validacionDeCampos('direccion', direccion)
+        const puntoDeReferenciaError = validacionDeCampos('puntoDeReferencia', puntoDeReferencia)
+        const notasAdicionalesError = validacionDeCampos('notasAdicionales', notasAdicionales)
+
+        setErrores({
+            nombreCliente: nombreClienteError,
+            cantidadProducto: cantidadProductoError,
+            municipioLocalidad: municipioLocalidadError,
+            direccion: direccionError,
+            puntoDeReferencia: puntoDeReferenciaError,
+            notasAdicionales: notasAdicionalesError,
+        })
+        if (nombreClienteError || cantidadProductoError || municipioLocalidadError || direccionError || puntoDeReferenciaError || notasAdicionalesError) return;
     };
 
     const handleCrearPedido = async () => {
@@ -93,11 +108,10 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         name="nombreCliente"
                         placeholder=" Carlos Arturo Medina"
                         required
-                        autoComplete="off"
                         value={nombreCliente}
                         onChange={OnChangeInputs}
                     />
-
+                    {errores.nombreCliente && <div style={{color: 'red'}}>{errores.nombreCliente}</div>}
                     <label className="form-label" htmlFor="tipoProducto">Tipo de producto:</label>
                     <input
                         type="text"
@@ -109,7 +123,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         onChange={OnChangeInputs}
                         placeholder="Ej: hamburguesa, salchipapa"
                     />
-
+                    {errores.tipoProducto && <div style={{color: 'red'}}>{errores.tipoProducto}</div>}
                     <label className="form-label" htmlFor="cantidadProducto">Cantidad Del Producto:</label>
                     <input
                         type="text"
@@ -121,8 +135,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         value={cantidadProducto}
                         onChange={OnChangeInputs}
                         placeholder="Ej: 1,2,3.."
-                        autoComplete="off"
                     />
+                    {errores.cantidadProducto && <div style={{color: 'red'}}>{errores.cantidadProducto}</div>}
                     <label className="form-label" htmlFor="municipioLocalidad">Municipio y Localidad:</label>
                     <input
                         type="text"
@@ -133,9 +147,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         onChange={OnChangeInputs}
                         required
                         placeholder="Ej: Medellin, Barrio Aranjuez"
-                        autoComplete="off"
                     />
-
+                    {errores.municipioLocalidad && <div style={{color: 'red'}}>{errores.municipioLocalidad}</div>}
                     <label className="form-label" htmlFor="direccion">Direccion Del Cliente:</label>
                     <input
                         type="text"
@@ -146,8 +159,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         onChange={OnChangeInputs}
                         required
                         placeholder="Ej: Calle 21..."
-                        autoComplete="off"
                     />
+                    {errores.direccion && <div style={{color: 'red'}}>{errores.direccion}</div>}
                     <label className="form-label" htmlFor="puntoDeReferencia">Punto De Referencia:</label>
                     <input
                         type="text"
@@ -158,9 +171,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         value={puntoDeReferencia}
                         onChange={OnChangeInputs}
                         placeholder="Ej: Cancha ..."
-                        autoComplete="off"
                     />
-
+                    {errores.puntoDeReferencia && <div style={{color: 'red'}}>{errores.puntoDeReferencia}</div>}
                     <label className="form-label" htmlFor="salsas">¿Desea Alguna salsa?</label>
                     <div className="opcionesDeSalsas">
                         <label className="radio-label" htmlFor="deseaSalsas">Si</label>
@@ -422,6 +434,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         placeholder="Ej: Sin cebolla, sin tomate"
                     >
                     </textarea>
+                    {errores.notasAdicionales && <div style={{color: 'red'}}>{errores.notasAdicionales}</div>}
 
                     <button className="form-btn-pedidos" type="submit" onClick={handleCrearPedido}>Tomar Pedido</button>
                 </form>

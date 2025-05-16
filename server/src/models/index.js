@@ -10,11 +10,9 @@ module.exports = {
   Usuario,
   Pedido,
   Categoria,
-<<<<<<< HEAD
   ValidarEmail,
-  Clientes
-=======
+  Clientes,
   Producto,
   ValidarEmail
->>>>>>> 14450183f63ba169a981e2f7927aeff8b0e2b636
+
 };
