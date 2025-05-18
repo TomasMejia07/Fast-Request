@@ -118,7 +118,9 @@ export const useClientes = (initial = {NombreCliente: "", NumeroDocumento:"" , C
         modalVisible,
         formRef,
         formData,
-        closeModal
+        closeModal,
+        errores,
+        setErrores
     }
 }
 

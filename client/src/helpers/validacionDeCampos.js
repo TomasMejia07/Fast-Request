@@ -238,6 +238,5 @@ export const validacionDeCampos = (name, value) => {
         }
     }
 
-
     return errores;
 }

@@ -19,12 +19,29 @@ const ClientesDashboard = () => {
         modalVisible,
         formRef,
         formData,
-        closeModal
+        closeModal,
+         errores,
+        setErrores
     } = useClientes();
 
     useEffect(() => {
         obtenerClientes();
     }, []);
+
+    const validaciones = () => {
+        const nombreClienteError = validacionDeCampos('nombreCliente', formData.NombreCliente)
+        const NumeroDocumentoError = validacionDeCampos('cantidadProducto', formData.NumeroDocumento)
+        const CorreoElectronicoError = validacionDeCampos('municipioLocalidad', formData.CorreoElectronico)
+        const NumeroContactoError = validacionDeCampos('direccion', formData.NumeroContacto)
+
+        setErrores({
+            nombreCliente: nombreClienteError,
+            NumeroDocumento: NumeroDocumentoError,
+            CorreoElectronico: CorreoElectronicoError,
+            NumeroContacto: NumeroContactoError
+        })
+        if (nombreClienteError || NumeroDocumentoError || CorreoElectronicoError || NumeroContactoError) return;
+    }
 
 
     const navigate = useNavigate();
@@ -65,7 +82,7 @@ const ClientesDashboard = () => {
                                     <a
                                         href="#"
                                         onClick={(e) => {
-                                            e.preventDefault(); 
+                                            e.preventDefault();
                                             editarCliente(customer);
                                         }}>
                                         <ion-icon id="iconosoperacionEditar" name="pencil"></ion-icon>
@@ -103,6 +120,7 @@ const ClientesDashboard = () => {
                     onSubmit={(e) => {
                         e.preventDefault();
                         CrearOactualizarCliente();
+                        validaciones()
                     }}
                 >
                     <h2 className="modal__title">
@@ -120,7 +138,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        <span className="error"></span>
+                        {errores.NombreCliente && <div style={{color: 'red'}}>{errores.NombreCliente}</div>}
                     </div>
 
 
@@ -135,7 +153,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        <span className="error"></span>
+                        {errores.NumeroDocumento && <div style={{color: 'red'}}>{errores.NumeroDocumento}</div>}
                     </div>
 
                     <div className="dashinputs_formulario">
@@ -149,7 +167,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        <span className="error"></span>
+                        {errores.CorreoElectronico && <div style={{color: 'red'}}>{errores.CorreoElectronico}</div>}
                     </div>
 
                     <div className="dashinputs_formulario">
@@ -163,7 +181,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        <span className="error"></span>
+                        {errores.NumeroContacto && <div style={{color: 'red'}}>{errores.NumeroContacto}</div>}
                     </div>
 
 
@@ -181,7 +199,6 @@ const ClientesDashboard = () => {
                             <option value="Activo">Activo</option>
                             <option value="Inactivo">Inactivo</option>
                         </select>
-                        <span className="error"></span>
                     </div>
 
                     <div className="botones_formulario">
@@ -199,3 +216,5 @@ const ClientesDashboard = () => {
 }
 
 export default ClientesDashboard
+
+
