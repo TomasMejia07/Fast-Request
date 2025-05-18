@@ -1,6 +1,7 @@
 import React from "react";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
+import { useNavigate } from 'react-router-dom';
 import { useClientes } from "../../hooks/useClientes";
 import { useEffect } from "react";
 
@@ -23,6 +24,10 @@ const ClientesDashboard = () => {
     useEffect(() => {
         obtenerClientes();
     }, []);
+
+
+    const navigate = useNavigate();
+
     return (
         <DashboardLayout title="Clientes">
             <div className="container_tablas">
@@ -78,7 +83,7 @@ const ClientesDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            // Aquí puedes agregar la lógica para visualizar los pedidos por cliente
+                                            navigate(`/dashboard/pedidosPorCliente/${customer.id}`)
                                         }}>
                                         <ion-icon id="iconosoperacionVisualizar" name="folder-open-outline"></ion-icon>
                                     </a>

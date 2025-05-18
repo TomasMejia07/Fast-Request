@@ -18,6 +18,7 @@ import ConditionalBootstrap from './components/ConditionalBootstrap';
 import Configuracion from './components/Configuracion/configuracion';
 import Perfil from './components/Configuracion/perfil';
 import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
+import PedidosPorCliente from './pages/Dashboard/pedidosPorCliente';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />
         <Route path="/dashboard/pedidos" element={<PedidosDashboard />} />
         <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />
+        <Route path="/dashboard/pedidosPorCliente/:clienteId" element={<PedidosPorCliente />} />
 
         <Route path="/configuracion" element={<Configuracion />}/>
         <Route path="/perfil" element={<Perfil />} />

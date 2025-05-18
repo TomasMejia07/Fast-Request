@@ -47,10 +47,19 @@ const Pedido = sequelize.define('Pedido', {
         type: DataTypes.STRING(150),
         allowNull: false,
     },
-
+    clienteId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'clientes',
+            key: 'id'
+        },
+        allowNull: false,
+    },
 }, {
     tableName: 'pedidos',
     timestamps: true,
 });
+
+
 
 module.exports = Pedido

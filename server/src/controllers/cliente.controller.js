@@ -1,4 +1,4 @@
-const { Clientes } = require('../models');
+const { Clientes, Pedido } = require('../models');
 
 exports.VisualizarClientes = async (req, res) => {
     try {
