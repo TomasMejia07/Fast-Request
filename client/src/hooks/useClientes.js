@@ -1,6 +1,7 @@
 import { useState, useRef } from "react"
 import axios from "axios";
 import Swal from "sweetalert2";
+import { validacionDeCampos } from "../helpers/validacionDeCampos"
 
 export const useClientes = (initial = {NombreCliente: "", NumeroDocumento:"" , CorreoElectronico:"", NumeroContacto:"", EstadoCliente: ""}) => {
 
@@ -9,12 +10,23 @@ export const useClientes = (initial = {NombreCliente: "", NumeroDocumento:"" , C
     const [isCreating, setIsCreating] = useState(false);
     const [clientes, setClientes] = useState([]);
     const formRef = useRef(null);
+     const [errores, setErrores] = useState({
+        NombreCliente: '',
+        NumeroDocumento: '',
+        CorreoElectronico: '',
+        NumeroContacto: '',
+    })
 
     const onChangeInputs = ({ target }) => {
         const { name, value } = target
         setFormData({
             ...formData,
             [name]: value
+        })
+
+        setErrores({
+            ...errores,
+            [name]: validacionDeCampos(name, value)
         })
     }
 

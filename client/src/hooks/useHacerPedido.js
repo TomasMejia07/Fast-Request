@@ -1,4 +1,5 @@
 import { useState, useRef } from "react"
+import { validacionDeCampos } from "../helpers/validacionDeCampos"
 
 export const useHacerPedido = (initial) => {
 
@@ -7,7 +8,15 @@ export const useHacerPedido = (initial) => {
     const [modalGaseosaVisible, setModalGaseosaVisible] = useState(false);
     const [isCreatingSalsas, setIsCreatingSalsas] = useState(false);
     const [isCreatingGaseosas, setIsCreatingGaseosas] = useState(false);
-
+    const [errores, setErrores] = useState({
+        nombreCliente: '',
+        cantidadProducto: '',
+        municipioLocalidad: '',
+        direccion: '',
+        puntoDeReferencia: '',
+        notasAdicionales: ''
+    })
+    
     const formRef = useRef(null);
 
     const OnChangeInputs = ({ target }) => {
@@ -17,6 +26,12 @@ export const useHacerPedido = (initial) => {
             ...formPedidosData,
             [name]: value
         })
+
+        setErrores({
+            ...errores,
+            [name]: validacionDeCampos(name, value)
+        })
+
     }
 
     const checkboxs = ({ target }) => {
@@ -74,7 +89,9 @@ export const useHacerPedido = (initial) => {
         setIsCreatingSalsas,
         isCreatingGaseosas, 
         setIsCreatingGaseosas,
-        setFormPedidosData
+        setFormPedidosData,
+        setErrores,
+        errores
     }
 }
 

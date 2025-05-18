@@ -4,6 +4,7 @@ import ModalDashboard from "../../components/Dashboard/ModalDashboard";
 import { useNavigate } from 'react-router-dom';
 import { useClientes } from "../../hooks/useClientes";
 import { useEffect } from "react";
+import { validacionDeCampos } from '../../helpers/validacionDeCampos'
 
 const ClientesDashboard = () => {
     const {
