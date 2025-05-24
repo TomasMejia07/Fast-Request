@@ -17,10 +17,13 @@
     --white-red: #d85757;
     /* POSIBLE COLOR DE LOS HOVERES ICONOS DE ELIMINAR */
     --white-greens: #1ba73e;
-    --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
-    --font:  "General Sans", sans-serif; 
-    --color-prueba: #00c5ff; /* COLOR DEL HOVER DEL ICONO DE EDITAR */
+    --white-green: #e67e22;
+    /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
+    --font: "General Sans", sans-serif;
+    --color-prueba: #00c5ff;
+    /* COLOR DEL HOVER DEL ICONO DE EDITAR */
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -38,6 +41,7 @@ body {
     overflow-x: hidden;
     font-family: var(--font);
 }
+
 /* MENSAJE DE ERROR */
 .errores {
     color: rgb(255, 0, 0);
@@ -344,11 +348,11 @@ body {
     transition: 0.6s;
 }
 
-.cardsDas .cardDas:hover{
+.cardsDas .cardDas:hover {
     background-color: var(--white-green);
 }
 
-.cardsDas .cardDas .cardDas-numeros{
+.cardsDas .cardDas .cardDas-numeros {
     position: relative;
     font-weight: 700;
     font-size: 2.5em;
@@ -356,9 +360,10 @@ body {
     /* COLOR DE LOS NUMEROS DE LAS TARJETAS  */
 }
 
-.cardsDas .cardDas .cardDas-nombre{
-    color: var(--white-text); /* COLOR DE LOS NUMEROS DE LAS TARJETAS */
-    font-size: 1.1em; 
+.cardsDas .cardDas .cardDas-nombre {
+    color: var(--white-text);
+    /* COLOR DE LOS NUMEROS DE LAS TARJETAS */
+    font-size: 1.1em;
     margin-top: 5px;
     margin-right: 80px;
 }
@@ -371,7 +376,7 @@ body {
 
 .cardsDas .cardDas:hover .cardDas-numeros,
 .cardsDas .cardDas:hover .cardDas-nombre,
-.cardsDas .cardDas:hover  .cardDas-icono{
+.cardsDas .cardDas:hover .cardDas-icono {
     color: var(--white-icons);
 }
 
@@ -480,21 +485,26 @@ body {
     color: var(--white-text);
 }
 
-.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion, #iconosoperacionEditar, #iconosoperacionEliminar, #iconosoperacionVisualizar, #iconosoperacionVisualizar {
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion,
+#iconosoperacionEditar,
+#iconosoperacionEliminar,
+#iconosoperacionVisualizar,
+#iconosoperacionVisualizar {
     font-size: 22px;
     cursor: pointer;
     margin-left: 10px;
     color: var(--white-icons);
 }
 
-#iconosoperacionEditar:hover{
+#iconosoperacionEditar:hover {
     color: var(--color-prueba);
 }
 
-#iconosoperacionEliminar:hover{
+#iconosoperacionEliminar:hover {
     color: var(--white-red);
 }
-#iconosoperacionVisualizar:hover{
+
+#iconosoperacionVisualizar:hover {
     color: var(--white-greens);
 }
 
@@ -585,13 +595,13 @@ body {
 
 /* FIN DE MODAL */
 /* FORMULARIOS */
-.dashinputs_formulario{
+.dashinputs_formulario {
     padding-top: 17px;
     color: var(--white-text);
     font-size: 18px;
 }
 
-.dashinputs_formulario .dashinputs_formulario_Labels{
+.dashinputs_formulario .dashinputs_formulario_Labels {
     width: 100%;
     height: 38px;
     background-color: var(--black);
@@ -604,15 +614,19 @@ body {
     margin-inline-start: 2px;
 }
 
-.dashinputs_formulario_Labels:hover{
+.dashinputs_formulario_Labels:hover {
     background-color: var(--black);
 }
 
 .dashinputs_formulario_Labels:focus {
-    outline: none; /* Quita el contorno azul predeterminado */
-    border-color: var(--white-icons); /* Cambia el borde a un color personalizado */
-    background-color: var(--Gray); /* Fondo personalizado */
-    color: var(--white-text); /* Color del texto */
+    outline: none;
+    /* Quita el contorno azul predeterminado */
+    border-color: var(--white-icons);
+    /* Cambia el borde a un color personalizado */
+    background-color: var(--Gray);
+    /* Fondo personalizado */
+    color: var(--white-text);
+    /* Color del texto */
 }
 
 .botones_formulario {
@@ -620,27 +634,34 @@ body {
     text-align: center;
 }
 
-.dashinputs_formulario select, input, label{
+.dashinputs_formulario select,
+input,
+label {
     padding: 10px 5px;
 }
 
-.dashinputs_formulario select{
+.dashinputs_formulario select {
     cursor: pointer;
 }
 
 .dashinputs_formulario_Labels select option {
-    background-color: var(--Gray); /* Fondo para las opciones */
-    color: var(--white-text); /* Color del texto */
+    background-color: var(--Gray);
+    /* Fondo para las opciones */
+    color: var(--white-text);
+    /* Color del texto */
 }
 
 /* Hover en las opciones */
 .dashinputs_formulario_Labels select option:hover {
-    background-color: var(--Gray); /* Fondo al pasar el cursor */
-    color: var(--white-text); /* Texto al pasar el cursor */
+    background-color: var(--Gray);
+    /* Fondo al pasar el cursor */
+    color: var(--white-text);
+    /* Texto al pasar el cursor */
 }
 
 .detalles_pedido {
-    background-color: #f1f1f1; /* Gris claro */
+    background-color: #f1f1f1;
+    /* Gris claro */
     border: none;
     border-radius: 6px;
     padding: 6px 10px;
@@ -650,7 +671,8 @@ body {
 }
 
 .detalles_pedido:hover {
-    background-color: #e0e0e0; /* Gris un poco más oscuro */
+    background-color: #e0e0e0;
+    /* Gris un poco más oscuro */
     transform: scale(1.05);
 }
 
@@ -817,10 +839,10 @@ body {
 
 
 /* -----------------------ESTILOS DE LA SECCION ESTADISTICAS-----------------------*/
-  
 
-  /* Estilos base */
-  .stats-dashboard {
+
+/* Estilos base */
+.stats-dashboard {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: minmax(120px, auto);
@@ -977,8 +999,15 @@ body {
 
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .stats-card {
@@ -998,19 +1027,19 @@ body {
     .daily-sales {
         grid-column: 1 / span 6;
     }
-    
+
     .monthly-sales {
         grid-column: 7 / span 6;
     }
-    
+
     .weekly-sales {
         grid-column: 1 / span 4;
     }
-    
+
     .top-product {
         grid-column: 5 / span 4;
     }
-    
+
     .customer-analysis {
         grid-column: 9 / span 4;
     }
@@ -1020,28 +1049,28 @@ body {
     .summary-metrics {
         flex-wrap: wrap;
     }
-    
+
     .metric {
         flex: 1 1 calc(50% - 10px);
         min-width: calc(50% - 10px);
     }
-    
+
     .daily-sales {
         grid-column: 1 / span 12;
     }
-    
+
     .monthly-sales {
         grid-column: 1 / span 6;
     }
-    
+
     .weekly-sales {
         grid-column: 7 / span 6;
     }
-    
+
     .top-product {
         grid-column: 1 / span 6;
     }
-    
+
     .customer-analysis {
         grid-column: 7 / span 6;
     }
@@ -1053,7 +1082,7 @@ body {
         padding: 16px;
         gap: 16px;
     }
-    
+
     .summary-card,
     .daily-sales,
     .monthly-sales,
@@ -1063,24 +1092,24 @@ body {
     .regional-performance {
         grid-column: 1 / -1;
     }
-    
+
     .summary-metrics {
         flex-direction: column;
     }
-    
+
     .metric {
         min-width: 100%;
         margin-bottom: 10px;
     }
-    
+
     .metric-value {
         font-size: 24px;
     }
-    
+
     .card-header {
         padding: 16px;
     }
-    
+
     .card-content {
         padding: 16px;
     }
@@ -1092,24 +1121,24 @@ body {
         padding: 12px;
         gap: 12px;
     }
-    
+
     .card-header h3 {
         font-size: 14px;
     }
-    
+
     .metric-value {
         font-size: 20px;
     }
-    
+
     .metric-label {
         font-size: 12px;
     }
 }
 
 
-  /* -----------------------ESTILOS DE LA SECCION HACER PEDIDO-----------------------*/
-  
-  .agenda-pedido {
+/* -----------------------ESTILOS DE LA SECCION HACER PEDIDO-----------------------*/
+
+.agenda-pedido {
     max-width: 500px;
     margin: 40px auto;
     padding: 34px;
@@ -1118,9 +1147,9 @@ body {
     color: #ffffff;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     user-select: none;
-  }
-  
-  .agenda-pedido h2 {
+}
+
+.agenda-pedido h2 {
     text-align: center;
     text-transform: uppercase;
     font-weight: 800;
@@ -1129,9 +1158,9 @@ body {
     margin: 5px 0 25px;
     letter-spacing: 1px;
     position: relative;
-  }
-  
-  .agenda-pedido h2::after {
+}
+
+.agenda-pedido h2::after {
     content: '';
     position: absolute;
     bottom: -8px;
@@ -1141,23 +1170,23 @@ body {
     height: 3px;
     background: var(--white-green);
     border-radius: 2px;
-  }
-  
-  #form-agenda {
+}
+
+#form-agenda {
     display: grid;
     gap: 16px;
-  }
-  
-  .form-label {
+}
+
+.form-label {
     padding: 8px 0;
     font-size: 16px;
     user-select: none;
     font-weight: 500;
     letter-spacing: 0.5px;
     color: #ededed;
-  }
-  
-  .form-input-pedidos {
+}
+
+.form-input-pedidos {
     border: none;
     border-bottom: 2px solid #2e2e2e;
     outline: none;
@@ -1169,20 +1198,20 @@ body {
     user-select: none;
     font-size: 15px;
     border-radius: 4px 4px 0 0;
-  }
-  
-  .form-input-pedidos::placeholder {
+}
+
+.form-input-pedidos::placeholder {
     color: rgba(255, 255, 255, 0.704);
-  }
-  
-  .form-input-pedidos:focus:not(.form-radio-pedidos) {
+}
+
+.form-input-pedidos:focus:not(.form-radio-pedidos) {
     border-bottom: 2px solid var(--white-green);
     background: rgba(209, 209, 209, 0.05);
     box-shadow: 0 4px 12px rgba(209, 209, 209, 0.05);
-  }
-  
-  .opcionesDeSalsas,
-  .opcionesDeGaseosas {
+}
+
+.opcionesDeSalsas,
+.opcionesDeGaseosas {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -1191,9 +1220,9 @@ body {
     padding: 12px;
     border-radius: 8px;
     margin-top: 5px;
-  }
-  
-  .radio-label {
+}
+
+.radio-label {
     padding: 5px 10px;
     color: #ffffff;
     font-weight: 600;
@@ -1204,28 +1233,28 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-  
-  .radio-label:hover {
+}
+
+.radio-label:hover {
     color: var(--white-green);
-  }
-  
-  .form-radio-pedidos {
+}
+
+.form-radio-pedidos {
     accent-color: var(--white-green);
     width: 18px;
     height: 18px;
     cursor: pointer;
-  }
-  
-  
-  textarea.form-input-pedidos {
+}
+
+
+textarea.form-input-pedidos {
     min-height: 80px;
     resize: vertical;
     margin-top: 5px;
-  }
-  
-  
-  .form-btn-pedidos {
+}
+
+
+.form-btn-pedidos {
     width: 100%;
     background-color: var(--white-green);
     color: #13161C;
@@ -1240,42 +1269,42 @@ body {
     box-shadow: 0 4px 12px rgba(204, 130, 78, 0.35);
     letter-spacing: 0.5px;
     text-transform: uppercase;
-  }
-  
-  .form-btn-pedidos:hover {
+}
+
+.form-btn-pedidos:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(204, 130, 78, 0.35);
     background-color: #e07415;
-  }
-  
-  .form-btn-pedidos:active {
+}
+
+.form-btn-pedidos:active {
     transform: translateY(1px);
     box-shadow: 0 2px 8px rgba(78, 204, 163, 0.2);
-  }
-  
-  
-  /* Estilos para las secciones condicionales */
-  div:has(> #tipos-salsas),
-  div:has(> #tipos-bebida) {
+}
+
+
+/* Estilos para las secciones condicionales */
+div:has(> #tipos-salsas),
+div:has(> #tipos-bebida) {
     background: rgba(209, 209, 209, 0.05);
     box-shadow: 0 4px 12px rgba(209, 209, 209, 0.05);
     padding: 10px;
     border-radius: 8px;
     border-left: 3px solid var(--white-green);
     margin-top: 5px;
-  }
-  
- 
-  @media (max-width: 520px) {
+}
+
+
+@media (max-width: 520px) {
     .agenda-pedido {
-      padding: 20px;
-      margin: 20px 15px;
+        padding: 20px;
+        margin: 20px 15px;
     }
-    
+
     .agenda-pedido h2 {
-      font-size: 24px;
+        font-size: 24px;
     }
-  }
+}
 
 
 /*-------------------- CSS Para Modales De Salsas Y Gaseosas ---------------------*/
@@ -1291,9 +1320,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-  
-  .form-input-checkbox{
+}
+
+.form-input-checkbox {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1301,16 +1330,24 @@ body {
     padding: 0.5rem 0.75rem;
     border-radius: 8px;
     transition: background-color 0.2s ease;
-  }
-  
- 
-  
-  .form-input-checkbox input[type="checkbox"] {
+}
+
+
+
+.form-input-checkbox input[type="checkbox"] {
     width: 18px;
     height: 18px;
     accent-color: #4caf50;
-  }
-  
-  
+}
 
 
+
+
+/* -------------- Paginacion ---------------*/
+
+.paginacion {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+}

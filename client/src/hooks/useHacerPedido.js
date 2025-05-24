@@ -16,7 +16,7 @@ export const useHacerPedido = (initial) => {
         puntoDeReferencia: '',
         notasAdicionales: ''
     })
-    
+
     const formRef = useRef(null);
 
     const OnChangeInputs = ({ target }) => {
@@ -27,10 +27,10 @@ export const useHacerPedido = (initial) => {
             [name]: value
         })
 
-        setErrores({
-            ...errores,
+        setErrores(prevErrores => ({
+            ...prevErrores,
             [name]: validacionDeCampos(name, value)
-        })
+        }))
 
     }
 
@@ -85,9 +85,9 @@ export const useHacerPedido = (initial) => {
         modalGaseosaVisible,
         openModalGaseosa,
         closeModalGaseosa,
-        isCreatingSalsas, 
+        isCreatingSalsas,
         setIsCreatingSalsas,
-        isCreatingGaseosas, 
+        isCreatingGaseosas,
         setIsCreatingGaseosas,
         setFormPedidosData,
         setErrores,

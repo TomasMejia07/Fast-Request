@@ -12,7 +12,7 @@ function MenuDashboard() {
         <div className="navdash">
             <ul className='nav-ul'>
                 {[
-                    { to: '#', icon: 'paper-plane', title: 'Logo' },
+                    { to: '#', icon: 'paper-plane', title: 'Fast Request' },
                     { to: '/dashboard', icon: 'home', title: 'Inicio' },
                     { to: '/dashboard/hacerPedido', icon: 'create', title: 'Hacer Pedido' },
                     { to: '/dashboard/pedidos', icon: 'clipboard', title: 'Pedidos' },

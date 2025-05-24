@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 import { useClientes } from "../../hooks/useClientes";
-import { useEffect } from "react";
 import { validacionDeCampos } from '../../helpers/validacionDeCampos'
+import { useFiltroClientes } from "../../hooks/useFiltro";
+import { usePaginacion } from "../../hooks/usePaginacion";
+
 
 const ClientesDashboard = () => {
     const {
@@ -20,7 +24,7 @@ const ClientesDashboard = () => {
         formRef,
         formData,
         closeModal,
-         errores,
+        errores,
         setErrores
     } = useClientes();
 
@@ -28,19 +32,28 @@ const ClientesDashboard = () => {
         obtenerClientes();
     }, []);
 
+    const [busqueda, setBusqueda] = useState('')
+    const [paginacionActual, setPaginacionActual] = useState(1)
+    const res = useFiltroClientes(clientes, busqueda)
+    const { itemsPorPagina, funtionFinally } = usePaginacion(paginacionActual, res)
+
+
     const validaciones = () => {
-        const nombreClienteError = validacionDeCampos('nombreCliente', formData.NombreCliente)
-        const NumeroDocumentoError = validacionDeCampos('cantidadProducto', formData.NumeroDocumento)
-        const CorreoElectronicoError = validacionDeCampos('municipioLocalidad', formData.CorreoElectronico)
-        const NumeroContactoError = validacionDeCampos('direccion', formData.NumeroContacto)
+
+        const nombreClienteError = validacionDeCampos('NombreCliente', formData.NombreCliente, clientes)
+        const NumeroDocumentoError = validacionDeCampos('NumeroDocumento', formData.NumeroDocumento, clientes)
+        const CorreoElectronicoError = validacionDeCampos('CorreoElectronico', formData.CorreoElectronico, clientes)
+        const NumeroContactoError = validacionDeCampos('NumeroContacto', formData.NumeroContacto, clientes)
 
         setErrores({
             nombreCliente: nombreClienteError,
             NumeroDocumento: NumeroDocumentoError,
             CorreoElectronico: CorreoElectronicoError,
-            NumeroContacto: NumeroContactoError
+            NumeroContacto: NumeroContactoError,
         })
+
         if (nombreClienteError || NumeroDocumentoError || CorreoElectronicoError || NumeroContactoError) return;
+
     }
 
 
@@ -54,7 +67,12 @@ const ClientesDashboard = () => {
                     <button className="boton_raro" onClick={openModal}>Crear Nuevo</button>
 
                     <div className="input_search">
-                        <input type="search" placeholder="Buscar" />
+                        <input
+                            type="search"
+                            placeholder="Buscar"
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                        />
                         <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
                     </div>
                 </div>
@@ -71,7 +89,7 @@ const ClientesDashboard = () => {
                         </tr>
                     </thead>
                     <tbody className="tabladashb_tbody">
-                        {clientes.map((customer) => (
+                        {funtionFinally.map((customer) => (
                             <tr className="tabladashb_tbody_tr" key={customer.id}>
                                 <td className="tabladashb_tbody_tr_td">{customer.NombreCliente}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.NumeroDocumento}</td>
@@ -112,6 +130,26 @@ const ClientesDashboard = () => {
                 </table>
             </div>
 
+            {/* paginacion */}
+            <Stack spacing={2}>
+                <Pagination
+                    className="paginacion"
+                    count={Math.ceil(res.length / itemsPorPagina)}
+                    page={paginacionActual}
+                    onChange={(event, value) => setPaginacionActual(value)}
+                    size="large"
+                    sx={{
+                        '& .MuiPaginationItem-root': {
+                            color: '#fff',
+                        },
+                        '& .MuiPaginationItem-root.Mui-selected': {
+                            backgroundColor: '#1c1c1e',
+                            color: '#fff',
+                        },
+                    }}
+                />
+            </Stack>
+
             <ModalDashboard show={modalVisible} onClose={closeModal}>
 
                 <form
@@ -138,7 +176,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        {errores.NombreCliente && <div style={{color: 'red'}}>{errores.NombreCliente}</div>}
+                        {errores.NombreCliente && <div style={{ color: 'red' }}>{errores.NombreCliente}</div>}
                     </div>
 
 
@@ -153,7 +191,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        {errores.NumeroDocumento && <div style={{color: 'red'}}>{errores.NumeroDocumento}</div>}
+                        {errores.NumeroDocumento && <div style={{ color: 'red' }}>{errores.NumeroDocumento}</div>}
                     </div>
 
                     <div className="dashinputs_formulario">
@@ -167,7 +205,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        {errores.CorreoElectronico && <div style={{color: 'red'}}>{errores.CorreoElectronico}</div>}
+                        {errores.CorreoElectronico && <div style={{ color: 'red' }}>{errores.CorreoElectronico}</div>}
                     </div>
 
                     <div className="dashinputs_formulario">
@@ -181,7 +219,7 @@ const ClientesDashboard = () => {
                             onChange={onChangeInputs}
                             required
                         />
-                        {errores.NumeroContacto && <div style={{color: 'red'}}>{errores.NumeroContacto}</div>}
+                        {errores.NumeroContacto && <div style={{ color: 'red' }}>{errores.NumeroContacto}</div>}
                     </div>
 
 

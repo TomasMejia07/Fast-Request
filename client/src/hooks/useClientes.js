@@ -3,18 +3,19 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { validacionDeCampos } from "../helpers/validacionDeCampos"
 
-export const useClientes = (initial = {NombreCliente: "", NumeroDocumento:"" , CorreoElectronico:"", NumeroContacto:"", EstadoCliente: ""}) => {
+export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "" }) => {
 
     const [modalVisible, SetmodalVisible] = useState(false)
     const [formData, setFormData] = useState(initial)
     const [isCreating, setIsCreating] = useState(false);
     const [clientes, setClientes] = useState([]);
     const formRef = useRef(null);
-     const [errores, setErrores] = useState({
+    const [errores, setErrores] = useState({
         NombreCliente: '',
         NumeroDocumento: '',
         CorreoElectronico: '',
         NumeroContacto: '',
+        repeated: ''
     })
 
     const onChangeInputs = ({ target }) => {
@@ -24,10 +25,10 @@ export const useClientes = (initial = {NombreCliente: "", NumeroDocumento:"" , C
             [name]: value
         })
 
-        setErrores({
-            ...errores,
-            [name]: validacionDeCampos(name, value)
-        })
+        setErrores(prevErrores => ({
+            ...prevErrores,
+            [name]: validacionDeCampos(name, value, clientes)
+        }))
     }
 
     const obtenerClientes = async () => {
@@ -83,16 +84,16 @@ export const useClientes = (initial = {NombreCliente: "", NumeroDocumento:"" , C
     }
 
 
-     const limpiarFormulario = () => {
-        setFormData({ NombreCliente: "", NumeroDocumento:"" , CorreoElectronico:"", NumeroContacto:"", EstadoCliente: "" });
+    const limpiarFormulario = () => {
+        setFormData({ NombreCliente: "", NumeroDocumento: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "" });
     };
 
-     const editarCliente = (customer) => {
+    const editarCliente = (customer) => {
         setFormData(customer);
         setIsCreating(false);
         SetmodalVisible(true);
     };
-    
+
 
     const openModal = () => {
         limpiarFormulario()

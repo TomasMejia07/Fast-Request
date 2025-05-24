@@ -1,12 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useFiltro } from "../../hooks/useFiltro";
+import { usePaginacion } from "../../hooks/usePaginacion";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import ModalDashboard from "../../components/Dashboard/ModalDashboard";
-
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import axios from 'axios'
+
+
 
 const PedidosDashboard = ({ onClose }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [fullPedidos, setFullPedidos] = useState([])
+    const [busqueda, setBusqueda] = useState('')
+    const [paginacionActual, setPaginacionActual] = useState(1)
+
+
     const formRef = useRef(null);
 
 
@@ -15,7 +24,7 @@ const PedidosDashboard = ({ onClose }) => {
             const res = await axios.get('http://localhost:5000/api/pedidos/ObtenerPedidos')
             setFullPedidos(res.data);
         } catch (err) {
-             console.error('Error al cargar pedidos:', err);
+            console.error('Error al cargar pedidos:', err);
         }
     }
 
@@ -30,8 +39,11 @@ const PedidosDashboard = ({ onClose }) => {
 
     useEffect(() => {
         obtenerPedidos()
+
     }, [])
 
+    const res = useFiltro(fullPedidos, busqueda)
+    const { itemsPorPagina, funtionFinally } = usePaginacion(paginacionActual, res)
 
 
     return (
@@ -43,7 +55,12 @@ const PedidosDashboard = ({ onClose }) => {
                         <option defaultValue>Tiempo</option>
                     </select>
                     <div className="input_search">
-                        <input type="search" placeholder="Buscar" />
+                        <input
+                            type="search"
+                            placeholder="Buscar"
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                        />
                         <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
                     </div>
                 </div>
@@ -58,7 +75,7 @@ const PedidosDashboard = ({ onClose }) => {
                         </tr>
                     </thead>
                     <tbody className="tabladashb_tbody">
-                        {fullPedidos.map((p) => (
+                        {funtionFinally.map((p) => (
                             <tr className="tabladashb_tbody_tr" key={p.id}>
                                 <td className="tabladashb_tbody_tr_td">Orden {p.id}</td>
                                 <td className="tabladashb_tbody_tr_td">{p.tipoProducto}</td>
@@ -72,6 +89,28 @@ const PedidosDashboard = ({ onClose }) => {
                     </tbody>
                 </table>
             </div>
+
+            {/* paginacion */}
+            <Stack spacing={2}>
+                <Pagination
+                    className="paginacion"
+                    count={Math.ceil(res.length / itemsPorPagina)} 
+                    page={paginacionActual}
+                    onChange={(event, value) => setPaginacionActual(value)}
+                    size="large"
+                    sx={{
+                        '& .MuiPaginationItem-root': {
+                            color: '#fff', 
+                        },
+                        '& .MuiPaginationItem-root.Mui-selected': {
+                            backgroundColor: '#1c1c1e', 
+                            color: '#fff',              
+                        },
+                    }}
+                />
+            </Stack>
+
+
             <ModalDashboard show={modalVisible} onClose={closeModal}>
                 <form ref={formRef}>
                     <h2 className="modal__title">Detalles del Pedido</h2>
@@ -82,6 +121,10 @@ const PedidosDashboard = ({ onClose }) => {
                 </form>
             </ModalDashboard>
         </DashboardLayout>
+
+
+
+
     )
 }
 

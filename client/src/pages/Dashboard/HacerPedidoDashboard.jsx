@@ -44,6 +44,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
         e.preventDefault();
 
         const nombreClienteError = validacionDeCampos('nombreCliente', nombreCliente)
+        const tipoProductoError = validacionDeCampos('tipoProducto', tipoProducto)
         const cantidadProductoError = validacionDeCampos('cantidadProducto', cantidadProducto)
         const municipioLocalidadError = validacionDeCampos('municipioLocalidad', municipioLocalidad)
         const direccionError = validacionDeCampos('direccion', direccion)
@@ -52,13 +53,15 @@ const HacerPedidoDashboard = ({ onClose }) => {
 
         setErrores({
             nombreCliente: nombreClienteError,
+            tipoProducto: tipoProductoError,
             cantidadProducto: cantidadProductoError,
             municipioLocalidad: municipioLocalidadError,
             direccion: direccionError,
             puntoDeReferencia: puntoDeReferenciaError,
             notasAdicionales: notasAdicionalesError,
         })
-        if (nombreClienteError || cantidadProductoError || municipioLocalidadError || direccionError || puntoDeReferenciaError || notasAdicionalesError) return;
+        
+        if (nombreClienteError || tipoProductoError || cantidadProductoError || municipioLocalidadError || direccionError || puntoDeReferenciaError || notasAdicionalesError) return;
     };
 
     const handleCrearPedido = async () => {

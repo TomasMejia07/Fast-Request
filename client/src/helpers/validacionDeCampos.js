@@ -1,4 +1,4 @@
-export const validacionDeCampos = (name, value) => {
+export const validacionDeCampos = (name, value, clientes = []) => {
     let errores = '';
 
     if (value.trim() === '') {
@@ -186,21 +186,23 @@ export const validacionDeCampos = (name, value) => {
     }
 
     if (name === 'NumeroDocumento') {
-        const regex = /^[0-9]+$/
-        const trimmed = value.trim()
+        const regex = /^[0-9]+$/;
+        const trimmed = value.trim();
 
         if (trimmed === '') {
-            errores = 'Este campo no puede estar vacío.'
+            errores = 'Este campo no puede estar vacío.';
         } else if (value !== trimmed) {
             errores = 'No debe haber espacios al inicio o al final.';
         } else if (trimmed.length < 10) {
-            errores = 'este valor es demasiado corto.'
+            errores = 'Este valor es demasiado corto.';
         } else if (trimmed.length > 30) {
-            errores = 'este valor es demasiado largo.';
+            errores = 'Este valor es demasiado largo.';
         } else if (!regex.test(trimmed)) {
-            errores = 'Este campo solo debe contener numeros.'
+            errores = 'Este campo solo debe contener números.';
+        } else if (clientes.some(cliente => cliente.NumeroDocumento?.trim() === trimmed)) {
+            errores = 'Este documento ya está registrado.';
         } else {
-            errores = ''
+            errores = '';
         }
     }
 
@@ -212,6 +214,8 @@ export const validacionDeCampos = (name, value) => {
             errores = 'Este campo no puede estar vacío.';
         } else if (!regex.test(trimmed)) {
             errores = 'El correo debe tener un formato válido, como ejemplo@dominio.com.';
+        } else if (clientes.some(cliente => cliente.CorreoElectronico?.trim().toLowerCase() === trimmed.toLowerCase())) {
+            errores = 'Este correo ya está registrado.'
         } else {
             errores = '';
         }
@@ -220,21 +224,23 @@ export const validacionDeCampos = (name, value) => {
 
 
     if (name === 'NumeroContacto') {
-        const regex = /^[0-9]+$/
-        const trimmed = value.trim()
+        const regex = /^[0-9]+$/;
+        const trimmed = value.trim();
 
         if (trimmed === '') {
-            errores = 'Este campo no puede estar vacío.'
+            errores = 'Este campo no puede estar vacío.';
         } else if (value !== trimmed) {
             errores = 'No debe haber espacios al inicio o al final.';
         } else if (trimmed.length < 10) {
-            errores = 'este valor es demasiado corto.'
+            errores = 'Este valor es demasiado corto.';
         } else if (trimmed.length > 12) {
-            errores = 'este valor es demasiado largo.';
+            errores = 'Este valor es demasiado largo.';
         } else if (!regex.test(trimmed)) {
-            errores = 'Este campo solo debe contener numeros.'
+            errores = 'Este campo solo debe contener números.';
+        } else if (clientes.some(cliente => cliente.NumeroContacto?.trim() === trimmed)) {
+            errores = 'Este número de contacto ya está registrado.';
         } else {
-            errores = ''
+            errores = '';
         }
     }
 
