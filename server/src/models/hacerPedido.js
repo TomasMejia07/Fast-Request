@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
+const Producto = require('./Producto')
 
 const Pedido = sequelize.define('Pedido', {
 
@@ -7,8 +8,12 @@ const Pedido = sequelize.define('Pedido', {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    tipoProducto: {
-        type: DataTypes.STRING(100),
+    productoId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'productos',
+            key: 'id'
+        },
         allowNull: false,
     },
     cantidadProducto: {
@@ -45,7 +50,7 @@ const Pedido = sequelize.define('Pedido', {
     },
     notasAdicionales: {
         type: DataTypes.STRING(150),
-        allowNull: false,
+        allowNull: true,
     },
     clienteId: {
         type: DataTypes.INTEGER,
@@ -55,11 +60,24 @@ const Pedido = sequelize.define('Pedido', {
         },
         allowNull: false,
     },
+    total: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+    }
 }, {
     tableName: 'pedidos',
     timestamps: true,
 });
 
+Producto.hasMany(Pedido, {
+    foreignKey: 'productoId',
+    sourceKey: 'Id'
+})
+
+Pedido.belongsTo(Producto, {
+    foreignKey: 'productoId',
+    targetKey: 'Id'
+})
 
 
 module.exports = Pedido

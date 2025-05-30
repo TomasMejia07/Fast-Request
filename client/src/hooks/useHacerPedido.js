@@ -1,5 +1,6 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { validacionDeCampos } from "../helpers/validacionDeCampos"
+import axios from 'axios'
 
 export const useHacerPedido = (initial) => {
 
@@ -8,8 +9,10 @@ export const useHacerPedido = (initial) => {
     const [modalGaseosaVisible, setModalGaseosaVisible] = useState(false);
     const [isCreatingSalsas, setIsCreatingSalsas] = useState(false);
     const [isCreatingGaseosas, setIsCreatingGaseosas] = useState(false);
+    const [productos, setProductos] = useState([]);
     const [errores, setErrores] = useState({
         nombreCliente: '',
+        productoId: '',
         cantidadProducto: '',
         municipioLocalidad: '',
         direccion: '',
@@ -56,6 +59,22 @@ export const useHacerPedido = (initial) => {
         });
     };
 
+
+    const restApi = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/pedidos/productos', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            setProductos(res.data);
+
+        } catch (err) {
+            console.error('Error al cargar productos', err);
+        }
+    }
+
     const openModalGaseosa = () => {
         setModalGaseosaVisible(true);
     };
@@ -74,6 +93,10 @@ export const useHacerPedido = (initial) => {
 
     };
 
+    useEffect(() => {
+        restApi(); 
+    }, [])
+
     return {
         OnChangeInputs,
         modalVisibleSalsas,
@@ -91,7 +114,9 @@ export const useHacerPedido = (initial) => {
         setIsCreatingGaseosas,
         setFormPedidosData,
         setErrores,
-        errores
+        errores,
+        restApi,
+        productos
     }
 }
 

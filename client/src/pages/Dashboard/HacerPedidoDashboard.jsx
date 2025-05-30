@@ -10,7 +10,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
 
     const initial = {
         nombreCliente: '',
-        tipoProducto: '',
+        productoId: '',
         cantidadProducto: '',
         municipioLocalidad: '',
         direccion: '',
@@ -20,13 +20,14 @@ const HacerPedidoDashboard = ({ onClose }) => {
         deseaGaseosa: 'no',
         tipos_gaseosas: [],
         notasAdicionales: '',
+        total: undefined
     }
 
-    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData, setErrores, errores } = useHacerPedido(initial)
+    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData, setErrores, errores, productos } = useHacerPedido(initial)
 
     const {
         nombreCliente,
-        tipoProducto,
+        productoId,
         cantidadProducto,
         municipioLocalidad,
         direccion,
@@ -44,7 +45,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
         e.preventDefault();
 
         const nombreClienteError = validacionDeCampos('nombreCliente', nombreCliente)
-        const tipoProductoError = validacionDeCampos('tipoProducto', tipoProducto)
+        const tipoProductoError = validacionDeCampos('productoId', formPedidosData.productoId)
         const cantidadProductoError = validacionDeCampos('cantidadProducto', cantidadProducto)
         const municipioLocalidadError = validacionDeCampos('municipioLocalidad', municipioLocalidad)
         const direccionError = validacionDeCampos('direccion', direccion)
@@ -53,14 +54,14 @@ const HacerPedidoDashboard = ({ onClose }) => {
 
         setErrores({
             nombreCliente: nombreClienteError,
-            tipoProducto: tipoProductoError,
+             productoId: tipoProductoError,
             cantidadProducto: cantidadProductoError,
             municipioLocalidad: municipioLocalidadError,
             direccion: direccionError,
             puntoDeReferencia: puntoDeReferenciaError,
             notasAdicionales: notasAdicionalesError,
         })
-        
+
         if (nombreClienteError || tipoProductoError || cantidadProductoError || municipioLocalidadError || direccionError || puntoDeReferenciaError || notasAdicionalesError) return;
     };
 
@@ -98,6 +99,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
         }
     }
 
+
     return (
         <DashboardLayout title="Hacer Pedido">
             <section className="agenda-pedido">
@@ -114,19 +116,23 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         value={nombreCliente}
                         onChange={OnChangeInputs}
                     />
-                    {errores.nombreCliente && <div style={{color: 'red'}}>{errores.nombreCliente}</div>}
+                    {errores.nombreCliente && <div style={{ color: 'red' }}>{errores.nombreCliente}</div>}
                     <label className="form-label" htmlFor="tipoProducto">Tipo de producto:</label>
-                    <input
-                        type="text"
-                        id="tipoProducto"
-                        className="form-input-pedidos"
-                        name="tipoProducto"
+                    <select
+                        name="productoId"
+                        value={formPedidosData.productoId}
+                        onChange={OnChangeInputs}   
                         required
-                        value={tipoProducto}
-                        onChange={OnChangeInputs}
-                        placeholder="Ej: hamburguesa, salchipapa"
-                    />
-                    {errores.tipoProducto && <div style={{color: 'red'}}>{errores.tipoProducto}</div>}
+                    >
+                        <option hidden>Seleccione un producto</option>
+                        {productos.map(producto => (
+                            <option key={producto.Id} value={producto.Id}>
+                                {producto.NombreProducto}
+                            </option>
+                        ))}
+                    </select>
+
+                    {errores.productoId && <div style={{ color: 'red' }}>{errores.productoId}</div>}
                     <label className="form-label" htmlFor="cantidadProducto">Cantidad Del Producto:</label>
                     <input
                         type="text"
@@ -139,7 +145,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         onChange={OnChangeInputs}
                         placeholder="Ej: 1,2,3.."
                     />
-                    {errores.cantidadProducto && <div style={{color: 'red'}}>{errores.cantidadProducto}</div>}
+                    {errores.cantidadProducto && <div style={{ color: 'red' }}>{errores.cantidadProducto}</div>}
                     <label className="form-label" htmlFor="municipioLocalidad">Municipio y Localidad:</label>
                     <input
                         type="text"
@@ -151,7 +157,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         required
                         placeholder="Ej: Medellin, Barrio Aranjuez"
                     />
-                    {errores.municipioLocalidad && <div style={{color: 'red'}}>{errores.municipioLocalidad}</div>}
+                    {errores.municipioLocalidad && <div style={{ color: 'red' }}>{errores.municipioLocalidad}</div>}
                     <label className="form-label" htmlFor="direccion">Direccion Del Cliente:</label>
                     <input
                         type="text"
@@ -163,7 +169,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         required
                         placeholder="Ej: Calle 21..."
                     />
-                    {errores.direccion && <div style={{color: 'red'}}>{errores.direccion}</div>}
+                    {errores.direccion && <div style={{ color: 'red' }}>{errores.direccion}</div>}
                     <label className="form-label" htmlFor="puntoDeReferencia">Punto De Referencia:</label>
                     <input
                         type="text"
@@ -175,7 +181,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         onChange={OnChangeInputs}
                         placeholder="Ej: Cancha ..."
                     />
-                    {errores.puntoDeReferencia && <div style={{color: 'red'}}>{errores.puntoDeReferencia}</div>}
+                    {errores.puntoDeReferencia && <div style={{ color: 'red' }}>{errores.puntoDeReferencia}</div>}
                     <label className="form-label" htmlFor="salsas">¿Desea Alguna salsa?</label>
                     <div className="opcionesDeSalsas">
                         <label className="radio-label" htmlFor="deseaSalsas">Si</label>
@@ -437,7 +443,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                         placeholder="Ej: Sin cebolla, sin tomate"
                     >
                     </textarea>
-                    {errores.notasAdicionales && <div style={{color: 'red'}}>{errores.notasAdicionales}</div>}
+                    {errores.notasAdicionales && <div style={{ color: 'red' }}>{errores.notasAdicionales}</div>}
 
                     <button className="form-btn-pedidos" type="submit" onClick={handleCrearPedido}>Tomar Pedido</button>
                 </form>

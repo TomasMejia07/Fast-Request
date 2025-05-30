@@ -9,7 +9,7 @@ const PedidosPorCliente = () => {
     const [pedidos, setPedidos] = useState([]);
     const navigate = useNavigate();
     const { clienteId } = useParams();
-    
+
     const obtenerPedidos = async () => {
         try {
             const response = await axios.get(`http://localhost:5000/api/pedidos/cliente-pedidos/${clienteId}`);
@@ -64,7 +64,7 @@ const PedidosPorCliente = () => {
                         {pedidos.map((pedido) => (
                             <tr key={pedido.id}>
                                 <td>{pedido.id}</td>
-                                <td>{pedido.tipoProducto}</td>
+                                <td>{pedido.Producto.NombreProducto}</td>
                                 <td>{pedido.cantidadProducto}</td>
                                 <td>{pedido.municipioLocalidad}</td>
                                 <td>{pedido.direccion}</td>

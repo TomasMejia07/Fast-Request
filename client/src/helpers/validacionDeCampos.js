@@ -64,6 +64,15 @@ export const validacionDeCampos = (name, value, clientes = []) => {
         }
     }
 
+    if (name === 'productoId') {
+        if (!value || value === '') {
+            errores = 'Debes seleccionar un producto.';
+        } else {
+            errores = '';
+        }
+    }
+
+
     if (name === 'cantidadProducto') {
         const regex = /^[0-9]+$/
         const trimmed = value.trim()

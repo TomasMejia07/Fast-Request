@@ -1,10 +1,10 @@
-const { Pedido, Clientes } = require('../models')
+const { Pedido, Clientes, Producto } = require('../models')
 
 exports.nuevoPedido = async (req, res) => {
     try {
         const {
             nombreCliente,
-            tipoProducto,
+            productoId,
             cantidadProducto,
             municipioLocalidad,
             direccion,
@@ -16,34 +16,49 @@ exports.nuevoPedido = async (req, res) => {
             notasAdicionales,
         } = req.body;
 
-        let cliente = await Clientes.findOne({ where: { NombreCliente: nombreCliente } });
+        const cliente = await Clientes.findOne({ where: { NombreCliente: nombreCliente } });
         if (!cliente) return res.status(400).json({ message: 'Cliente no existe. Debes registrarlo con todos sus datos primero.' });
 
-        const nuevoPedido = await Pedido.create(
-            {
-                clienteId: cliente.id,
-                nombreCliente,
-                tipoProducto,
-                cantidadProducto,
-                municipioLocalidad,
-                direccion,
-                puntoDeReferencia,
-                deseaSalsas,
-                tipos_salsas,
-                deseaGaseosa,
-                tipos_gaseosas,
-                notasAdicionales,
-            });
 
-        console.log('Pedido creado:', nuevoPedido);
-        res.status(201).json(nuevoPedido);
+        const producto = await Producto.findOne({ where: { Id: productoId } });
+        if (!producto) return res.status(400).json({ message: 'Producto no existe. Debes registrarlo con todos sus datos primero.' });
+
+
+        const total = parseFloat(producto.PrecioProducto) * parseInt(cantidadProducto);
+
+
+        const nuevoPedido = await Pedido.create({
+            clienteId: cliente.id,
+            nombreCliente,
+            productoId: producto.Id,
+            cantidadProducto,
+            municipioLocalidad,
+            direccion,
+            puntoDeReferencia,
+            deseaSalsas,
+            tipos_salsas,
+            deseaGaseosa,
+            tipos_gaseosas,
+            notasAdicionales,
+            total
+        });
+
+        const pedidoConProducto = await Pedido.findOne({
+            where: { id: nuevoPedido.id },
+            include: {
+                model: Producto,
+                attributes: ['NombreProducto', 'PrecioProducto'],
+            }
+        });
+
+        console.log('Pedido creado con producto:', pedidoConProducto);
+        res.status(201).json(pedidoConProducto);
 
     } catch (err) {
         console.error('Error al crear el pedido:', err);
         res.status(500).json({ err: 'No se pudo crear el pedido.' });
-
     }
-}
+};
 
 exports.seleccionarPedidos = async (req, res) => {
     try {
@@ -59,7 +74,7 @@ exports.seleccionarPedidos = async (req, res) => {
 
 exports.obtenerPedidosConClientes = async (req, res) => {
     try {
-        console.log('req.params:', req.params); 
+        console.log('req.params:', req.params);
         const { clienteId } = req.params
 
         if (!clienteId) {
@@ -72,8 +87,13 @@ exports.obtenerPedidosConClientes = async (req, res) => {
                 attributes: [],
                 required: true
             },
-        ], 
-        
+            {
+                model: Producto,
+                attributes: ['NombreProducto', 'PrecioProducto'],
+                required: true
+            }
+            ],
+
         });
 
         res.json(pedidos);
@@ -82,3 +102,16 @@ exports.obtenerPedidosConClientes = async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 };
+
+
+exports.obtenerNombresProductos = async (req, res) => {
+    try {
+        const productos = await Producto.findAll();
+        res.status(200).json(productos);
+
+        console.log('nombres del producto obtenidos exitosamente')
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener productos' });
+    }
+}
+
