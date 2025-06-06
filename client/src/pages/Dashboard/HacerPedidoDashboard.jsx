@@ -9,7 +9,7 @@ import { validacionDeCampos } from '../../helpers/validacionDeCampos'
 const HacerPedidoDashboard = ({ onClose }) => {
 
     const initial = {
-        nombreCliente: '',
+        clienteId: '',
         productoId: '',
         cantidadProducto: '',
         municipioLocalidad: '',
@@ -23,10 +23,10 @@ const HacerPedidoDashboard = ({ onClose }) => {
         total: undefined
     }
 
-    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData, setErrores, errores, productos } = useHacerPedido(initial)
+    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData, setErrores, errores, productos, clientes } = useHacerPedido(initial)
 
     const {
-        nombreCliente,
+        clienteId,
         productoId,
         cantidadProducto,
         municipioLocalidad,
@@ -44,8 +44,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const nombreClienteError = validacionDeCampos('nombreCliente', nombreCliente)
-        const tipoProductoError = validacionDeCampos('productoId', formPedidosData.productoId)
+        const nombreClienteError = validacionDeCampos('clienteId', clienteId)
+        const tipoProductoError = validacionDeCampos('productoId', productoId)
         const cantidadProductoError = validacionDeCampos('cantidadProducto', cantidadProducto)
         const municipioLocalidadError = validacionDeCampos('municipioLocalidad', municipioLocalidad)
         const direccionError = validacionDeCampos('direccion', direccion)
@@ -53,8 +53,8 @@ const HacerPedidoDashboard = ({ onClose }) => {
         const notasAdicionalesError = validacionDeCampos('notasAdicionales', notasAdicionales)
 
         setErrores({
-            nombreCliente: nombreClienteError,
-             productoId: tipoProductoError,
+            clienteId: nombreClienteError,
+            productoId: tipoProductoError,
             cantidadProducto: cantidadProductoError,
             municipioLocalidad: municipioLocalidadError,
             direccion: direccionError,
@@ -105,26 +105,32 @@ const HacerPedidoDashboard = ({ onClose }) => {
             <section className="agenda-pedido">
                 <h2>Tomar Pedido</h2>
                 <form id="form-agenda" onSubmit={handleSubmit}>
-                    <label className="form-label" htmlFor="nombreCliente" >Nombre del cliente:</label>
-                    <input
-                        type="text"
-                        id="nombreCliente"
-                        className="form-input-pedidos"
-                        name="nombreCliente"
-                        placeholder=" Carlos Arturo Medina"
-                        required
-                        value={nombreCliente}
-                        onChange={OnChangeInputs}
-                    />
-                    {errores.nombreCliente && <div style={{ color: 'red' }}>{errores.nombreCliente}</div>}
-                    <label className="form-label" htmlFor="tipoProducto">Tipo de producto:</label>
+                    <label className="form-label" htmlFor="clienteId" >Nombre del cliente:</label>
                     <select
-                        name="productoId"
-                        value={formPedidosData.productoId}
+                        name="clienteId"
+                        value={clienteId}
                         onChange={OnChangeInputs}   
                         required
+                        className="select_foranea"
                     >
-                        <option hidden>Seleccione un producto</option>
+                        <option value="" hidden>Seleccione un cliente</option>
+                        {clientes.map(cliente => (
+                            <option key={cliente.id} value={cliente.id}>
+                                {cliente.NombreCliente}
+                            </option>
+                        ))}
+                    </select>
+
+                    {errores.nombreCliente && <div style={{ color: 'red' }}>{errores.nombreCliente}</div>}
+                    <label className="form-label" htmlFor="productoId">Tipo de producto:</label>
+                    <select
+                        name="productoId"
+                        value={productoId}
+                        onChange={OnChangeInputs}   
+                        required
+                        className="select_foranea"
+                    >
+                        <option value="" hidden>Seleccione un producto</option>
                         {productos.map(producto => (
                             <option key={producto.Id} value={producto.Id}>
                                 {producto.NombreProducto}
@@ -190,7 +196,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                             name="deseaSalsas"
                             className="form-radio-pedidos"
                             value='si'
-                            id="deseaSalsas"
                             checked={deseaSalsas === 'si'}
                             onChange={OnChangeInputs}
                             onClick={openModalSalsas}
@@ -200,7 +205,6 @@ const HacerPedidoDashboard = ({ onClose }) => {
                             type="radio"
                             name="deseaSalsas"
                             className="form-radio-pedidos"
-                            id="deseaSalsas"
                             value='no'
                             checked={deseaSalsas === 'no'}
                             onChange={OnChangeInputs}
@@ -434,13 +438,13 @@ const HacerPedidoDashboard = ({ onClose }) => {
 
                     <label className="form-label" htmlFor="notasAdicionales">Notas adicionales:</label>
                     <textarea
-                        id="notasAdicionales"
                         name="notasAdicionales"
                         className="form-input-pedidos"
                         rows="3"
                         value={notasAdicionales}
                         onChange={OnChangeInputs}
                         placeholder="Ej: Sin cebolla, sin tomate"
+                        autoComplete="on"
                     >
                     </textarea>
                     {errores.notasAdicionales && <div style={{ color: 'red' }}>{errores.notasAdicionales}</div>}

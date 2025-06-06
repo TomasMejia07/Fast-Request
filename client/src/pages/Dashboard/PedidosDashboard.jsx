@@ -23,6 +23,7 @@ const PedidosDashboard = ({ onClose }) => {
         try {
             const res = await axios.get('http://localhost:5000/api/pedidos/ObtenerPedidos')
             setFullPedidos(res.data);
+            console.log('Pedidos recibidos:', res.data); 
         } catch (err) {
             console.error('Error al cargar pedidos:', err);
         }
@@ -78,7 +79,7 @@ const PedidosDashboard = ({ onClose }) => {
                         {funtionFinally.map((p) => (
                             <tr className="tabladashb_tbody_tr" key={p.id}>
                                 <td className="tabladashb_tbody_tr_td">Orden {p.id}</td>
-                                <td className="tabladashb_tbody_tr_td">{p.tipoProducto}</td>
+                                <td className="tabladashb_tbody_tr_td">{p.Producto.NombreProducto}</td>
                                 <td className="tabladashb_tbody_tr_td">{p.cantidadProducto}</td>
                                 <td className="tabladashb_tbody_tr_td">{new Date(p.createdAt).toLocaleDateString()}</td>
                                 <td className="tabladashb_tbody_tr_td">

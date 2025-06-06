@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 function MenuDashboard() {
     const [activeIndex, setActiveIndex] = useState(null);
@@ -12,7 +12,7 @@ function MenuDashboard() {
         <div className="navdash">
             <ul className='nav-ul'>
                 {[
-                    { to: '#', icon: 'paper-plane', title: 'Fast Request' },
+                    { icon: 'paper-plane', title: 'Fast Request' },
                     { to: '/dashboard', icon: 'home', title: 'Inicio' },
                     { to: '/dashboard/hacerPedido', icon: 'create', title: 'Hacer Pedido' },
                     { to: '/dashboard/pedidos', icon: 'clipboard', title: 'Pedidos' },
@@ -25,13 +25,20 @@ function MenuDashboard() {
                 ].map((item, index) => (
                     <li
                         key={index}
-                        className={`nav-ul-li ${activeIndex === index ? 'active' : ''}`}
+                        className={`nav-ul-li ${item.to && location.pathname === item.to ? 'active' : ''}`}
                         onMouseOver={() => handleMouseOver(index)}
                     >
-                        <Link to={item.to} className='nav-ul-li-a'>
-                            <span className="icono"><ion-icon name={item.icon}></ion-icon></span>
-                            <span className="nav-titulo">{item.title}</span>
-                        </Link>
+                        {item.to ? (
+                            <NavLink to={item.to}   end={item.to === '/dashboard'} className='nav-ul-li-a'>
+                                <span className="icono"><ion-icon name={item.icon}></ion-icon></span>
+                                <span className="nav-titulo">{item.title}</span>
+                            </NavLink>
+                        ) : (
+                            <span className='nav-ul-li-a no-link'>
+                                <span className="icono"><ion-icon name={item.icon}></ion-icon></span>
+                                <span className="nav-titulo">{item.title}</span>
+                            </span>
+                        )}
                     </li>
                 ))}
             </ul>

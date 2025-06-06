@@ -43,7 +43,16 @@ export const validacionDeCampos = (name, value, clientes = []) => {
 
     // Validaciones para en componente HacerPedido.
 
-    if (name === 'nombreCliente' || name === 'tipoProducto') {
+
+    if (name === 'clienteId') {
+        if (!value || value === '') {
+            errores = 'Debes seleccionar un cliente.';
+        } else {
+            errores = '';
+        }
+    }
+
+    if (name === 'tipoProducto') {
         const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/
         const trimmed = value.trim();
 

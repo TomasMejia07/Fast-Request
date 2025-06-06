@@ -45,8 +45,8 @@ const PedidosPorCliente = () => {
                 <table className="tabla">
                     <thead>
                         <tr>
-                            <th>Id del Pedido</th>
                             <th>Producto</th>
+                            <th>Precio del Producto</th>
                             <th>Cantidad</th>
                             <th>Municipio</th>
                             <th>Dirección</th>
@@ -63,8 +63,8 @@ const PedidosPorCliente = () => {
                     <tbody>
                         {pedidos.map((pedido) => (
                             <tr key={pedido.id}>
-                                <td>{pedido.id}</td>
                                 <td>{pedido.Producto.NombreProducto}</td>
+                                <td>{pedido.Producto.PrecioProducto}</td>
                                 <td>{pedido.cantidadProducto}</td>
                                 <td>{pedido.municipioLocalidad}</td>
                                 <td>{pedido.direccion}</td>
@@ -107,3 +107,4 @@ const PedidosPorCliente = () => {
 };
 
 export default PedidosPorCliente;
+

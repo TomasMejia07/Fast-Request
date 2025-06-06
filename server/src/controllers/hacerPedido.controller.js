@@ -3,7 +3,7 @@ const { Pedido, Clientes, Producto } = require('../models')
 exports.nuevoPedido = async (req, res) => {
     try {
         const {
-            nombreCliente,
+            clienteId,
             productoId,
             cantidadProducto,
             municipioLocalidad,
@@ -16,7 +16,7 @@ exports.nuevoPedido = async (req, res) => {
             notasAdicionales,
         } = req.body;
 
-        const cliente = await Clientes.findOne({ where: { NombreCliente: nombreCliente } });
+        const cliente = await Clientes.findOne({ where: { id: clienteId } });
         if (!cliente) return res.status(400).json({ message: 'Cliente no existe. Debes registrarlo con todos sus datos primero.' });
 
 
@@ -29,7 +29,6 @@ exports.nuevoPedido = async (req, res) => {
 
         const nuevoPedido = await Pedido.create({
             clienteId: cliente.id,
-            nombreCliente,
             productoId: producto.Id,
             cantidadProducto,
             municipioLocalidad,
@@ -62,7 +61,11 @@ exports.nuevoPedido = async (req, res) => {
 
 exports.seleccionarPedidos = async (req, res) => {
     try {
-        const pedidos = await Pedido.findAll();
+        const pedidos = await Pedido.findAll({include: [{
+                model: Producto,
+                attributes: ['NombreProducto'], 
+                required: true
+            }]});
 
         res.status(201).json(pedidos);
     } catch (error) {
@@ -114,4 +117,19 @@ exports.obtenerNombresProductos = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener productos' });
     }
 }
+
+
+exports.obtenerNombresClientes = async (req, res) => {
+    try {
+        const clientes = await Clientes.findAll();
+        res.status(200).json(clientes);
+
+        console.log('nombres del cliente obtenidos exitosamente')
+
+    } catch (err) {
+        res.status(500).json({ err: 'Error al obtener los cleintes' });
+    }
+}
+
+
 

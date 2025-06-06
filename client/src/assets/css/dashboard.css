@@ -93,10 +93,12 @@ body {
     border-bottom-left-radius: 10px;
 }
 
-.navdash .nav-ul .nav-ul-li:hover,
-.navdash .nav-ul .nav-ul-li.active {
-    background-color: var(--white-icons);
-    /* COLOR DEL HOVER EN EL MENU */
+
+.nav-ul-li-a.active {
+    font-weight: bold;
+    border-left: 5px solid var(--white-green);
+    border-radius: 10px;
+    transition: border-color 1.5s ease-in-out, font-weight 1.5s ease-in-out;
 }
 
 .navdash .nav-ul .nav-ul-li:nth-child(1) {
@@ -113,10 +115,6 @@ body {
     text-decoration: none;
 }
 
-.navdash .nav-ul .nav-ul-li:hover .nav-ul-li-a,
-.navdash .nav-ul .nav-ul-li.active .nav-ul-li-a {
-    color: var(--black);
-}
 
 .navdash .nav-ul .nav-ul-li .nav-ul-li-a .icono {
     position: relative;
@@ -1283,6 +1281,45 @@ textarea.form-input-pedidos {
 }
 
 
+.select_foranea {
+    width: 100%;
+    padding: 10px 36px 10px 14px;
+    font-size: 15px;
+    color: #ededed;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: none;
+    border-bottom: 2px solid #2e2e2e;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    appearance: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+
+.select_foranea:focus {
+    outline: none;
+    border-bottom-color: var(--white-green);
+    background-color: rgba(209, 209, 209, 0.05);
+    box-shadow: 0 4px 12px rgba(209, 209, 209, 0.05);
+    color: #fff;
+}
+
+.select_foranea option {
+    background-color: #13161C;
+    color: #ededed;
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+
+.select_foranea[size] {
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #2e2e2e;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
 /* Estilos para las secciones condicionales */
 div:has(> #tipos-salsas),
 div:has(> #tipos-bebida) {
@@ -1303,6 +1340,11 @@ div:has(> #tipos-bebida) {
 
     .agenda-pedido h2 {
         font-size: 24px;
+    }
+
+    .select_foranea {
+        font-size: 14px;
+        padding: 9px 32px 9px 12px;
     }
 }
 
@@ -1350,4 +1392,24 @@ div:has(> #tipos-bebida) {
     display: flex;
     align-items: center;
     padding-top: 20px;
+}
+
+
+
+/* evitar que se ponga el fondo blanco feo al autocompletar un campo en los inputs*/
+
+/* Chrome, Edge, Opera */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px #13161C inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox */
+input:-moz-autofill {
+    box-shadow: 0 0 0px 1000px #13161C inset !important;
+    -moz-text-fill-color: #fff !important;
 }

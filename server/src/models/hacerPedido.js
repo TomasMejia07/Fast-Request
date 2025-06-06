@@ -4,9 +4,13 @@ const Producto = require('./Producto')
 
 const Pedido = sequelize.define('Pedido', {
 
-    nombreCliente: {
-        type: DataTypes.STRING(100),
-        allowNull: false
+    clienteId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'clientes',
+            key: 'id'
+        },
+        allowNull: false,
     },
     productoId: {
         type: DataTypes.INTEGER,
@@ -51,14 +55,6 @@ const Pedido = sequelize.define('Pedido', {
     notasAdicionales: {
         type: DataTypes.STRING(150),
         allowNull: true,
-    },
-    clienteId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'clientes',
-            key: 'id'
-        },
-        allowNull: false,
     },
     total: {
         type: DataTypes.DECIMAL,

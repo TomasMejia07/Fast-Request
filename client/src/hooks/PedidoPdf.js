@@ -79,7 +79,8 @@ export const generarPDF = (pedido) => {
         // Tabla de producto
         const productoData = [
             ['Producto', pedido.Producto.NombreProducto],
-            ['Cantidad', pedido.cantidadProducto]
+            ['Precio', pedido.Producto.PrecioProducto],
+            ['Cantidad', pedido.cantidadProducto],
         ];
 
         doc.autoTable({

@@ -9,6 +9,7 @@ export const useHacerPedido = (initial) => {
     const [modalGaseosaVisible, setModalGaseosaVisible] = useState(false);
     const [isCreatingSalsas, setIsCreatingSalsas] = useState(false);
     const [isCreatingGaseosas, setIsCreatingGaseosas] = useState(false);
+    const [clientes, setClientes] = useState([])
     const [productos, setProductos] = useState([]);
     const [errores, setErrores] = useState({
         nombreCliente: '',
@@ -75,6 +76,22 @@ export const useHacerPedido = (initial) => {
         }
     }
 
+
+    const restApiClientes = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/pedidos/clientes', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            setClientes(res.data);
+
+        } catch (err) {
+            console.error('Error al cargar productos', err);
+        }
+    }
+
     const openModalGaseosa = () => {
         setModalGaseosaVisible(true);
     };
@@ -94,7 +111,8 @@ export const useHacerPedido = (initial) => {
     };
 
     useEffect(() => {
-        restApi(); 
+        restApi()
+        restApiClientes()
     }, [])
 
     return {
@@ -116,7 +134,9 @@ export const useHacerPedido = (initial) => {
         setErrores,
         errores,
         restApi,
-        productos
+        productos,
+        restApiClientes,
+        clientes
     }
 }
 
