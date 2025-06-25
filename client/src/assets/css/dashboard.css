@@ -923,6 +923,7 @@ label {
     border-radius: 8px;
     transition: background-color 0.2s ease, transform 0.2s ease;
     border: 1px solid rgba(201, 201, 201, 0.1);
+    position: relative;
 }
 
 .metric:hover {
@@ -930,6 +931,28 @@ label {
     transform: translateY(-5px);
 }
 
+.metric-select{
+    position: absolute;
+    width: 70px;
+    text-align: center;
+    background-color: #13161C;
+    color: white;
+    border-radius: 5px;
+    top: 15px;
+    right: 15px;
+    border: none;
+}
+
+.metric-select option{
+    width: 50px;
+}
+
+.metric-select:hover{
+    border: 3px solid var(--white-green);
+    outline: none;
+    scale: 1.1;
+    transition: scale 0.5s ease;
+}
 
 
 .metric-value {
@@ -966,7 +989,7 @@ label {
 
 
 .daily-sales {
-    grid-column: 1 / span 8;
+    grid-column: 1 / span 12;
     grid-row: span 2;
 }
 
@@ -981,12 +1004,12 @@ label {
 }
 
 .top-product {
-    grid-column: 5 / span 4;
+    grid-column: 9 / span 4;
     grid-row: span 2;
 }
 
 .customer-analysis {
-    grid-column: 9 / span 4;
+    grid-column: 1 / span 8;
     grid-row: span 2;
 }
 
@@ -1023,7 +1046,7 @@ label {
 
 @media (max-width: 1366px) {
     .daily-sales {
-        grid-column: 1 / span 6;
+        grid-column: 1 / span 12;
     }
 
     .monthly-sales {

@@ -1,4 +1,5 @@
 
+
 export const valuesGraficos = () => {
 
     const datosParaLosGraficos = {
@@ -43,32 +44,8 @@ export const valuesGraficos = () => {
     }
 
 
-    const resumenGeneral = {
-
-        ingresosTotales: {
-            total: '$87,492',
-            porcentaje: '+12.5%'
-        },
-
-        ventasTotale: {
-            total: '2,847',
-            porcentaje: '+8.3%'
-        },
-
-        nuevosClientes: {
-            total: '486',
-            porcentaje: '+5.7%'
-        },
-
-        ValorPromedioPorVenta: {
-            total: '$30.73',
-            porcentaje: '+3.2%'
-        }
-    }
-
 
     return {
-        resumenGeneral,
         datosParaLosGraficos
     }
 }

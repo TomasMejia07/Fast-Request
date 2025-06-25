@@ -30,9 +30,9 @@ const validarEmailRoutes = require("./routers/validarEmail.routes")
 const recuperarCuenta = require("./routers/recuperarCuenta.routes")
 
 const clienteRouter = require('./routers/cliente.routes')
-
-
 const productoRoutes = require("./routers/producto.routes")
+const estadisticasRoutes = require('./routers/estadisticas.routes.js')
+
 
 // api Rutas
 app.use("/api/usuarios", usuarioRoutes);
@@ -44,6 +44,8 @@ app.use("/api/recuperarCuenta", recuperarCuenta);
 app.use("/api/cliente", clienteRouter)
 
 app.use("/api/productos", productoRoutes);
+app.use("/api/estadisticas", estadisticasRoutes)
+
 
 
 app.get("/", (req, res) => {
