@@ -360,7 +360,6 @@ exports.productosMasVendidosPorPeriodo = async (req, res) => {
 
 
 
-
 /*
     Obtiene el rendimiento por municipio/localidad
  */
