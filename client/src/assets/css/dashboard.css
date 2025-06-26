@@ -931,7 +931,7 @@ label {
     transform: translateY(-5px);
 }
 
-.metric-select{
+.metric-select {
     position: absolute;
     width: 70px;
     text-align: center;
@@ -943,11 +943,11 @@ label {
     border: none;
 }
 
-.metric-select option{
+.metric-select option {
     width: 50px;
 }
 
-.metric-select:hover{
+.metric-select:hover {
     border: 3px solid var(--white-green);
     outline: none;
     scale: 1.1;
@@ -987,35 +987,59 @@ label {
     color: var(--white-red);
 }
 
+.tabla-contenedor {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.card-content-client{
+    padding: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 400px;
+    scroll-behavior: smooth;
+}
+
+
+.tabla-clientes {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-clientes th,
+.tabla-clientes td {
+    padding: 12px 36px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-clientes thead {
+    background-color: transparent;
+    font-weight: bold;
+}
+
 
 .daily-sales {
     grid-column: 1 / span 12;
-    grid-row: span 2;
-}
-
-.monthly-sales {
-    grid-column: 9 / span 4;
-    grid-row: span 2;
-}
-
-.weekly-sales {
-    grid-column: 1 / span 4;
-    grid-row: span 2;
+    grid-row: span 3;
 }
 
 .top-product {
-    grid-column: 9 / span 4;
-    grid-row: span 2;
+    grid-column: 7 / span 6;
+    grid-row: span 3;
+    align-items: center;
 }
 
 .customer-analysis {
-    grid-column: 1 / span 8;
-    grid-row: span 2;
+    grid-column: 1 / span 6;
+    grid-row: span 3;
 }
 
 .regional-performance {
     grid-column: 1 / span 12;
-    grid-row: span 2;
+    grid-row: span 3;
 }
 
 
@@ -1049,20 +1073,12 @@ label {
         grid-column: 1 / span 12;
     }
 
-    .monthly-sales {
+    .top-product {
         grid-column: 7 / span 6;
     }
 
-    .weekly-sales {
-        grid-column: 1 / span 4;
-    }
-
-    .top-product {
-        grid-column: 5 / span 4;
-    }
-
     .customer-analysis {
-        grid-column: 9 / span 4;
+        grid-column: 1 / span 6;
     }
 }
 
@@ -1080,20 +1096,12 @@ label {
         grid-column: 1 / span 12;
     }
 
-    .monthly-sales {
-        grid-column: 1 / span 6;
-    }
-
-    .weekly-sales {
-        grid-column: 7 / span 6;
-    }
-
     .top-product {
-        grid-column: 1 / span 6;
+        grid-column: 7 / span 6;
     }
 
     .customer-analysis {
-        grid-column: 7 / span 6;
+        grid-column: 1 / span 6;
     }
 }
 
@@ -1106,8 +1114,6 @@ label {
 
     .summary-card,
     .daily-sales,
-    .monthly-sales,
-    .weekly-sales,
     .top-product,
     .customer-analysis,
     .regional-performance {

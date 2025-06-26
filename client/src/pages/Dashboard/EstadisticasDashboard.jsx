@@ -41,7 +41,8 @@ const EstadisticasDashboard = () => {
 
     const { rendimientoMunicipio, onChageInputRendimientoMunicipio, periodoMunicipio,
         onChageInputAnalisisVentas, periodoVentas, analisisVentas,
-        onChageInputProductosMasVendidos, periodoProducto, productosMasVendidos } = useEstadisticasModulo2()
+        onChageInputProductosMasVendidos, periodoProducto, productosMasVendidos,
+        topClientes, periodoClientes, onChageInputTopClientes } = useEstadisticasModulo2()
 
     const resumenGeneral = {
 
@@ -219,17 +220,40 @@ const EstadisticasDashboard = () => {
                 {/* Análisis de Clientes */}
                 <div className="stats-card top-product">
                     <div className="card-header">
-                        <h3>Análisis de Clientes</h3>
+                        <h3>Top 10 Clientes</h3>
+                        <select
+                            className="metric-select"
+                            value={periodoClientes}
+                            onChange={onChageInputTopClientes}
+                        >
+                            <option value="dia">Día</option>
+                            <option value="semana">Semana</option>
+                            <option value="mes">Mes</option>
+                            <option value="ano">Año</option>
+                        </select>
                     </div>
-                    <div className="card-content">
-                        <MiGrafico
-                            tipoGrafico="pie"
-                            Config="ConfigGraficosRedondos"
-                            Dates="dataParaAnálisisDeClientes"
-                            RefDatos={datosParaLosGraficos.AnálisisDeClientes}
-                        />
+                    <div className="card-content-client">
+                        <table className="tabla-clientes">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Pedidos</th>
+                                    <th>Gasto Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {topClientes.map((cliente, index) => (
+                                    <tr key={index}>
+                                        <td>{cliente.nombreCliente}</td>
+                                        <td>{cliente.cantidadPedidos}</td>
+                                        <td>${cliente.gastoTotal.toLocaleString('es-CO')}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
 
 
                 {/* Rendimiento por Municipio */}
@@ -268,6 +292,7 @@ const EstadisticasDashboard = () => {
 };
 
 export default EstadisticasDashboard;
+
 
 
 

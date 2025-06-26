@@ -18,10 +18,13 @@ export const useEstadisticasModulo2 = () => {
         data: []
     })
 
+    const [topClientes, setTopClientes] = useState([])
+
 
     const [periodoMunicipio, setPeriodoMunicipio] = useState('dia')
     const [periodoVentas, setPeriodoVentas] = useState('dia')
     const [periodoProducto, setPeriodoProducto] = useState('dia')
+    const [periodoClientes, setPeriodoClientes] = useState('dia')
 
 
     const onChageInputRendimientoMunicipio = ({ target }) => {
@@ -41,6 +44,15 @@ export const useEstadisticasModulo2 = () => {
 
         setPeriodoProducto(value)
     }
+
+
+
+    const onChageInputTopClientes = ({ target }) => {
+        const { value } = target
+
+        setPeriodoClientes(value)
+    }
+
 
 
 
@@ -134,6 +146,30 @@ export const useEstadisticasModulo2 = () => {
 
 
 
+    const API_TopClientes = async () => {
+        try {
+
+            const res = await axios.get(`${API_URL}/top-clientes?periodo=${periodoClientes}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const clientes = res.data.clientesTop
+
+            setTopClientes(clientes)
+
+            console.log('datos obtenidos de manera exitosa')
+
+        } catch (err) {
+
+            console.error('Error al cargar analisis de ventas:', err);
+        }
+    }
+
+
+
+
     useEffect(() => {
 
         API_Municipio()
@@ -155,6 +191,11 @@ export const useEstadisticasModulo2 = () => {
     }, [periodoProducto])
 
 
+    useEffect(() => {
+
+        API_TopClientes()
+
+    }, [periodoClientes])
 
 
 
@@ -163,12 +204,15 @@ export const useEstadisticasModulo2 = () => {
         rendimientoMunicipio,
         analisisVentas,
         productosMasVendidos,
+        topClientes,
         periodoMunicipio,
         periodoVentas,
         periodoProducto,
+        periodoClientes,
         onChageInputRendimientoMunicipio,
         onChageInputAnalisisVentas,
-        onChageInputProductosMasVendidos
+        onChageInputProductosMasVendidos,
+        onChageInputTopClientes
     }
 }
 

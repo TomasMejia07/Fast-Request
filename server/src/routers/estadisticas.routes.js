@@ -13,6 +13,6 @@ router.get('/promedio-venta', estadisticasController.valorPromedioVenta)
 router.get('/rendimiento-municipio', estadisticasController.rendimientoPorMunicipio)
 router.get('/analisis-ventas', estadisticasController.ventasPorPeriodo)
 router.get('/productos-mas-vendidos', estadisticasController.productosMasVendidosPorPeriodo)
-
+router.get('/top-clientes', estadisticasController.analisisClientes)
 
 module.exports = router

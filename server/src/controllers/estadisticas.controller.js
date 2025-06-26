@@ -246,7 +246,6 @@ exports.ventasPorPeriodo = async (req, res) => {
     Obtiene análisis de clientes (top 10 por frecuencia y gasto)
 
  */
-
 exports.analisisClientes = async (req, res) => {
     try {
         const { periodo } = req.query;
@@ -265,16 +264,16 @@ exports.analisisClientes = async (req, res) => {
         const clientesTop = await Pedido.findAll({
             attributes: [
                 'clienteId',
-                [Sequelize.fn('COUNT', Sequelize.col('id')), 'cantidadPedidos'],
-                [Sequelize.fn('SUM', Sequelize.col('total')), 'gastoTotal']
+                [Sequelize.fn('COUNT', Sequelize.col('Pedido.id')), 'cantidadPedidos'],
+                [Sequelize.fn('SUM', Sequelize.col('Pedido.total')), 'gastoTotal']
             ],
             where: whereCondition,
             include: [{
                 model: Cliente,
                 attributes: ['NombreCliente', 'NumeroContacto', 'CorreoElectronico']
             }],
-            group: ['clienteId'],
-            order: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'DESC']],
+            group: ['clienteId', 'cliente.id'],
+            order: [[Sequelize.fn('COUNT', Sequelize.col('Pedido.id')), 'DESC']],
             limit: 10
         });
 
@@ -334,7 +333,7 @@ exports.productosMasVendidosPorPeriodo = async (req, res) => {
                 model: Producto,
                 attributes: ['NombreProducto', 'PrecioProducto']
             }],
-            group: ['productoId', 'Producto.id'], 
+            group: ['productoId', 'Producto.id'],
             order: [[Sequelize.fn('SUM', Sequelize.col('cantidadProducto')), 'DESC']],
             limit: 10
         });
