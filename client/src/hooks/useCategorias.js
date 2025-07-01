@@ -43,6 +43,9 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
             }
         }
 
+        if (!formCategoriaData.EstadoCategoria) {
+            erroresTemp.EstadoCategoria = "Selecciona un estado";
+        }
 
         setErrores(erroresTemp);
         return Object.keys(erroresTemp).length === 0;

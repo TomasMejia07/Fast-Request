@@ -3,7 +3,9 @@ const Producto = require('./Producto');
 const Usuario = require('./Usuario');
 const Pedido = require('./hacerPedido');
 const ValidarEmail = require('./validarEmail');
-const Clientes = require('./cliente')
+const Clientes = require('./cliente');
+const Permiso = require('./Permisos');
+const Rol = require('./Roles');
 
 
 module.exports = {
@@ -13,6 +15,8 @@ module.exports = {
   ValidarEmail,
   Clientes,
   Producto,
-  ValidarEmail
+  ValidarEmail,
+  Permiso,
+  Rol
 };
 

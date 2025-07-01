@@ -156,7 +156,7 @@ const CategoriaDashboard = () => {
                             onChange={onChangeInputs}
 
                         >
-                            <option value="">Selecciona uno</option>
+                            <option value="" hidden>Selecciona uno</option>
                             <option value="Activo">Activo</option>
                             <option value="Inactivo">Inactivo</option>
                         </select>

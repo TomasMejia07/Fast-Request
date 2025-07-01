@@ -83,7 +83,7 @@ const ProductosDashboard = () => {
                                             e.preventDefault();
                                             editarProducto(producto);
                                         }}>
-                                        <ion-icon id="iconosoperacion" name="pencil"></ion-icon>
+                                        <ion-icon id="iconosoperacionEditar" name="pencil"></ion-icon>
                                     </a>
                                     <a
                                         href="#"
@@ -91,7 +91,7 @@ const ProductosDashboard = () => {
                                             e.preventDefault()
                                             eliminarProducto(producto.Id);
                                         }}>
-                                        <ion-icon id="iconosoperacion" name="trash"></ion-icon>
+                                        <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
                                     </a>
                                 </td>
                             </tr>

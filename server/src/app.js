@@ -32,8 +32,8 @@ const recuperarCuenta = require("./routers/recuperarCuenta.routes")
 const clienteRouter = require('./routers/cliente.routes')
 const productoRoutes = require("./routers/producto.routes")
 const estadisticasRoutes = require('./routers/estadisticas.routes.js')
-
-
+const permisosRoutes = require('./routers/permiso.routes.js')
+const rolRoutes = require('./routers/rol.routes.js')
 // api Rutas
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/pedidos", pedidoRoutes);
@@ -45,8 +45,12 @@ app.use("/api/cliente", clienteRouter)
 
 app.use("/api/productos", productoRoutes);
 app.use("/api/estadisticas", estadisticasRoutes)
+app.use("/api/permisos", permisosRoutes)
+app.use("/api/rol", rolRoutes)
 
 
+const { crearPermisosIniciales } = require("./controllers/permiso.controller.js");
+crearPermisosIniciales();
 
 app.get("/", (req, res) => {
   res.send("API de registro de usuarios en funcionamiento.");

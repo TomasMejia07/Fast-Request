@@ -1,37 +1,55 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
-const permisosDisponibles = [
-  "Crear Roles",
-  "Crear Usuarios",
-  "Hacer Pedidos",
-  "Estadísticas",
-  "Modificar Diseño",
-  "Activar MIPAGINA"
-];
-
-function PermisosDropdown() {
-  const [searchTerm, setSearchTerm] = useState("");
+function PermisosDropdown({ onChange }) {
+  const [permisos, setPermisos] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
 
-  const filteredPermisos = permisosDisponibles.filter((permiso) =>
-    permiso.toLowerCase().includes(searchTerm.toLowerCase())
+  // Obtener los permisos desde el backend
+  useEffect(() => {
+    const fetchPermisos = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/permisos"); // Ajusta si usas proxy
+        setPermisos(res.data);
+      } catch (error) {
+        console.error("Error al cargar permisos:", error);
+      }
+    };
+
+    fetchPermisos();
+  }, []);
+
+  // Notificar al componente padre
+  useEffect(() => {
+    if (onChange) {
+      onChange(checkedItems);
+    }
+  }, [checkedItems, onChange]);
+
+  const filteredPermisos = permisos.filter((permiso) =>
+    permiso.NombrePermiso.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleCheck = (permiso) => {
-    if (checkedItems.includes(permiso)) {
-      setCheckedItems(checkedItems.filter((item) => item !== permiso));
-    } else {
-      setCheckedItems([...checkedItems, permiso]);
-    }
+  const handleCheck = (id) => {
+    setCheckedItems((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
   };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setCheckedItems(permisosDisponibles);
+      const filteredIds = filteredPermisos.map((p) => p.Id);
+      setCheckedItems((prev) => {
+        const newSelection = new Set([...prev, ...filteredIds]);
+        return Array.from(newSelection);
+      });
     } else {
-      setCheckedItems([]);
+      setCheckedItems((prev) =>
+        prev.filter((id) => !filteredPermisos.some((p) => p.Id === id))
+      );
     }
   };
 
@@ -70,28 +88,38 @@ function PermisosDropdown() {
         onChange={(e) => setSearchTerm(e.target.value)}
         onClick={toggleDropdown}
       />
+
       {dropdownVisible && (
         <div id="options" className="options" style={{ display: "block" }}>
-          <label>
-            <input
-              type="checkbox"
-              value="all"
-              checked={checkedItems.length === permisosDisponibles.length}
-              onChange={handleSelectAll}
-            />{" "}
-            Todos
-          </label>
-          {filteredPermisos.map((permiso, index) => (
-            <label key={index}>
-              <input
-                type="checkbox"
-                value={permiso}
-                checked={checkedItems.includes(permiso)}
-                onChange={() => handleCheck(permiso)}
-              />{" "}
-              {permiso}
-            </label>
-          ))}
+          {filteredPermisos.length > 0 ? (
+            <>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={filteredPermisos.every((p) =>
+                    checkedItems.includes(p.Id)
+                  )}
+                  onChange={handleSelectAll}
+                />{" "}
+                Todos
+              </label>
+              {filteredPermisos.map((permiso) => (
+                <label key={permiso.Id}>
+                  <input
+                    type="checkbox"
+                    value={permiso.Id}
+                    checked={checkedItems.includes(permiso.Id)}
+                    onChange={() => handleCheck(permiso.Id)}
+                  />{" "}
+                  {permiso.NombrePermiso}
+                </label>
+              ))}
+            </>
+          ) : (
+            <p style={{ padding: "0.5rem", color: "#aaa" }}>
+              No se encontraron permisos
+            </p>
+          )}
         </div>
       )}
     </div>

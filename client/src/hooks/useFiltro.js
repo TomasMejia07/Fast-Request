@@ -57,8 +57,23 @@ export const useFiltroProductos = (data, busqueda) => {
 }
 
 
-//useFiltro Roles "falta realizarlo"
+//useFiltro Roles
+export const useFiltroRoles = (data, busqueda) => {
+    const res = useMemo(() => {
+        if (!busqueda.trim()) return data;
+        const termino = busqueda.toLowerCase();
+        return data.filter((item) => {
+            const fecha = item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "";
+            return [
+                item.NombreRol?.toLowerCase(),
+                item.EstadoRol?.toLowerCase(),
+                fecha
+            ].some(value => value?.toLowerCase().includes(termino));
+        });
+    }, [data, busqueda]);
 
+    return res;
+}
 
 //useFiltro Usuarios "falta realizarlo"
 
