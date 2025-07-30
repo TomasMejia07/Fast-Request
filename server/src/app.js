@@ -22,41 +22,68 @@ sequelize.sync()
     console.error("Error al sincronizar los modelos:", error);
   });
 
-// Importacion de rutas
-const usuarioRoutes = require("./routers/usuario.routes");
-const pedidoRoutes = require("./routers/hacerPedido.routes.js");
-const categoriaRoutes = require("./routers/categoria.routes.js");
-const validarEmailRoutes = require("./routers/validarEmail.routes")
-const recuperarCuenta = require("./routers/recuperarCuenta.routes")
-
-const clienteRouter = require('./routers/cliente.routes')
-const productoRoutes = require("./routers/producto.routes")
-const estadisticasRoutes = require('./routers/estadisticas.routes.js')
-const permisosRoutes = require('./routers/permiso.routes.js')
-const rolRoutes = require('./routers/rol.routes.js')
-// api Rutas
-app.use("/api/usuarios", usuarioRoutes);
-app.use("/api/pedidos", pedidoRoutes);
-app.use("/api/categorias", categoriaRoutes);
-app.use("/api/validarEmail", validarEmailRoutes);
-app.use("/api/recuperarCuenta", recuperarCuenta);
-
-app.use("/api/cliente", clienteRouter)
-
-app.use("/api/productos", productoRoutes);
-app.use("/api/estadisticas", estadisticasRoutes)
-app.use("/api/permisos", permisosRoutes)
-app.use("/api/rol", rolRoutes)
+// Funcion que se ejecuta para esperar la conexion a la base de datos con el fin de que la db este lista antes de iniciar el servidor  
+async function esperarDB() {
+  let intentos = 0;
+  while (intentos < 10) {
+    try {
+      const conn = await sequelize.authenticate();
+      console.log('✅ Conexión a la base de datos establecida.');
+      conn.release();
+      break;
+    } catch (err) {
+      intentos++;
+      console.log(`🔁 Esperando conexión a DB... intento ${intentos}`);
+      await new Promise(res => setTimeout(res, 3000)); // espera 3s
+    }
+  }
+}
 
 
-const { crearPermisosIniciales } = require("./controllers/permiso.controller.js");
-crearPermisosIniciales();
+esperarDB().then(() => {
+  // Sincronizar modelos (si aún lo deseas aquí)
+  sequelize.sync()
+    .then(() => {
+      console.log("✅ Modelos sincronizados correctamente.");
+    })
+    .catch((error) => {
+      console.error("❌ Error al sincronizar modelos:", error);
+    });
 
-app.get("/", (req, res) => {
-  res.send("API de registro de usuarios en funcionamiento.");
+  // Importación de rutas
+  const usuarioRoutes = require("./routers/usuario.routes");
+  const pedidoRoutes = require("./routers/hacerPedido.routes.js");
+  const categoriaRoutes = require("./routers/categoria.routes.js");
+  const validarEmailRoutes = require("./routers/validarEmail.routes");
+  const recuperarCuenta = require("./routers/recuperarCuenta.routes");
+
+  const clienteRouter = require('./routers/cliente.routes');
+  const productoRoutes = require("./routers/producto.routes");
+  const estadisticasRoutes = require('./routers/estadisticas.routes.js');
+  const permisosRoutes = require('./routers/permiso.routes.js');
+  const rolRoutes = require('./routers/rol.routes.js');
+
+  // Rutas protegidas o públicas
+  app.use("/api/usuarios", usuarioRoutes);
+  app.use("/api/pedidos", pedidoRoutes);
+  app.use("/api/categorias", categoriaRoutes);
+  app.use("/api/validarEmail", validarEmailRoutes);
+  app.use("/api/recuperarCuenta", recuperarCuenta);
+  app.use("/api/cliente", clienteRouter);
+  app.use("/api/productos", productoRoutes);
+  app.use("/api/estadisticas", estadisticasRoutes);
+  app.use("/api/permisos", permisosRoutes);
+  app.use("/api/rol", rolRoutes);
+
+  const { crearPermisosIniciales } = require("./controllers/permiso.controller.js");
+  crearPermisosIniciales();
+
+  app.get("/", (req, res) => {
+    res.send("API de registro de usuarios en funcionamiento.");
+  });
+
+  app.listen(PORT, () => {
+    console.log("🚀 Servidor iniciado en el puerto " + PORT);
+  });
 });
 
-app.listen(PORT, () => {
-  console.log("Server is running on port " + PORT);
-  0;
-});
