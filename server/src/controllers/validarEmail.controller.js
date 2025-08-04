@@ -15,7 +15,6 @@ exports.validarEmail = async (req, res) => {
             expiracion: new Date(Date.now() + 5 * 60 * 1000)
         })
 
-        console.log("Datos recibidos:", req.body);
         const transporter = nodemailer.createTransport({
             pool: true,
             service: 'gmail',

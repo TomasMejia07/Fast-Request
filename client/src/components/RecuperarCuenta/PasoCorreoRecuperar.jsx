@@ -13,7 +13,7 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
 
     const verificarEmail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/usuarios/verificarEmail?correo=${correo}`);
+            const res = await axios.get(`http://localhost:5000/api/recuperarCuenta/recuperar/verificaremail?correo=${correo}`);
             if (res.data.existe) {
                 setErrorEmail(res.data.mensaje); 
                 return true;
@@ -36,13 +36,15 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
         }
 
         const existe = await verificarEmail();
-        if (existe) {
-            setErrorEmail('Este correo ya está registrado.');
+        if (!existe) {
+            setErrorEmail('Este correo no está registrado.');
             return;
         }
 
+        console.log('Enviando correo a:', correo); 
+
         try {
-            const res = await axios.post('http://localhost:5000/api/validarEmail/handle-email', {
+            const res = await axios.post('http://localhost:5000/api/recuperarCuenta/recuperar/enviaremail', {
                 correo
             }, {
                 headers: { 'Content-Type': 'application/json' }

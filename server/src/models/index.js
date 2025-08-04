@@ -12,7 +12,6 @@ module.exports = {
   Usuario,
   Pedido,
   Categoria,
-  ValidarEmail,
   Clientes,
   Producto,
   ValidarEmail,
