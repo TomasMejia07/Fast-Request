@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import PasoCorreo from './PasoCorreoRecuperar';
-import PasoCodigo from './PasoCodigoRecuperar';
+import PasoCorreoRecuperar from './PasoCorreoRecuperar';
+import PasoCodigoRecuperar from './PasoCodigoRecuperar';
 import PasoContrasenaNueva from './PasoContrasenaNueva';
 
 function RecuperarContrasena() {
@@ -21,14 +21,14 @@ function RecuperarContrasena() {
   return (
     <div className="container login-container">
       {paso === 1 && (
-        <PasoCorreo 
+        <PasoCorreoRecuperar 
           datos={formData} 
           actualizar={actualizarDatos} 
           siguiente={avanzarPaso} 
         />
       )}
       {paso === 2 && (
-        <PasoCodigo 
+        <PasoCodigoRecuperar 
           datos={formData} 
           actualizar={actualizarDatos} 
           siguiente={avanzarPaso} 

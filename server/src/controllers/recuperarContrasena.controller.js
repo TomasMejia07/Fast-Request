@@ -1,6 +1,7 @@
 const { Usuario, ValidarEmail } = require("../models");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const bcrypt = require('bcrypt');
 
 dotenv.config();
 
@@ -106,3 +107,24 @@ exports.validarCodigoRecuperacion = async (req, res) => {
       .json({ verified: false, error: "Error interno del servidor." });
   }
 };
+
+exports.cambiarContrasena = async (req, res) => {
+  try {
+    const { correo, nuevaContrasena } = req.body;
+
+    const usuario = await Usuario.findOne({ where: { correo } });
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    const hashedPassword = await bcrypt.hash(nuevaContrasena, 10);
+    usuario.password = hashedPassword;
+    await usuario.save();
+
+    return res.status(200).json({ message: "Contraseña actualizada exitosamente." });
+  } catch (error) {
+    console.error("Error al cambiar la contraseña:", error);
+    return res.status(500).json({ error: "No se pudo actualizar la contraseña." });
+  }
+}
+

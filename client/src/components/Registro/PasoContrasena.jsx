@@ -5,7 +5,7 @@ import '../../assets/css/style.css';
 
 const PasoContrasena = ({ anterior, datos, actualizar }) => {
     useEffect(() => {
-        document.title = 'Crea una Contraseña - Fast Request';
+        document.title = 'Crea una nueva contraseña - Fast Request';
     }, []);
 
     const [password, setPassword] = useState('');

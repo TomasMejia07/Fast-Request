@@ -1,51 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import '../../assets/css/style.css';
+import axios from 'axios';
 
-const PasoCodigo = ({ siguiente, datos, actualizar }) => {
+const PasoCodigoRecuperar = ({ siguiente, datos, actualizar }) => {
+
     useEffect(() => {
-        document.title = 'Recuperar Cuenta - Fast Request';
+        document.title = 'Código de Recuperacion - Fast Request';
     }, []);
 
-    const [email, setEmail] = useState(datos.email || '');
-    const [errorEmail, setErrorEmail] = useState('');
+    const [codigo, setCodigo] = useState(datos.codigo || '');
+    const [error, setError] = useState('');
 
-    const manejarEnvio = (e) => {
-        e.preventDefault();
 
-        if (!email.trim()) {
-            setErrorEmail('Por favor ingrese un correo.');
-        } else {
-            setErrorEmail('');
-            actualizar({ ...datos, email });
-            siguiente(); 
+    const handleVerificar = async () => {
+
+        if (!codigo.trim()) {
+            setError('Por favor ingrese el código de recuperacion.');
+            return
+        }
+
+        try {
+            const res = await axios.post('http://localhost:5000/api/recuperarCuenta/recuperar/verificar-codigo', {
+                correo: datos.correo,
+                codigo
+            }, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+
+            if (res.data.verified) {
+                console.log("Código verificado correctamente");
+                setError('');
+                actualizar({ ...datos, codigo });
+                siguiente();
+            } else {
+                setError("Código incorrecto");
+            }
+
+
+        } catch (err) {
+            console.error("Error al verificar el código", err);
+            if (err.response && err.response.data && err.response.data.message) {
+                setError(err.response.data.message);
+            } else {
+                setError("Error al verificar el código.");
+            }
         }
     };
 
+    const manejarEnvio = (e) => {
+        e.preventDefault();
+        handleVerificar();
+    };
+
     return (
-            <form className="form-group login-form-group" onSubmit={manejarEnvio}>
-                <fieldset>
-                    <div className="login-img-container">
-                        <img className="login-avatar" src="/img/user.png" alt="usuario" />
-                    </div>
+        <form className="form-group login-form-group" onSubmit={manejarEnvio}>
+            <fieldset>
+                <h3 className="titulo">Recuperar tu Cuenta</h3>
+                <p className="texto-secundario">Te hemos enviado un código a tu correo por favor verificalo</p>
 
-                    <h3 className="titulo">Ingresa tu Email</h3>
-                    <p className="texto-secundario">Te enviaremos un mensaje para confirmarlo.</p>
+                <div className="input-container ic1 mb-3">
+                    <input
+                        type="text"
+                        className="login-input"
+                        placeholder="Código"
+                        value={codigo}
+                        onChange={(e) => setCodigo(e.target.value)}
+                    />
+                    {error && <div className="error">{error}</div>}
+                </div>
 
-                    <div className="input-container ic1 mb-3">
-                        <input
-                            type="email"
-                            className="login-input"
-                            placeholder="E-mail"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        {errorEmail && <span className="error">{errorEmail}</span>}
-                    </div>
-
-                    <button type="submit" className="btn btn-outline-light">Continuar</button>
-                </fieldset>
-            </form>
+                <div className="d-flex justify-content-between">
+                    <button type="submit" className="btn btn-outline-light">
+                        Verificar
+                    </button>
+                </div>
+            </fieldset>
+        </form>
     );
 };
 
-export default PasoCodigo;
+export default PasoCodigoRecuperar;

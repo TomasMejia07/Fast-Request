@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../assets/css/style.css'
 import axios from 'axios'
 
-const PasoCorreo = ({ siguiente, datos, actualizar }) => {
+const PasoCorreoRecuperar = ({ siguiente, datos, actualizar }) => {
     useEffect(() => {
         document.title = 'Recuperar Cuenta - Fast Request'
     }, []);
@@ -13,7 +13,7 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
 
     const verificarEmail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/recuperarCuenta/recuperar/verificaremail?correo=${correo}`);
+            const res = await axios.get(`http://localhost:5000/api/recuperarCuenta/recuperar/verificar-email?correo=${correo}`);
             if (res.data.existe) {
                 setErrorEmail(res.data.mensaje); 
                 return true;
@@ -41,17 +41,15 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
             return;
         }
 
-        console.log('Enviando correo a:', correo); 
 
         try {
-            const res = await axios.post('http://localhost:5000/api/recuperarCuenta/recuperar/enviaremail', {
+            const res = await axios.post('http://localhost:5000/api/recuperarCuenta/recuperar/enviar-email', {
                 correo
             }, {
                 headers: { 'Content-Type': 'application/json' }
             });
 
             if (res.status === 200 || res.status === 201) {
-                console.log('Correo enviado correctamente')
                 setErrorEmail('');
                 actualizar({ ...datos, correo })
                 siguiente()
@@ -95,4 +93,4 @@ const PasoCorreo = ({ siguiente, datos, actualizar }) => {
     );
 };
 
-export default PasoCorreo;
+export default PasoCorreoRecuperar;
