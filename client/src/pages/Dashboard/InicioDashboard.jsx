@@ -5,7 +5,7 @@ import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 
 const InicioDashboard = () => {
     return (
-        <DashboardLayout title="Inicio">
+        <DashboardLayout title="Inicio - Fast Request">
             <div className="cardsDas" >
                 <div className="cardDas">
                     <div>

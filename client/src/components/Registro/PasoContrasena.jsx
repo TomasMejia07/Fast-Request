@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import '../../assets/css/style.css';
+import axios from 'axios';
 
 const PasoContrasena = ({ anterior, datos, actualizar }) => {
     useEffect(() => {
@@ -31,30 +32,26 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
         actualizar(datosActualizados);
 
         try {
-            const response = await fetch('http://localhost:5000/api/usuarios/registro', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(datosActualizados)
-            });
-    
-            const resultado = await response.json();
-    
-            if (response.ok) {
+            const response = await axios.post(
+                'http://localhost:5000/api/usuarios/registro',
+                datosActualizados,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            if (response.status === 200 || response.status === 201) {
                 Swal.fire({
-                  icon: 'success',
-                  title: '¡Registro exitoso!',
-                  text: 'Tu usuario ha sido creado correctamente.',
-                  confirmButtonText: 'Continuar'
+                    icon: 'success',
+                    title: '¡Registro exitoso!',
+                    text: 'Tu usuario ha sido creado correctamente.',
+                    confirmButtonText: 'Continuar'
                 }).then(() => {
-                  navigate('/');
+                    navigate('/');
                 });
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error en el registro',
-                    text: resultado.error || 'Intenta de nuevo más tarde.'
+                    text: response.data.error || 'Intenta de nuevo más tarde.'
                 });
             }
         } catch (error) {
@@ -62,7 +59,7 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Error de conexión',
-                text: 'No se pudo conectar con el servidor.'
+                text: error.response?.data?.error || 'No se pudo conectar con el servidor.'
             });
         }
     };
