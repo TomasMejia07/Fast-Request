@@ -41,7 +41,7 @@ async function esperarDB() {
 
 
 esperarDB().then(() => {
-  // Sincronizar modelos (si aún lo deseas aquí)
+  // Sincronizar modelos aca(si aún lo deseas aquí)
   sequelize.sync()
     .then(() => {
       console.log("✅ Modelos sincronizados correctamente.");
