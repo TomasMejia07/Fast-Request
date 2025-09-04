@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 function TopBar({ onToggleNav }) {
     const perfilRef = useRef(null);
     const [perfilActive, setPerfilActive] = useState(false);
@@ -39,13 +38,13 @@ function TopBar({ onToggleNav }) {
                 <div className="menu-perfil">
                     <ul className='menu-perfil-ul'>
                     <li className='menu-perfil-ul-li'>
-                        <Link to="/perfil" className='menu-perfil-ul-li-a'>
+                        <Link to="/dashboard/perfil" className='menu-perfil-ul-li-a'>
                             <span className="icono-menu-user"><ion-icon name="person-circle"></ion-icon></span>
                             <span className="nav-titulo">Cuenta</span>
                         </Link>
                     </li>
                         <li className='menu-perfil-ul-li'>
-                            <Link to="/configuracion" className='menu-perfil-ul-li-a'>
+                            <Link to="/dashboard/configuracion" className='menu-perfil-ul-li-a'>
                                 <span className="icono-menu-user"><ion-icon name="cog"></ion-icon></span>
                                 <span className="nav-titulo">configuracion</span>
                             </Link>

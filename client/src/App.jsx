@@ -15,8 +15,8 @@ import EstadisticasDashboard from './pages/Dashboard/EstadisticasDashboard';
 import PedidosDashboard from './pages/Dashboard/PedidosDashboard';
 import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
 import ConditionalBootstrap from './components/ConditionalBootstrap';
-import Configuracion from './components/Configuracion/configuracion';
-import Perfil from './components/Configuracion/perfil';
+import Configuracion from './pages/Configuracion/configuracion';
+import Perfil from './pages/Configuracion/perfil';
 import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
 import PedidosPorCliente from './pages/Dashboard/pedidosPorCliente';
 
@@ -41,8 +41,8 @@ function App() {
         <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />
         <Route path="/dashboard/pedidosPorCliente/:clienteId" element={<PedidosPorCliente />} />
 
-        <Route path="/configuracion" element={<Configuracion />}/>
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/dashboard/configuracion" element={<Configuracion />}/>
+        <Route path="/dashboard/perfil" element={<Perfil />} />
         
       </Routes>
     </Router>

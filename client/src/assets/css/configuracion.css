@@ -142,17 +142,17 @@ body{
     left: 80px;
 }
 
-/* TOPBAR */
-.dashboard-topbar{
+.dashboard-container .topbar {
     width: 100%;
     height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
+    /* background-color: var(--black);  COLOR DEL TOPBAR */
 }
 
-.dashboard-toggle{
+.dashboard-container .topbar .toggle {
     position: relative;
     width: 60px;
     height: 60px;
@@ -160,23 +160,23 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 2.5em;
-    cursor: pointer; 
+    cursor: pointer;
     color: var(--white-icons);
 }
 
-.dashboard-search{
+.dashboard-container .topbar .buscar {
     position: relative;
     width: 400px;
     margin: 0 10px;
+    padding-top: 20px;
 }
 
-.search-label{
+.dashboard-container .topbar .buscar .label-buscar {
     position: relative;
     width: 100%;
-    display: block;
 }
 
-.search-input{
+.dashboard-container .topbar .buscar .label-buscar .label-input-buscar {
     width: 100%;
     height: 40px;
     border-radius: 40px;
@@ -184,31 +184,34 @@ body{
     padding-left: 35px;
     font-size: 1em;
     outline: none;
-    border: 1px solid var(--white-icons); 
-    background-color: var(--Gray); /* COLOR DEL FONDO DE LA BARRA DE BUSQUEDA*/
-    color: var(--white-text); /* COLOR DEL TEXTO DE LA BARRA DE BUSQUEDA */
+    border: 1px solid var(--white-icons);
+    background-color: var(--Gray);
+    /* COLOR DEL FONDO DE LA BARRA DE BUSQUEDA*/
+    color: var(--white-text);
+    /* COLOR DEL TEXTO DE LA BARRA DE BUSQUEDA */
 }
 
-.search-icon{
+.dashboard-container .topbar .buscar .label-buscar ion-icon {
     position: absolute;
-    color: var(--white-icons); /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
+    color: var(--white-icons);
+    /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
     top: 10px;
     left: 10px;
     font-size: 1.2em;
 }
 
-/* PERFIL DE USUARIO */
-.dashboard-user-profile{
+.dashboard-container .topbar .perfil-usuario {
     position: relative;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: visible;
     cursor: pointer;
-    border: 1px solid var(--white-text); /* COLOR DEL BORDE DEL PERFIL DE USUARIO */
+    border: 1px solid var(--white-text);
+    /* COLOR DEL BORDE DEL PERFIL DE USUARIO */
 }
 
-.user-avatar{
+.dashboard-container .topbar .perfil-usuario img {
     position: absolute;
     top: 0;
     left: 0;
@@ -218,55 +221,88 @@ body{
     border-radius: 50%;
 }
 
-/* MENU PERFIL USUARIO */
-.user-menu{
+/* MENU PERFIL USUARIO  */
+/* Estilo para el contenedor de la foto de perfil */
+.perfil-usuario {
+    position: relative;
+    /* Importante para que el menú se posicione correctamente */
+}
+
+/* Estilo del menú del perfil (inicialmente oculto) */
+.menu-perfil {
     display: none;
+    /* El menú está oculto por defecto */
     position: absolute;
+    /* Posiciona el menú respecto al contenedor */
     top: 50px;
+    /* Ajusta esto según lo necesario para posicionarlo debajo de la imagen */
     right: 0;
     background-color: var(--black);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* EL COLOR DEL MENU DE USUARIO */
+    box-shadow: 15px 15px 15px 15px rgba(0, 0, 0, 0.1);
+    /* SOMBRA DEL PERFIL DE USUARIO */
     border-radius: 5px;
     z-index: 10;
-    min-width: 200px;
 }
 
-.dashboard-user-profile.active .user-menu{
-    display: block;
-}
-
-.user-menu-list{
+.menu-perfil .menu-perfil-ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.user-menu-item{
-    padding: 0;
-}
-
-.user-menu-link{
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li {
     display: flex;
     align-items: center;
+    /* Centra verticalmente el icono y el texto */
     padding: 15px 20px;
+    color: var(--white);
+    /* COLOR DE LOS ICONOS DEL PERFIL DE USUARIO */
+    font-size: 1.03em;
+}
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a {
+    display: flex;
+    align-items: center;
+    /* Centra los elementos dentro del enlace */
     text-decoration: none;
+    font-size: 1em;
+    /* Ajusta el tamaño de texto para que sea legible */
     color: var(--white-icons);
-    transition: background-color 0.3s ease;
 }
 
-.user-menu-link:hover{
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li:hover {
     background-color: var(--white-icons);
+    /* HOVER DEL PERFIL DE USUARIO */
     color: var(--black);
+    /* COLOR DE LA LETRA DEL PERFIL DE USUARIO */
 }
 
-.user-menu-icon{
-    margin-right: 10px;
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a .icono-menu-user {
     font-size: 1.5em;
+    /* Ajusta el tamaño del icono para que sea visible */
+    margin-right: 10px;
+    /* Añade un espacio entre el icono y el texto */
 }
 
-.user-menu-text{
-    font-size: 14px;
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li .menu-perfil-ul-li-a .nav-titulo {
+    position: relative;
+    top: -2.5px;
 }
+
+.menu-perfil .menu-perfil-ul .menu-perfil-ul-li:hover .menu-perfil-ul-li-a {
+    color: var(--black);
+    /* Cambia el color del texto e ícono a blanco */
+}
+
+/* Mostrar el menú cuando la clase 'active' se aplique a .perfil-usuario */
+.perfil-usuario.active .menu-perfil {
+    display: block;
+}
+
+/* FIN MENU PERFIL DE USUARIO */
+
+/* FIN DEL TOPBAR */
 
 /* CONFIGURACIONES */
 .dashboard-config{
@@ -286,11 +322,11 @@ body{
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--white-text);
 }
 
 .config-desc{
-    color: var(--text-secondary);
+    color: var(--white-icons);
     margin-top: 8px;
     font-size: 16px;
 }
@@ -321,7 +357,7 @@ body{
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--white-text);
 }
 
 .config-panel{
@@ -367,12 +403,12 @@ body{
 .panel-title{
     margin: 0 0 8px 0;
     font-size: 18px;
-    color: var(--text-primary);
+    color: var(--white-text);
 }
 
 .panel-desc{
     margin: 0 0 20px 0;
-    color: var(--text-secondary);
+    color: var(--white-icons);
     font-size: 14px;
 }
 
@@ -386,7 +422,7 @@ body{
     margin-bottom: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--white-text);
 }
 
 .text-input, .password-input{
@@ -397,7 +433,7 @@ body{
     font-size: 14px;
     transition: border 0.2s ease, box-shadow 0.2s ease;
     background-color: var(--bg-light);
-    color: var(--text-primary);
+    color: var(--white-text);
 }
 
 .text-input:focus, .password-input:focus{
@@ -417,7 +453,7 @@ body{
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 14px;
-    color: var(--text-primary);
+    color: var(--white-text);
 }
 
 .custom-file-selector:hover{
@@ -444,7 +480,7 @@ body{
     display: block;
     margin-bottom: 10px;
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--white-text);
   }
   
   .password-wrapper {
@@ -473,7 +509,7 @@ body{
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: var(--text-secondary);
+    color: var(--white-icons);
     font-size: 20px;
     background: none;
     border: none;
@@ -493,7 +529,7 @@ body{
     display: block;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--white-text);
     margin-bottom: 0.5rem;
   }
   
@@ -511,7 +547,7 @@ body{
     border: 1px solid #e2e8f0;
     border-radius: var(--radius-md);
     transition: var(--transition);
-    color: var(--text-primary);
+    color: var(--white-text);
     background-color: var(--bg-white);
   }
   
@@ -570,7 +606,7 @@ body{
   
   .meter-text {
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: var(--white-icons);
     display: block;
   }
 
@@ -759,9 +795,9 @@ body{
 
 /* Contenedor principal */
 .perfil-container1 {
-    background-color: var(--Gray);
+    background-color: var(--black);
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 24px rgba(95, 95, 95, 0.25);
     padding: 2rem;
     max-width: 900px;
     margin: 2rem auto;
@@ -885,7 +921,7 @@ body{
     position: relative;
     padding: 1rem;
     border-radius: 12px;
-    background-color: var(--black);
+    background-color: var(--Gray);
     transition: all 0.3s ease;
 }
 
@@ -1266,7 +1302,7 @@ body{
   
   .toggle-label {
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--white-text);
   }
   
   /* Estilos para el switch del toggle */
