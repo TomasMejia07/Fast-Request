@@ -1,6 +1,7 @@
 const { Usuario } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { generarToken } = require('../utils/jwt');
 require('dotenv').config();
 
 exports.registrarUsuario = async (req, res) => {
@@ -53,14 +54,9 @@ exports.loginUsuario = async (req, res) => {
     if (!match) {
       return res.status(401).json({ error: 'Contraseña incorrecta' });
     }
+    const token = generarToken(payload);
 
-    const token = jwt.sign(
-      { id: user.id, correo: usuario.correo }, 
-      process.env.JWT_SECRET, 
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
-
-    res.json({ token, mensaje: 'Inicio de sesión exitoso' });
+    res.json({ token, usuario: { id: usuario.id, correo: usuario.correo, nombre: usuario.nombre } });
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     return res.status(500).json({ error: 'Error del servidor' });
