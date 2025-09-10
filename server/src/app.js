@@ -52,6 +52,7 @@ esperarDB().then(() => {
 
   // Importación de rutas
   const usuarioRoutes = require("./routers/usuario.routes");
+  const authRoutes = require("./routers/auth.routes");
   const pedidoRoutes = require("./routers/hacerPedido.routes.js");
   const categoriaRoutes = require("./routers/categoria.routes.js");
   const validarEmailRoutes = require("./routers/validarEmail.routes");
@@ -65,6 +66,7 @@ esperarDB().then(() => {
 
   // Rutas protegidas o públicas
   app.use("/api/usuarios", usuarioRoutes);
+  app.use("/api/auth", authRoutes);
   app.use("/api/pedidos", pedidoRoutes);
   app.use("/api/categorias", categoriaRoutes);
   app.use("/api/validarEmail", validarEmailRoutes);

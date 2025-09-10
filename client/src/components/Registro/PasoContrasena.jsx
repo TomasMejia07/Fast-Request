@@ -33,7 +33,7 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
 
         try {
             const response = await axios.post(
-                'http://localhost:5000/api/usuarios/registro',
+                'http://localhost:5000/api/auth/registro',
                 datosActualizados,
                 { headers: { 'Content-Type': 'application/json' } }
             );

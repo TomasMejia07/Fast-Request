@@ -4,14 +4,14 @@ const { Usuario, Empresa, Rol } = require('../models');
 
 exports.registrarUsuario = async (req, res) => {
   try {
-    const { nombre, apellido, correo, password, empresaId, rolId } = req.body;
+    const { correo, nombre, apellido, password, empresaId, rolId } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const usuario = await Usuario.create({
+      correo,
       nombre,
       apellido,
-      correo,
       password: hashedPassword,
       EmpresaId: empresaId,
       RolId: rolId
@@ -26,14 +26,14 @@ exports.registrarUsuario = async (req, res) => {
 
 exports.loginUsuario = async (req, res) => {
   try {
-    const { correo, password } = req.body;
-    const usuario = await Usuario.findOne({ where: { correo } });
+    const { usuario, password } = req.body;
+    const user = await Usuario.findOne({ where: { usuario } });
 
-    if (!usuario) {
+    if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    const esValido = await bcrypt.compare(password, usuario.password);
+    const esValido = await bcrypt.compare(password, user.password);
     if (!esValido) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
