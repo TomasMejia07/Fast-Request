@@ -1,30 +1,18 @@
 import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-const useConfiguracionPerfilUsuario = () => {
-  // Estado para menús
+const useConfiguracionPerfilUsuario = (initial) => {
+
+
   const [navActive, setNavActive] = useState(false);
   const [profileMenuActive, setProfileMenuActive] = useState(false);
-
-  // Estado de usuario
-  const [userData, setUserData] = useState({
-    firstName: "Luis",
-    lastName: "Angel",
-    email: "luisangel@ejemplo.com",
-    phone: "+52 123 456 7890",
-    address: "Calle Ejemplo #123, Ciudad, País",
-    dob: "01/01/1990",
-    profileImage: "Pepe.jfif",
-  });
-
-  // Edición
+  const [userData, setUserData] = useState(initial);
   const [isEditing, setIsEditing] = useState(false);
-  const [editFormData, setEditFormData] = useState({});
-
-  // Refs
   const profileMenuRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Inyectar estilos de notificación
+
   useEffect(() => {
     if (!document.getElementById("notification-styles")) {
       const styleEl = document.createElement("style");
@@ -34,27 +22,173 @@ const useConfiguracionPerfilUsuario = () => {
     }
   }, []);
 
-  // Inicializar datos del formulario
-  useEffect(() => {
-    if (isEditing) {
-      const dobParts = userData.dob.split("/");
-      const formattedDob =
-        dobParts.length === 3
-          ? `${dobParts[2]}-${dobParts[1]}-${dobParts[0]}`
-          : "";
+const API_GET = async () => {
+    try {
 
-      setEditFormData({
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        email: userData.email,
-        phone: userData.phone,
-        address: userData.address,
-        dob: formattedDob,
-      });
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        showNotification("Usuario no autenticado", "error");
+        return;
+      }
+
+      const decoded = jwtDecode(token);
+      const usuarioId = decoded.id;
+
+      const res = await axios.get(
+        `http://localhost:5000/api/perfil/getUser/${usuarioId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      
+      const Perfil = res.data.usuario
+
+      if (Perfil) {
+        setUserData({
+          usuarioId: Perfil.id || usuarioId,
+          nombre: Perfil?.nombre,
+          apellido: Perfil?.apellido,
+          correo: Perfil?.correo,
+          telefono: Perfil.Perfil?.telefono || "Por completar",
+          direccion: Perfil.Perfil?.direccion || "Por completar",
+          fechaNacimiento: Perfil.Perfil?.fechaNacimiento || null,
+          Imagen_De_Perfil: Perfil.Perfil?.Imagen_De_Perfil || "http://localhost:5000/uploads/perfiles/user.png",
+        });
+      }
+
+    } catch (err) {
+
+      console.error('❌ Error en API_GET:', err);
+      if (err.response?.status === 404) {
+        showNotification('Perfil no encontrado', 'error');
+      } else {
+        showNotification('Error al cargar los datos del perfil', 'error');
+      }
     }
-  }, [isEditing, userData]);
+  }
 
-  // Cerrar menú al hacer click fuera
+
+  const API_PUT = async () => {
+    try {
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        showNotification("Usuario no autenticado", "error");
+        return;
+      }
+
+      const decoded = jwtDecode(token);
+      const usuarioId = decoded.id;
+
+      const formData = new FormData()
+
+      formData.append("telefono", userData.telefono || "")
+      formData.append("direccion", userData.direccion || "")
+      formData.append("fechaNacimiento", userData.fechaNacimiento || "")
+
+      if (userData.Imagen_De_Perfil instanceof File) {
+        formData.append("image", userData.Imagen_De_Perfil);
+      } else {
+        console.log('📤 No se envía imagen nueva');
+      }
+
+      const res = await axios.put(
+        `http://localhost:5000/api/perfil/update-perfil/${usuarioId}`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      console.log('Datos actualizados correctamente')
+
+      if (res.data.perfil) {
+        const perfil = res.data.perfil;
+
+
+        const updatedUserData = {
+          ...userData,
+          telefono: perfil.telefono ?? userData.telefono,
+          direccion: perfil.direccion ?? userData.direccion,
+          fechaNacimiento: perfil.fechaNacimiento ?? userData.fechaNacimiento,
+          Imagen_De_Perfil: perfil.Imagen_De_Perfil ?? userData.Imagen_De_Perfil,
+        };
+
+
+        setUserData(updatedUserData);
+
+
+        window.dispatchEvent(new CustomEvent('userProfileUpdated', {
+          detail: { updatedUserData: updatedUserData }
+        }));
+      }
+
+      return res.data;
+
+    } catch (err) {
+      console.error('❌ Error en API_PUT:', err);
+      console.log('error al registrar o actualizar los datos', err)
+      showNotification('Error al actualizar el perfil', 'error');
+      throw err;
+    }
+  }
+
+  useEffect(() => {
+    API_GET()
+  }, [])
+
+  const saveChanges = async (e) => {
+    e.preventDefault();
+    try {
+
+      const res = await API_PUT();
+
+      if (res && res.perfil) {
+        await API_GET();
+      }
+
+      setIsEditing(false);
+      showNotification("Perfil actualizado con éxito", "success");
+
+    } catch (error) {
+      console.error('❌ Error al guardar:', error);
+      showNotification("Error al guardar los cambios", "error");
+    }
+  }
+
+
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        showNotification("Selecciona un archivo de imagen válido", "error", "Error de formato");
+        return;
+      }
+
+      setUserData(prev => ({
+        ...prev,
+        Imagen_De_Perfil: file,
+      }));
+
+      showNotification("Foto seleccionada, recuerda guardar los cambios", "success", "Imagen lista");
+    }
+  }
+
+  
+
+  const handleInputChange = ({ target }) => {
+
+    const { name, value } = target
+
+    setUserData({
+      ...userData,
+      [name]: value
+    });
+  };
+
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -68,7 +202,7 @@ const useConfiguracionPerfilUsuario = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Notificación
+
   const showNotification = (message, type = "info", title = null) => {
     const defaultTitles = {
       success: "Éxito",
@@ -145,63 +279,35 @@ const useConfiguracionPerfilUsuario = () => {
     }
   };
 
-  // Eventos
+
   const toggleNav = () => setNavActive(!navActive);
+
+
   const toggleProfileMenu = (e) => {
     e.stopPropagation();
     setProfileMenuActive(!profileMenuActive);
   };
 
-  const handleInputChange = (e) => {
-    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-  };
 
-  const saveChanges = (e) => {
-    e.preventDefault();
-    const dobDate = new Date(editFormData.dob);
-    const formattedDob = `${String(dobDate.getDate()).padStart(2, "0")}/${String(
-      dobDate.getMonth() + 1
-    ).padStart(2, "0")}/${dobDate.getFullYear()}`;
 
-    setUserData({ ...userData, ...editFormData, dob: formattedDob });
-    setIsEditing(false);
-    showNotification("Perfil actualizado con éxito", "success", "Datos guardados");
-  };
+  //formateador de fechas
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        showNotification(
-          "Por favor, selecciona un archivo de imagen válido",
-          "error",
-          "Error de formato"
-        );
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUserData({ ...userData, profileImage: e.target.result });
-        showNotification("Foto de perfil actualizada", "success", "Imagen cambiada");
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    if (window.confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-      showNotification("Cerrando sesión...", "info");
-      setTimeout(() => (window.location.href = "/"), 1000);
-    }
-  };
+  const date = userData.fechaNacimiento ? new Date(userData.fechaNacimiento) : null;
+  if (date) {
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+  }
+
+  const fechaNacimineto = userData.fechaNacimiento
+    ? new Date(userData.fechaNacimiento).toISOString().split('T')[0]
+    : ''
+
 
   return {
     navActive,
     profileMenuActive,
     userData,
     isEditing,
-    editFormData,
     profileMenuRef,
     fileInputRef,
     setIsEditing,
@@ -209,9 +315,11 @@ const useConfiguracionPerfilUsuario = () => {
     toggleProfileMenu,
     handleInputChange,
     saveChanges,
-    handleProfilePictureChange,
-    handleLogout,
     showNotification,
+    handleProfilePictureChange,
+    date,
+    fechaNacimineto,
+    API_GET
   };
 };
 

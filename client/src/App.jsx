@@ -1,8 +1,9 @@
 // client/src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ThemeProvider } from './components/Configuracion/Them';
 
+import Login from './components/Login';
 import Registro from './components/Registro/Registro';
 import RecuperarContrasena from './components/RecuperarCuenta/Rcontraseña';
 
@@ -20,31 +21,47 @@ import Perfil from './pages/Configuracion/perfil';
 import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
 import PedidosPorCliente from './pages/Dashboard/pedidosPorCliente';
 
+const AppContent = () => {
 
-function App() {
+  const location = useLocation(); 
+  const isDashboard = location.pathname.startsWith("/dashboard");
+
+  return (
+    <>
+      <ConditionalBootstrap />
+
+      {isDashboard ? (
+        <ThemeProvider>
+          <Routes>
+            <Route path="/dashboard" element={<InicioDashboard />} />
+            <Route path="/dashboard/categoria" element={<CategoriaDashboard />} />
+            <Route path="/dashboard/productos" element={<ProductosDashboard />} />
+            <Route path="/dashboard/roles" element={<RolesDashboard />} />
+            <Route path="/dashboard/usuarios" element={<UsuariosDashboard />} />
+            <Route path="/dashboard/clientes" element={<ClientesDashboard />} />
+            <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />
+            <Route path="/dashboard/pedidos" element={<PedidosDashboard />} />
+            <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />
+            <Route path="/dashboard/pedidosPorCliente/:clienteId" element={<PedidosPorCliente />} />
+            <Route path="/dashboard/configuracion" element={<Configuracion />} />
+            <Route path="/dashboard/perfil" element={<Perfil />} />
+          </Routes>
+        </ThemeProvider>
+      ) : (
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
+        </Routes>
+      )}
+    </>
+  );
+}
+
+const App = () => {
   return (
     <Router>
-      <ConditionalBootstrap /> 
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
-
-        <Route path="/dashboard" element={<InicioDashboard />} />
-        <Route path="/dashboard/categoria" element={<CategoriaDashboard />} />
-        <Route path="/dashboard/productos" element={<ProductosDashboard />} />
-        <Route path="/dashboard/roles" element={<RolesDashboard />} />
-        <Route path="/dashboard/usuarios" element={<UsuariosDashboard />} />
-        <Route path="/dashboard/clientes" element={<ClientesDashboard />} />
-        <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />
-        <Route path="/dashboard/pedidos" element={<PedidosDashboard />} />
-        <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />
-        <Route path="/dashboard/pedidosPorCliente/:clienteId" element={<PedidosPorCliente />} />
-
-        <Route path="/dashboard/configuracion" element={<Configuracion />}/>
-        <Route path="/dashboard/perfil" element={<Perfil />} />
-        
-      </Routes>
+      <AppContent />
     </Router>
   );
 }

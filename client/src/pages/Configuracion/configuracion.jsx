@@ -1,22 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ConfiguracionLayout from '../../components/Configuracion/ConfiguracionLayout';
 import { useConfiguracion } from '../../hooks/useConfiguracion';
+import { useTheme  } from '../../components/Configuracion/Them';
+
 // Componente para campos de contraseña
 const PasswordInput = ({ id, label, placeholder, value, onChange, toggleVisibility, visible }) => (
   <div className="input-group password-group">
     <label htmlFor={id} className="input-label">{label}</label>
     <div className="password-wrapper">
-      <input 
-        type={visible ? "text" : "password"} 
-        id={id} 
+      <input
+        type={visible ? "text" : "password"}
+        id={id}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         onCopy={(e) => e.preventDefault()}
         className="password-input"
       />
-      <span 
-        className="toggle-visibility" 
+      <span
+        className="toggle-visibility"
         onClick={() => toggleVisibility(id)}
       >
         <ion-icon name={visible ? "eye-off-outline" : "eye-outline"}></ion-icon>
@@ -45,295 +47,290 @@ const NotificationToggle = ({ type, icon, label, checked, onChange }) => (
   </div>
 );
 
+
+
 const Configuracion = () => {
-  // Estados para la interfaz
+
+
+  const initial = {
+    nombre:'',
+    apellido: '',
+  }
+  
   const {
-    selectedFile, setSelectedFile,
-    userName, setUserName,
-    selectedTheme,
+    userData,
     actionStatus,
     notifications,
-    passwords,
     passwordVisibility,
     passwordStrength,
-    fileInputRef,
-    showStatus,
+    passwords,
     togglePasswordVisibility,
-    handlePasswordChange,
     handleNotificationToggle,
+    handlePasswordChange,
     saveName,
     savePassword,
-    handleFileChange,
-    saveProfilePicture,
-    handleThemeChange,
     resetConfig,
-  } = useConfiguracion();
-  
+    onChangeInput
+  } = useConfiguracion(initial);
+
+  const {
+    nombre, 
+    apellido,
+  } = userData
+
+
+  const { theme, setTheme } = useTheme()
+
+
 
   return (
     <ConfiguracionLayout>
-        {/* Indicador de estado de acción */}
-        {actionStatus && (
-          <div className="action-status">
-              {actionStatus}
-          </div>
-        )}
+      {/* Indicador de estado de acción */}
+      {actionStatus && (
+        <div className="action-status">
+          {actionStatus}
+        </div>
+      )}
 
-         {/* CONFIGURACIONES */}
-        <div className="dashboard-config">
-          <div className="config-header">
-            <h2 className="config-title">Configuraciones</h2>
-            <p className="config-desc">Personaliza tu experiencia según tus preferencias</p>
+      {/* CONFIGURACIONES */}
+      <div className="dashboard-config">
+        <div className="config-header">
+          <h2 className="config-title">Configuraciones</h2>
+          <p className="config-desc">Personaliza tu experiencia según tus preferencias</p>
+        </div>
+
+        <div className="config-block">
+          <div className="block-header">
+            <ion-icon name="image-outline" className="block-icon"></ion-icon>
+            <h3 className="block-title">Perfil</h3>
           </div>
-          
-          <div className="config-block">
-            <div className="block-header">
-              <ion-icon name="image-outline" className="block-icon"></ion-icon>
-              <h3 className="block-title">Perfil</h3>
-            </div>
-            <div className="config-panel">
-              <div className="panel-content">
-                <div className="panel-icon">
-                  <ion-icon name="image-outline"></ion-icon>
-                </div>
-                <div className="panel-details">
-                  <h4 className="panel-title">Subir Nuevo Logo</h4>
-                  <p className="panel-desc">Actualiza el logo de tu perfil con una imagen personalizada</p>
-                  <div className="input-group">
-                    <label htmlFor="nuevo-logo" className="custom-file-selector">
-                      <ion-icon name="cloud-upload-outline"></ion-icon>
-                      {selectedFile ? selectedFile.name : 'Seleccionar imagen'}
-                    </label>
-                    <input 
-                      type="file" 
-                      id="nuevo-logo" 
-                      accept="image/jpeg,image/png,image/gif" 
-                      onChange={handleFileChange}
-                      className="file-input"
-                      ref={fileInputRef}
-                    />
-                  </div>
-                  <button 
-                    className="dashboard-btn dashboard-btn-primary"
-                    onClick={saveProfilePicture}
-                  >
-                    <ion-icon name="save-outline"></ion-icon>
-                    Guardar Logo
-                  </button>
-                </div>
+
+          {/* Cambiar Datos */}
+          <div className="config-panel">
+            <div className="panel-content">
+              <div className="panel-icon">
+                <ion-icon name="person-outline"></ion-icon>
               </div>
-            </div>
-            
-            {/* Cambiar Nombre */}
-            <div className="config-panel">
-              <div className="panel-content">
-                <div className="panel-icon">
-                  <ion-icon name="person-outline"></ion-icon>
+              <div className="panel-details">
+                <h4 className="panel-title">Cambiar Nombre Y Apellido de Usuario</h4>
+                <p className="panel-desc">Modifica como aparece tu nombre y apellido en la plataforma</p>
+                <div className="input-group">
+                  <label htmlFor="nombre-usuario" className="input-label">Nuevo Nombre:</label>
+                  <input
+                    type="text"
+                    id="nombre-usuario"
+                    name='nombre'
+                    placeholder="Ingrese su nuevo nombre"
+                    value={nombre}
+                    onChange={onChangeInput}
+                    className="text-input"
+                    maxLength={50}
+                  />
                 </div>
-                <div className="panel-details">
-                  <h4 className="panel-title">Cambiar Nombre de Usuario</h4>
-                  <p className="panel-desc">Modifica como aparece tu nombre en la plataforma</p>
-                  <div className="input-group">
-                    <label htmlFor="nombre-usuario" className="input-label">Nuevo Nombre:</label>
-                    <input 
-                      type="text" 
-                      id="nombre-usuario" 
-                      placeholder="Ingrese su nuevo nombre"
-                      value={userName}
-                      onChange={(e) => setUserName(e.target.value)}
-                      className="text-input"
-                      maxLength={50}
-                    />
-                  </div>
-                  <button 
-                    className="dashboard-btn dashboard-btn-primary" 
-                    onClick={saveName}
-                  >
-                    <ion-icon name="save-outline"></ion-icon>
-                    Guardar Nombre
-                  </button>
+                <div className="input-group">
+                  <label htmlFor="apellido-usuario" className="input-label">Nuevo Apellido:</label>
+                  <input
+                    type="text"
+                    id="apellido-usuario"
+                    name='apellido'
+                    value={apellido}
+                    placeholder="Ingrese su nuevo apellido"
+                    onChange={onChangeInput}
+                    className="text-input"
+                    maxLength={50}
+                  />
                 </div>
+                <button
+                  className="dashboard-btn dashboard-btn-primary"
+                  onClick={saveName}
+                >
+                  <ion-icon name="refresh"></ion-icon>
+                  Actualizar Datos
+                </button>
               </div>
             </div>
           </div>
-          
-          <div className="config-block">
-            <div className="block-header">
-              <ion-icon name="shield-outline" className="block-icon"></ion-icon>
-              <h3 className="block-title">Seguridad</h3>
-            </div>
-            
-            {/* Cambiar Contraseña */}
-            <div className="config-panel">
-              <div className="panel-content">
-                <div className="panel-icon">
-                  <ion-icon name="lock-closed-outline"></ion-icon>
+        </div>
+
+        <div className="config-block">
+          <div className="block-header">
+            <ion-icon name="shield-outline" className="block-icon"></ion-icon>
+            <h3 className="block-title">Seguridad</h3>
+          </div>
+
+          {/* Cambiar Contraseña */}
+          <div className="config-panel">
+            <div className="panel-content">
+              <div className="panel-icon">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+              </div>
+              <div className="panel-details">
+                <h4 className="panel-title">Cambiar Contraseña</h4>
+                <p className="panel-desc">Actualiza tu contraseña para mantener tu cuenta segura</p>
+
+                <PasswordInput
+                  id="actual-password"
+                  label="Contraseña Actual:"
+                  placeholder="Ingrese su contraseña actual"
+                  value={passwords.current}
+                  onChange={handlePasswordChange}
+                  toggleVisibility={togglePasswordVisibility}
+                  visible={passwordVisibility['actual-password']}
+                />
+
+                <PasswordInput
+                  id="nueva-password"
+                  label="Nueva Contraseña:"
+                  placeholder="Ingrese su nueva contraseña"
+                  value={passwords.new}
+                  onChange={handlePasswordChange}
+                  toggleVisibility={togglePasswordVisibility}
+                  visible={passwordVisibility['nueva-password']}
+                />
+                <PasswordInput
+                  id="confirm-password"
+                  label="Confirmar Contraseña:"
+                  placeholder="Confirme su nueva contraseña"
+                  value={passwords.confirm}
+                  onChange={handlePasswordChange}
+                  toggleVisibility={togglePasswordVisibility}
+                  visible={passwordVisibility['confirm-password']}
+                />
+
+                <div className="password-meter">
+                  <div className="meter-wrapper">
+                    <div
+                      className="meter-bar"
+                      style={{
+                        width: `${passwordStrength.strength}%`,
+                        backgroundColor: passwordStrength.color
+                      }}
+                    ></div>
+                  </div>
+                  <span className="meter-text">{`Fuerza de contraseña: ${passwordStrength.status}`}</span>
                 </div>
-                <div className="panel-details">
-                  <h4 className="panel-title">Cambiar Contraseña</h4>
-                  <p className="panel-desc">Actualiza tu contraseña para mantener tu cuenta segura</p>
-                  
-                  <PasswordInput 
-                    id="actual-password"
-                    label="Contraseña Actual:"
-                    placeholder="Ingrese su contraseña actual"
-                    value={passwords.current}
-                    onChange={handlePasswordChange}
-                    toggleVisibility={togglePasswordVisibility}
-                    visible={passwordVisibility['actual-password']}
-                  />
-                  
-                  <PasswordInput 
-                    id="nueva-password"
-                    label="Nueva Contraseña:"
-                    placeholder="Ingrese su nueva contraseña"
-                    value={passwords.new}
-                    onChange={handlePasswordChange}
-                    toggleVisibility={togglePasswordVisibility}
-                    visible={passwordVisibility['nueva-password']}
-                  />
-                  <PasswordInput 
-                    id="confirm-password"
-                    label="Confirmar Contraseña:"
-                    placeholder="Confirme su nueva contraseña"
-                    value={passwords.confirm}
-                    onChange={handlePasswordChange}
-                    toggleVisibility={togglePasswordVisibility}
-                    visible={passwordVisibility['confirm-password']}
-                  />
-                  
-                  <div className="password-meter">
-                    <div className="meter-wrapper">
-                      <div 
-                        className="meter-bar" 
-                        style={{ 
-                          width: `${passwordStrength.strength}%`,
-                          backgroundColor: passwordStrength.color 
-                        }}
-                      ></div>
+                <button
+                  className="dashboard-btn dashboard-btn-primary"
+                  onClick={savePassword}
+                >
+                  <ion-icon name="shield-checkmark-outline"></ion-icon>
+                  Cambiar Contraseña
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="config-block">
+          <div className="block-header">
+            <ion-icon name="options-outline" className="block-icon"></ion-icon>
+            <h3 className="block-title">Preferencias</h3>
+          </div>
+
+
+          {/* Alternar Tema */}
+          <div className="config-panel">
+            <div className="panel-content">
+              <div className="panel-icon">
+                <ion-icon name="contrast-outline"></ion-icon>
+              </div>
+              <div className="panel-details">
+                <h4 className="panel-title">Modo de Tema</h4>
+                <p className="panel-desc">Personaliza la apariencia de la plataforma</p>
+                <div className="theme-options">
+                  {['light', 'dark', 'auto'].map((th) => (
+                    <div className="theme-choice" key={th}>
+                      <label htmlFor={`theme-${th}`} className="theme-option-label">
+                        <input
+                          type="radio"
+                          id={`theme-${th}`}
+                          name="theme"
+                          value={th}
+                          checked={theme === th}
+                          onChange={() => setTheme(th)}
+                          className="theme-radio"
+                        />
+                        <div className={`theme-preview ${th}`}>
+                          <ion-icon
+                            name={th === 'light' ? "sunny-outline" : th === 'dark' ? "moon-outline" : "sync-outline"}>
+                          </ion-icon>
+                          <span>{th === 'light' ? 'Claro' : th === 'dark' ? 'Oscuro' : 'Automático'}</span>
+
+                        </div>
+                      </label>
                     </div>
-                    <span className="meter-text">{`Fuerza de contraseña: ${passwordStrength.status}`}</span>
-                  </div>
-                  <button 
-                    className="dashboard-btn dashboard-btn-primary" 
-                    onClick={savePassword}
-                  >
-                    <ion-icon name="shield-checkmark-outline"></ion-icon>
-                    Cambiar Contraseña
-                  </button>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-          
-          <div className="config-block">
-            <div className="block-header">
-              <ion-icon name="options-outline" className="block-icon"></ion-icon>
-              <h3 className="block-title">Preferencias</h3>
-            </div>
-            
-            {/* Alternar Tema */}
-            <div className="config-panel">
-              <div className="panel-content">
-                <div className="panel-icon">
-                  <ion-icon name="contrast-outline"></ion-icon>
-                </div>
-                <div className="panel-details">
-                  <h4 className="panel-title">Modo de Tema</h4>
-                  <p className="panel-desc">Personaliza la apariencia de la plataforma</p>
-                  <div className="theme-options">
-                    {['light', 'dark', 'auto'].map((theme) => (
-                      <div className="theme-choice" key={theme}>
-                        <label htmlFor={`theme-${theme}`} className="theme-option-label">
-                          <input 
-                            type="radio" 
-                            id={`theme-${theme}`} 
-                            name="theme" 
-                            value={theme} 
-                            checked={selectedTheme === theme}
-                            onChange={handleThemeChange}
-                            className="theme-radio"
-                          />
-                          <div className={`theme-preview ${theme}`}>
-                            <ion-icon name={theme === 'light' ? "sunny-outline" : 
-                                            theme === 'dark' ? "moon-outline" : "sync-outline"}></ion-icon>
-                            <span>{theme === 'light' ? 'Claro' : 
-                                    theme === 'dark' ? 'Oscuro' : 'Auto'}</span>
-                          </div>
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+
+          {/* Notificaciones - AÑADIDO */}
+          <div className="config-panel">
+            <div className="panel-content">
+              <div className="panel-icon">
+                <ion-icon name="notifications-outline"></ion-icon>
               </div>
-            </div>
-            
-            {/* Notificaciones - AÑADIDO */}
-            <div className="config-panel">
-              <div className="panel-content">
-                <div className="panel-icon">
-                  <ion-icon name="notifications-outline"></ion-icon>
-                </div>
-                <div className="panel-details">
-                  <h4 className="panel-title">Gestión de Notificaciones</h4>
-                  <p className="panel-desc">Configura cómo quieres recibir tus notificaciones</p>
-                  <div className="notification-options">
-                    <NotificationToggle 
-                      type="email"
-                      icon="mail-outline"
-                      label="Correo electrónico"
-                      checked={notifications.email}
-                      onChange={handleNotificationToggle}
-                    />
-                    
-                    <NotificationToggle 
-                      type="push"
-                      icon="phone-portrait-outline"
-                      label="Notificaciones push"
-                      checked={notifications.push}
-                      onChange={handleNotificationToggle}
-                    />
-                    
-                    <NotificationToggle 
-                      type="updates"
-                      icon="refresh-outline"
-                      label="Actualizaciones del sistema"
-                      checked={notifications.updates}
-                      onChange={handleNotificationToggle}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="config-block">
-            <div className="block-header">
-              <ion-icon name="settings-outline" className="block-icon"></ion-icon>
-              <h3 className="block-title">Avanzado</h3>
-            </div>
-            
-            {/* Restablecer Configuraciones */}
-            <div className="config-panel danger">
-              <div className="panel-content">
-                <div className="panel-icon danger">
-                  <ion-icon name="refresh-outline"></ion-icon>
-                </div>
-                <div className="panel-details">
-                  <h4 className="panel-title">Restablecer Configuraciones</h4>
-                  <p className="panel-desc">Esto restablecerá todas las configuraciones a sus valores predeterminados.</p>
-                  <button className="dashboard-btn dashboard-btn-danger" onClick={resetConfig}>
-                    <ion-icon name="refresh-outline"></ion-icon>
-                    Restablecer Configuraciones
-                  </button>
+              <div className="panel-details">
+                <h4 className="panel-title">Gestión de Notificaciones</h4>
+                <p className="panel-desc">Configura cómo quieres recibir tus notificaciones</p>
+                <div className="notification-options">
+                  <NotificationToggle
+                    type="email"
+                    icon="mail-outline"
+                    label="Correo electrónico"
+                    checked={notifications.email}
+                    onChange={handleNotificationToggle}
+                  />
+
+                  <NotificationToggle
+                    type="push"
+                    icon="phone-portrait-outline"
+                    label="Notificaciones push"
+                    checked={notifications.push}
+                    onChange={handleNotificationToggle}
+                  />
+
+                  <NotificationToggle
+                    type="updates"
+                    icon="refresh-outline"
+                    label="Actualizaciones del sistema"
+                    checked={notifications.updates}
+                    onChange={handleNotificationToggle}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-      
+
+        <div className="config-block">
+          <div className="block-header">
+            <ion-icon name="settings-outline" className="block-icon"></ion-icon>
+            <h3 className="block-title">Avanzado</h3>
+          </div>
+
+          {/* Restablecer Configuraciones */}
+          <div className="config-panel danger">
+            <div className="panel-content">
+              <div className="panel-icon danger">
+                <ion-icon name="refresh-outline"></ion-icon>
+              </div>
+              <div className="panel-details">
+                <h4 className="panel-title">Restablecer Configuraciones</h4>
+                <p className="panel-desc">Esto restablecerá todas las configuraciones a sus valores predeterminados.</p>
+                <button className="dashboard-btn dashboard-btn-danger" onClick={resetConfig}>
+                  <ion-icon name="refresh-outline"></ion-icon>
+                  Restablecer Configuraciones
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Estilos para las nuevas funcionalidades */}
-      <style jsx>{`
+      <style>{`
         .action-status {
           position: fixed;
           top: 20px;

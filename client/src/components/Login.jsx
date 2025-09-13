@@ -37,11 +37,15 @@ function Login() {
         { headers: { 'Content-Type': 'application/json' } }
       );
 
+      localStorage.setItem("token", response.data.token);
+
       if (response.status === 200) {
         navigate('/dashboard');
       } else {
         alert(response.data.error || 'Error al iniciar sesión');
       }
+
+
     } catch (error) {
       console.error('Error al conectar con el servidor:', error);
       alert(error.response?.data?.error || 'No se pudo conectar con el servidor');

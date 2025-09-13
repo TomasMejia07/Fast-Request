@@ -6,7 +6,7 @@ const ValidarEmail = require('./validarEmail');
 const Clientes = require('./cliente');
 const Permiso = require('./Permisos');
 const Rol = require('./Roles');
-
+const Perfil = require('./configuracionPerfil')
 
 module.exports = {
   Usuario,
@@ -16,6 +16,7 @@ module.exports = {
   Producto,
   ValidarEmail,
   Permiso,
-  Rol
+  Rol,
+  Perfil,
 };
 

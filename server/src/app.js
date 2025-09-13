@@ -6,12 +6,14 @@ const { sequelize } = require("./config/db.js");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require('path');
 const db = require("./config/db.js");
 
 app.use(cors());
 dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 const PORT = process.env.PORT || 5000;
 
 sequelize.sync()
@@ -62,6 +64,8 @@ esperarDB().then(() => {
   const estadisticasRoutes = require('./routers/estadisticas.routes.js');
   const permisosRoutes = require('./routers/permiso.routes.js');
   const rolRoutes = require('./routers/rol.routes.js');
+  const configuracionPerfil = require('./routers/configuracionPerfil.routes.js')
+  const configuracion = require('./routers/configuracion.routes.js')
 
   // Rutas protegidas o públicas
   app.use("/api/usuarios", usuarioRoutes);
@@ -74,6 +78,10 @@ esperarDB().then(() => {
   app.use("/api/estadisticas", estadisticasRoutes);
   app.use("/api/permisos", permisosRoutes);
   app.use("/api/rol", rolRoutes);
+  app.use('/api/perfil', configuracionPerfil)
+  app.use('/api/configuracion', configuracion)
+
+  
 
   const { crearPermisosIniciales } = require("./controllers/permiso.controller.js");
   crearPermisosIniciales();

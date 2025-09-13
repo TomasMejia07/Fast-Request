@@ -1,33 +1,36 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { validacionDeCampos } from "../helpers/validacionDeCampos";
 
-export const useConfiguracion = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [userName, setUserName] = useState("Usuario");
-  const [selectedTheme, setSelectedTheme] = useState('light');
-  const [actionStatus, setActionStatus] = useState('');
+
+export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
+  const [userData, setUserData] = useState(initial);
+
+  const [actionStatus, setActionStatus] = useState("");
+
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
-    updates: true
+    updates: true,
   });
   const [passwords, setPasswords] = useState({
-    current: '',
-    new: '',
-    confirm: ''
+    current: "",
+    new: "",
+    confirm: "",
   });
   const [passwordVisibility, setPasswordVisibility] = useState({
-    'actual-password': false,
-    'nueva-password': false,
-    'confirm-password': false
+    "actual-password": false,
+    "nueva-password": false,
+    "confirm-password": false,
   });
   const [passwordStrength, setPasswordStrength] = useState({
     strength: 0,
-    status: 'Débil',
-    color: '#ea4335'
+    status: "Débil",
+    color: "#ea4335",
   });
 
   const userMenuRef = useRef(null);
-  const fileInputRef = useRef(null);
   const statusTimeoutRef = useRef(null);
 
   const showStatus = (message) => {
@@ -35,7 +38,7 @@ export const useConfiguracion = () => {
     if (statusTimeoutRef.current) {
       clearTimeout(statusTimeoutRef.current);
     }
-    statusTimeoutRef.current = setTimeout(() => setActionStatus(''), 3000);
+    statusTimeoutRef.current = setTimeout(() => setActionStatus(""), 3000);
   };
 
   useEffect(() => {
@@ -46,33 +49,41 @@ export const useConfiguracion = () => {
     };
   }, []);
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', selectedTheme);
-  }, [selectedTheme]);
+
 
   const togglePasswordVisibility = (id) => {
-    setPasswordVisibility(prev => ({ ...prev, [id]: !prev[id] }));
+    setPasswordVisibility((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const calculatePasswordStrength = (password) => {
-    if (!password) return { strength: 0, status: 'Débil', color: '#ea4335' };
+    if (!password) return { strength: 0, status: "Débil", color: "#ea4335" };
+
     let strength = 0;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[^A-Za-z0-9]/.test(password);
+
     if (password.length >= 8) strength += 25;
-    if (/[A-Z]/.test(password)) strength += 20;
-    if (/[0-9]/.test(password)) strength += 20;
-    if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+    if (hasUpper) strength += 20;
+    if (hasNumber) strength += 20;
+    if (hasSymbol) strength += 20;
     if (password.length >= 12) strength += 15;
 
     strength = Math.min(strength, 100);
+
     let status, color;
-    if (strength >= 80) {
-      status = 'Muy Fuerte'; color = '#0f9d58';
+    if (strength >= 80 && hasSymbol) {
+      status = "Muy Fuerte";
+      color = "#0f9d58";
     } else if (strength >= 60) {
-      status = 'Fuerte'; color = '#34a853';
+      status = "Fuerte";
+      color = "#34a853";
     } else if (strength >= 40) {
-      status = 'Medio'; color = '#fbbc05';
+      status = "Medio";
+      color = "#fbbc05";
     } else {
-      status = 'Débil'; color = '#ea4335';
+      status = "Débil";
+      color = "#ea4335";
     }
 
     return { strength, status, color };
@@ -80,27 +91,28 @@ export const useConfiguracion = () => {
 
   const handlePasswordChange = (e) => {
     const { id, value } = e.target;
-    let fieldName = '';
-    if (id === 'actual-password') fieldName = 'current';
-    if (id === 'nueva-password') {
-      fieldName = 'new';
+    let fieldName = "";
+    if (id === "actual-password") fieldName = "current";
+    if (id === "nueva-password") {
+      fieldName = "new";
       setPasswordStrength(calculatePasswordStrength(value));
     }
-    if (id === 'confirm-password') fieldName = 'confirm';
+    if (id === "confirm-password") fieldName = "confirm";
 
     if (fieldName) {
-      setPasswords(prev => ({ ...prev, [fieldName]: value }));
+      setPasswords((prev) => ({ ...prev, [fieldName]: value }));
     }
   };
 
+
   const handleNotificationToggle = (type) => {
-    setNotifications(prev => {
+    setNotifications((prev) => {
       const updated = { ...prev, [type]: !prev[type] };
       const status = updated[type] ? "activadas" : "desactivadas";
       const typeText = {
         email: "correo electrónico",
         push: "push",
-        updates: "actualizaciones"
+        updates: "actualizaciones",
       }[type];
 
       showStatus(`Notificaciones de ${typeText} ${status}`);
@@ -108,99 +120,163 @@ export const useConfiguracion = () => {
     });
   };
 
-  const saveName = () => {
-    if (!userName.trim()) {
-      alert("El nombre de usuario no puede estar vacío");
+
+  const API_UPDATE_PASS = async () => {
+    try {
+
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        showStatus("Usuario no autenticado");
+        return;
+      }
+
+      const decored = jwtDecode(token)
+      const id = decored.id
+
+      const res = await axios.put(`http://localhost:5000/api/configuracion/updatePass/${id}`, passwords)
+
+      showStatus(res.data.message || "Contraseña actualizada correctamente");
+      console.log('Contraseña actualizada correctamente');
+
+    } catch (err) {
+      console.log('Error al actualizar la contraseña ❌', err);
+
+      if (err.response && err.response.data) {
+        const backendMessage = err.response.data.message
+        showStatus(backendMessage);
+      } else {
+        showStatus("Error al actualizar la contraseña");
+      }
+    }
+  }
+
+
+
+  const savePassword = (e) => {
+    e.preventDefault()
+
+    if (
+      !passwords.current ||
+      !passwords.new ||
+      passwords.new !== passwords.confirm ||
+      passwordStrength.strength < 40
+    ) {
+      showStatus("Por Favor Verifica las contraseñas antes de continuar");
       return;
     }
-    showStatus("Guardando nombre...");
+
+    API_UPDATE_PASS()
     setTimeout(() => {
-      const tempName = userName;
-      setUserName("");
-      showStatus(`Nombre guardado correctamente: ${tempName}`);
-      setTimeout(() => setUserName(tempName), 200);
+      setPasswords({ current: "", new: "", confirm: "" });
+      setPasswordStrength({ strength: 0, status: "Débil", color: "#ea4335" });
     }, 1000);
   };
 
-  const savePassword = () => {
-    if (!passwords.current || !passwords.new || passwords.new !== passwords.confirm || passwordStrength.strength < 40) {
-      alert("Verifica las contraseñas antes de continuar");
-      return;
-    }
-    showStatus("Cambiando contraseña...");
-    setTimeout(() => {
-      setPasswords({ current: '', new: '', confirm: '' });
-      setPasswordStrength({ strength: 0, status: 'Débil', color: '#ea4335' });
-      showStatus("Contraseña cambiada correctamente");
-    }, 1000);
-  };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      const maxSize = 5 * 1024 * 1024;
-      if (!validTypes.includes(file.type)) return alert("Tipo de imagen inválido");
-      if (file.size > maxSize) return alert("La imagen es demasiado grande");
 
-      setSelectedFile(file);
-      showStatus(`Imagen seleccionada: ${file.name}`);
-    }
-  };
 
-  const saveProfilePicture = () => {
-    if (!selectedFile) return alert("Selecciona una imagen primero");
-    showStatus("Subiendo imagen...");
-    const currentFile = selectedFile;
-    setTimeout(() => {
-      if (fileInputRef.current) fileInputRef.current.value = '';
-      showStatus(`Imagen subida correctamente: ${currentFile.name}`);
-      setSelectedFile(null);
-    }, 2000);
-  };
-
-  const handleThemeChange = (e) => {
-    const newTheme = e.target.value;
-    document.documentElement.classList.add('theme-transition');
-    setSelectedTheme(newTheme);
-    showStatus(`Tema cambiado a ${newTheme === 'light' ? 'claro' : newTheme === 'dark' ? 'oscuro' : 'automático'}`);
-    setTimeout(() => {
-      document.documentElement.classList.remove('theme-transition');
-    }, 500);
-  };
 
   const resetConfig = () => {
     if (!window.confirm("¿Restablecer todas las configuraciones?")) return;
-    setSelectedTheme('light');
-    document.documentElement.setAttribute('data-theme', 'light');
     setNotifications({ email: true, push: false, updates: true });
-    document.documentElement.classList.add('reset-animation');
+    document.documentElement.classList.add("reset-animation");
     showStatus("Configuraciones restablecidas correctamente");
     setTimeout(() => {
-      document.documentElement.classList.remove('reset-animation');
+      document.documentElement.classList.remove("reset-animation");
     }, 1000);
   };
 
+
+
+
+
+
+  const API_UPDATE_DATA = async () => {
+    try {
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        showStatus("Usuario no autenticado");
+        return;
+      }
+
+      const decoded = jwtDecode(token);
+      const id = decoded.id;
+
+      const payload = {}
+      if (userData.nombre?.trim() !== "") payload.nombre = userData.nombre;
+      if (userData.apellido?.trim() !== "") payload.apellido = userData.apellido;
+
+
+      if (Object.keys(payload).length === 0) {
+        showStatus("No hay cambios para guardar");
+        return;
+      }
+
+      const res = await axios.put(
+        `http://localhost:5000/api/configuracion/updateData/${id}`,
+        payload
+      );
+
+      showStatus(res.data.message);
+      console.log('Usuario actualizado correctamente');
+
+
+    } catch (err) {
+      console.log('Error al actualizar los datos del usuario ❌', err);
+      showStatus("Error al actualizar los datos");
+    }
+  };
+
+
+
+  const saveName = (e) => {
+    e.preventDefault()
+
+    API_UPDATE_DATA()
+    setTimeout(() => {
+      setUserData({
+        nombre: '',
+        apellido: ''
+      });
+    }, 500);
+  };
+
+  const onChangeInput = ({ target }) => {
+    const { name, value } = target
+
+    setUserData({
+      ...userData,
+      [name]: value
+    })
+
+    setErrores({
+      ...errores,
+      [name]: validacionDeCampos(name, value)
+    })
+  }
+
+
+
+
   return {
-    selectedFile, setSelectedFile,
-    userName, setUserName,
-    selectedTheme, setSelectedTheme,
+    userData,
     actionStatus,
     notifications,
     passwords,
     passwordVisibility,
     passwordStrength,
-    fileInputRef,
     userMenuRef,
     showStatus,
     togglePasswordVisibility,
-    handlePasswordChange,
     handleNotificationToggle,
+    handlePasswordChange,
     saveName,
     savePassword,
-    handleFileChange,
-    saveProfilePicture,
-    handleThemeChange,
     resetConfig,
+    onChangeInput,
   };
 };
+
+
