@@ -36,8 +36,8 @@ const Usuario = sequelize.define('Usuario', {
 });
 
 
-Rol.hasMany(Usuario, { foreignKey: 'Id' });
-Usuario.belongsTo(Rol, { foreignKey: 'Id' });
+Rol.hasMany(Usuario, { foreignKey: 'RolId' });
+Usuario.belongsTo(Rol, { foreignKey: 'RolId' });
 
 Empresa.hasMany(Usuario, { foreignKey: 'EmpresaId' });
 Usuario.belongsTo(Empresa, { foreignKey: 'EmpresaId' });

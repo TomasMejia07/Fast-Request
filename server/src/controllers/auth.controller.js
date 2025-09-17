@@ -4,20 +4,33 @@ const { Usuario, Empresa, Rol } = require('../models');
 
 exports.registrarUsuario = async (req, res) => {
   try {
-    const { correo, nombre, apellido, password, empresaId, rolId } = req.body;
+    const { Correo, Nombre, Apellido, Password, EmpresaId, RolId } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // ✅ Verificar si el usuario ya existe
+    const usuarioExistente = await Usuario.findOne({ where: { Correo } });
+    if (usuarioExistente) {
+      return res.status(400).json({ error: 'El correo ya está registrado' });
+    }
+
+    const hashedPassword = await bcrypt.hash(Password, 10);
 
     const usuario = await Usuario.create({
-      correo,
-      nombre,
-      apellido,
-      password: hashedPassword,
-      EmpresaId: empresaId,
-      RolId: rolId
+      Correo,
+      Nombre,
+      Apellido,
+      Password: hashedPassword,
+      EmpresaId, // ✅ 1
+      RolId      // ✅ 1
     });
 
-    res.status(201).json({ message: 'Usuario registrado con éxito', usuario });
+    // Omitir el password en la respuesta
+    const usuarioRespuesta = { ...usuario.toJSON() };
+    delete usuarioRespuesta.Password;
+
+    res.status(201).json({ 
+      message: 'Usuario administrador registrado con éxito', 
+      usuario: usuarioRespuesta 
+    });
   } catch (err) {
     console.error('Error al registrar usuario:', err);
     res.status(500).json({ error: 'Error al registrar usuario' });
