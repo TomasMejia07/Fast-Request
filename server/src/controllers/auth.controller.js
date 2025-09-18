@@ -40,22 +40,22 @@ exports.registrarUsuario = async (req, res) => {
 exports.loginUsuario = async (req, res) => {
   try {
     const { usuario, password } = req.body;
-    const user = await Usuario.findOne({ where: { usuario } });
+    const user = await Usuario.findOne({ where: { Correo: usuario } });
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    const esValido = await bcrypt.compare(password, user.password);
+    const esValido = await bcrypt.compare(password, user.Password);
     if (!esValido) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
     const payload = {
-      id: usuario.Id,
-      correo: usuario.Correo,
-      rolId: usuario.RolId,
-      empresaId: usuario.EmpresaId
+      id: user.Id,
+      correo: user.Correo,
+      rolId: user.RolId,
+      empresaId: user.EmpresaId
     };
 
     const token = jwt.generarToken(payload);

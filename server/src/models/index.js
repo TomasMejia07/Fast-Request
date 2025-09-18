@@ -7,6 +7,7 @@ const Clientes = require('./cliente');
 const Permiso = require('./Permisos');
 const Rol = require('./Roles');
 const Perfil = require('./configuracionPerfil')
+const Empresa = require('./Empresa');
 
 module.exports = {
   Usuario,
@@ -18,5 +19,6 @@ module.exports = {
   Permiso,
   Rol,
   Perfil,
+  Empresa
 };
 
