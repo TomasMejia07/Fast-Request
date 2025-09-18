@@ -56,14 +56,14 @@ function TopBar({ onToggleNav }) {
                         ? (userData.Imagen_De_Perfil instanceof File
                             ? URL.createObjectURL(userData.Imagen_De_Perfil)
                             : userData.Imagen_De_Perfil)
-                        : "http://localhost:5000/uploads/perfiles/user.png"
+                        : "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png"
                 } alt="Avatar" />
                 <div className="menu-perfil">
                     <ul className='menu-perfil-ul'>
                         <li className='menu-perfil-ul-li'>
                             <Link to="/dashboard/perfil" className='menu-perfil-ul-li-a'>
                                 <span className="icono-menu-user"><ion-icon name="person-circle"></ion-icon></span>
-                                <span className="nav-titulo">Cuenta</span>
+                                <span className="nav-titulo">Perfil</span>
                             </Link>
                         </li>
                         <li className='menu-perfil-ul-li'>

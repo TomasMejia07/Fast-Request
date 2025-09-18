@@ -53,7 +53,7 @@ const API_GET = async () => {
           telefono: Perfil.Perfil?.telefono || "Por completar",
           direccion: Perfil.Perfil?.direccion || "Por completar",
           fechaNacimiento: Perfil.Perfil?.fechaNacimiento || null,
-          Imagen_De_Perfil: Perfil.Perfil?.Imagen_De_Perfil || "http://localhost:5000/uploads/perfiles/user.png",
+          Imagen_De_Perfil: Perfil.Perfil?.Imagen_De_Perfil || "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png",
         });
       }
 
@@ -156,6 +156,7 @@ const API_GET = async () => {
       showNotification("Error al guardar los cambios", "error");
     }
   }
+
 
 
   const handleProfilePictureChange = (e) => {
