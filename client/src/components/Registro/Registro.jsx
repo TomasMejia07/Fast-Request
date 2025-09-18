@@ -11,7 +11,9 @@ function RegistroFormulario() {
     nombre: '',
     apellido: '',
     codigo: '',
-    password: '',
+    password: '',  
+    empresaId: 1, // ✅ Valor fijo para empresa
+    rolId: 1      // ✅ Valor fijo para rol admin
   });
 
   const avanzarPaso = () => setPaso((prev) => prev + 1);
