@@ -31,7 +31,7 @@ const Perfil = sequelize.define('Perfil', {
     Imagen_De_Perfil: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        defaultValue: 'http://localhost:5000/uploads/perfiles/user.png'
+        defaultValue: 'https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png'
     }
 
 

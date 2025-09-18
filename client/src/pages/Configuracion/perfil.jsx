@@ -14,7 +14,7 @@ const initial = {
   telefono: '',
   direccion: '',
   fechaNacimiento: '',
-  Imagen_De_Perfil: "http://localhost:5000/uploads/perfiles/user.png"
+  Imagen_De_Perfil: "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png"
 }
 
 
@@ -59,7 +59,7 @@ const ConfiguracionPerfilUsuario = () => {
                   ? (userData.Imagen_De_Perfil instanceof File
                     ? URL.createObjectURL(userData.Imagen_De_Perfil)
                     : userData.Imagen_De_Perfil)
-                  : "http://localhost:5000/uploads/perfiles/user.png"
+                  : "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png"
               } alt="Foto de perfil" />
               <div className="overlay">
                 <label htmlFor="file-input" className={`${isEditing ? 'edit-icon' : ''}`} title="Cambiar foto">

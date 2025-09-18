@@ -45,7 +45,7 @@ exports.perfilUsuario = async (req, res) => {
 
         let Imagen_De_Perfil;
         if (req.file) {
-            Imagen_De_Perfil = `http://localhost:5000/uploads/perfiles/${req.file.filename}`;
+            Imagen_De_Perfil = req.file.path;
         }
 
 
@@ -67,6 +67,7 @@ exports.perfilUsuario = async (req, res) => {
                 telefono: telefono || "Por completar",
                 direccion: direccion || "Por completar",
                 fechaNacimiento: fechaNacimiento || null,
+                  // Si se subió una imagen, se usa la URL de Cloudinary
                 ...(Imagen_De_Perfil && { Imagen_De_Perfil })
             });
 

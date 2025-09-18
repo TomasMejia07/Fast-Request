@@ -1,22 +1,24 @@
-const path = require('path');
 const multer = require('multer');
-const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+require('dotenv').config();
 
 
-const uploadDir = path.join(__dirname, '../uploads/perfiles');
-
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        cb(null, Date.now() + ext);
-    }
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const uploadImage = multer({ storage });
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'perfiles_usuarios', // Carpeta en Cloudinary donde se guardarán las imágenes
+        allowed_formats: ['jpg', 'jpeg', 'png', 'WebP'], // Formatos permitidos
+        transformation: [{ width: 500, height: 500, crop: 'limit' }] // transformar la imagen
+    },
+});
 
-module.exports = uploadImage;
+const uploadCloud = multer({ storage });
+
+module.exports = uploadCloud;
