@@ -4,7 +4,11 @@ const Pedido = require('./hacerPedido')
 
 
 const Clientes = sequelize.define('clientes', {
-
+    Id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     NombreCliente: {
         type: DataTypes.STRING(100),
         allowNull: false
@@ -35,12 +39,12 @@ const Clientes = sequelize.define('clientes', {
 
 Clientes.hasMany(Pedido, {
     foreignKey: 'clienteId',
-    sourceKey: 'id'
+    sourceKey: 'Id'
 })
 
 Pedido.belongsTo(Clientes, {
     foreignKey: 'clienteId',
-    targetKey: 'id'
+    targetKey: 'Id'
 }) 
 
 module.exports = Clientes;

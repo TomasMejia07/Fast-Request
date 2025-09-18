@@ -26,20 +26,45 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  FotoPerfil: {
-    type: DataTypes.STRING(255),
-    allowNull: true
+  RolId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'roles',
+      key: 'Id'
+    }
+  },
+  EmpresaId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'empresas',
+      key: 'Id'
+    }
   }
 }, {
   tableName: 'usuarios',
   timestamps: true
 });
 
+Rol.hasMany(Usuario, { 
+  foreignKey: 'RolId',
+  sourceKey: 'Id'
+});
 
-Rol.hasMany(Usuario, { foreignKey: 'RolId' });
-Usuario.belongsTo(Rol, { foreignKey: 'RolId' });
+Usuario.belongsTo(Rol, { 
+  foreignKey: 'RolId',
+  targetKey: 'Id'
+});
 
-Empresa.hasMany(Usuario, { foreignKey: 'EmpresaId' });
-Usuario.belongsTo(Empresa, { foreignKey: 'EmpresaId' });
+Empresa.hasMany(Usuario, { 
+  foreignKey: 'EmpresaId',
+  sourceKey: 'Id'
+});
+
+Usuario.belongsTo(Empresa, { 
+  foreignKey: 'EmpresaId',
+  targetKey: 'Id'
+});
 
 module.exports = Usuario;

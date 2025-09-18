@@ -74,7 +74,7 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
                     text: 'Tu usuario administrador ha sido creado correctamente.',
                     confirmButtonText: 'Iniciar Sesión'
                 });
-                navigate('/login'); // ✅ Redirigir a login
+                navigate('/');
             }
         } catch (error) {
             console.error('Error de registro:', error);
