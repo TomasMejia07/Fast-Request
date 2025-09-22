@@ -70,7 +70,7 @@ const ProductosDashboard = () => {
                     </thead>
                     <tbody className="tabladashb_tbody">
                         {funtionFinally.map((producto) => (
-                            <tr className="tabladashb_tbody_tr" product={producto.Id}>
+                            <tr className="tabladashb_tbody_tr" key={producto.Id}  product={producto.Id}>
                                 <td className="tabladashb_tbody_tr_td">{producto.NombreProducto}</td>
                                 <td className="tabladashb_tbody_tr_td">{producto.categorium?.NombreCategoria}</td>
                                 <td className="tabladashb_tbody_tr_td">{producto.PrecioProducto}</td>
@@ -158,7 +158,7 @@ const ProductosDashboard = () => {
                         >
                             <option value="">Seleccione una categoría</option>
                             {categorias.map((cat) => (
-                                <option key={cat.id} value={cat.id}>
+                                <option key={cat.Id} value={cat.Id}>
                                     {cat.NombreCategoria}
                                 </option>
                             ))}

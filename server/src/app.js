@@ -1,7 +1,6 @@
-// variables de app
+// app.js
 const express = require("express");
 const autenticarToken = require('./middlewares/verificarJWT');
-
 const { sequelize } = require("./config/db.js");
 const app = express();
 const cors = require("cors");
@@ -16,15 +15,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 const PORT = process.env.PORT || 5000;
 
-
-// Funcion que se ejecuta para esperar la conexion a la base de datos con el fin de que la db este lista antes de iniciar el servidor  
+// Funcion que se ejecuta para esperar la conexion a la base de datos 
+// con el fin de que la db este lista antes de iniciar el servidor  
 async function esperarDB() {
   let intentos = 0;
   while (intentos < 10) {
     try {
-      const conn = await sequelize.authenticate();
+      await sequelize.authenticate();
       console.log('✅ Conexión a la base de datos establecida.');
-      conn.release();
       break;
     } catch (err) {
       intentos++;
@@ -34,11 +32,16 @@ async function esperarDB() {
   }
 }
 
+// Importacion Del Inicializador de permisos y roles
 
 esperarDB().then(() => {
   sequelize.sync()
-    .then(() => {
+    .then(async () => {
       console.log("✅ Modelos sincronizados correctamente.");
+
+      // Crear Permisos Del Sistema y Roles Preterminados del sistema 
+      const { inicializarSistema } = require('./seeders/seedinicial.js')
+      await inicializarSistema()
     })
     .catch((error) => {
       console.error("❌ Error al sincronizar modelos:", error);
@@ -51,7 +54,6 @@ esperarDB().then(() => {
   const categoriaRoutes = require("./routers/categoria.routes.js");
   const validarEmailRoutes = require("./routers/validarEmail.routes");
   const recuperarCuenta = require("./routers/recuperarCuenta.routes");
-
   const clienteRouter = require('./routers/cliente.routes');
   const productoRoutes = require("./routers/producto.routes");
   const estadisticasRoutes = require('./routers/estadisticas.routes.js');
@@ -75,11 +77,6 @@ esperarDB().then(() => {
   app.use('/api/perfil', configuracionPerfil)
   app.use('/api/configuracion', configuracion)
 
-  
-
-  const { crearPermisosIniciales } = require("./controllers/permiso.controller.js");
-  crearPermisosIniciales();
-
   app.get("/", (req, res) => {
     res.send("API de registro de usuarios en funcionamiento.");
   });
@@ -88,4 +85,3 @@ esperarDB().then(() => {
     console.log("🚀 Servidor iniciado en el puerto " + PORT);
   });
 });
-

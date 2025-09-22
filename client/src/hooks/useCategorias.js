@@ -36,7 +36,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
         } else {
             const nombreExiste = categorias.some((cat) =>
                 cat.NombreCategoria.toLowerCase().trim() === formCategoriaData.NombreCategoria.toLowerCase().trim() &&
-                cat.id !== formCategoriaData.id
+                cat.Id !== formCategoriaData.Id
             );
             if (nombreExiste) {
                 erroresTemp.NombreCategoria = "Este nombre de categoria ya existe";
@@ -70,7 +70,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
                 } else if (
                     categorias.some((cat) =>
                         cat.NombreCategoria.toLowerCase().trim() === value.toLowerCase().trim() &&
-                        cat.id !== formCategoriaData.id
+                        cat.Id !== formCategoriaData.Id
                     )
                 ) {
                     erroresTemp.NombreCategoria = "Este nombre de categoria ya existe";
@@ -103,8 +103,8 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
         }
 
         try {
-            if (formCategoriaData.id) {
-                await axios.put(`${API_URL}/${formCategoriaData.id}`, formCategoriaData);
+            if (formCategoriaData.Id) {
+                await axios.put(`${API_URL}/${formCategoriaData.Id}`, formCategoriaData);
                 Swal.fire({
                     title: "Actualizado",
                     text: "Categoría actualizada correctamente",
@@ -137,7 +137,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
         }
     };
 
-    const eliminarCategoria = async (id) => {
+    const eliminarCategoria = async (Id) => {
         const result = await Swal.fire({
             title: "¿Estás seguro?",
             text: "Esto eliminará la categoría.",
@@ -150,7 +150,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`${API_URL}/${id}`);
+                await axios.delete(`${API_URL}/${Id}`);
                 Swal.fire({
                     title: "Eliminado",
                     text: "Categoría eliminada",

@@ -90,7 +90,7 @@ const ClientesDashboard = () => {
                     </thead>
                     <tbody className="tabladashb_tbody">
                         {funtionFinally.map((customer) => (
-                            <tr className="tabladashb_tbody_tr" key={customer.id}>
+                            <tr className="tabladashb_tbody_tr" key={customer.Id}>
                                 <td className="tabladashb_tbody_tr_td">{customer.NombreCliente}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.NumeroDocumento}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.CorreoElectronico}</td>
@@ -110,7 +110,7 @@ const ClientesDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            eliminarCliente(customer.id);
+                                            eliminarCliente(customer.Id);
                                         }}>
                                         <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
                                     </a>
@@ -119,7 +119,7 @@ const ClientesDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            navigate(`/dashboard/pedidosPorCliente/${customer.id}`)
+                                            navigate(`/dashboard/pedidosPorCliente/${customer.Id}`)
                                         }}>
                                         <ion-icon id="iconosoperacionVisualizar" name="folder-open-outline"></ion-icon>
                                     </a>

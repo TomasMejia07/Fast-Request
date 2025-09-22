@@ -69,7 +69,7 @@ const CategoriaDashboard = () => {
                     </thead>
                     <tbody className="tabladashb_tbody">
                         {funtionFinally.map((cat) => (
-                            <tr className="tabladashb_tbody_tr" key={cat.id}>
+                            <tr className="tabladashb_tbody_tr" key={cat.Id}>
                                 <td className="tabladashb_tbody_tr_td">{cat.NombreCategoria}</td>
                                 <td className="tabladashb_tbody_tr_td">{cat.EstadoCategoria}</td>
                                 <td className="tabladashb_tbody_tr_td" >
@@ -86,7 +86,7 @@ const CategoriaDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault(); // ← Esto también
-                                            eliminarCategoria(cat.id);
+                                            eliminarCategoria(cat.Id);
                                         }}>
                                         <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
                                     </a>

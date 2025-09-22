@@ -115,7 +115,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     >
                         <option value="" hidden>Seleccione un cliente</option>
                         {clientes.map(cliente => (
-                            <option key={cliente.id} value={cliente.id}>
+                            <option key={cliente.Id} value={cliente.Id}>
                                 {cliente.NombreCliente}
                             </option>
                         ))}

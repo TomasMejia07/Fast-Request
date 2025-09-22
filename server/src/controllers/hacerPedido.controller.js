@@ -20,7 +20,7 @@ exports.nuevoPedido = async (req, res) => {
         if (!cliente) return res.status(400).json({ message: 'Cliente no existe. Debes registrarlo con todos sus datos primero.' });
 
 
-        const producto = await Producto.findOne({ where: { Id: productoId } });
+        const producto = await Producto.findOne({ where: { id: productoId } });
         if (!producto) return res.status(400).json({ message: 'Producto no existe. Debes registrarlo con todos sus datos primero.' });
 
 
@@ -28,7 +28,7 @@ exports.nuevoPedido = async (req, res) => {
 
 
         const nuevoPedido = await Pedido.create({
-            clienteId: cliente.id,
+            clienteId: cliente.Id,
             productoId: producto.Id,
             cantidadProducto,
             municipioLocalidad,

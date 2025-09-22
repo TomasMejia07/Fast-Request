@@ -42,8 +42,8 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
 
     const CrearOactualizarCliente = async () => {
         try {
-            if (formData.id) {
-                await axios.put(`http://localhost:5000/api/cliente/${formData.id}`, formData)
+            if (formData.Id) {
+                await axios.put(`http://localhost:5000/api/cliente/${formData.Id}`, formData)
                 Swal.fire("Actualizado", "Cliente actualizado correctamente", "success");
             } else {
                 await axios.post('http://localhost:5000/api/cliente/', formData);
@@ -62,7 +62,7 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
         }
     }
 
-    const eliminarCliente = async (id) => {
+    const eliminarCliente = async (Id) => {
         const result = await Swal.fire({
             title: "¿Estás seguro?",
             text: "Esto eliminará la categoría.",
@@ -72,7 +72,7 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
         });
         try {
             if (result.isConfirmed) {
-                await axios.delete(`http://localhost:5000/api/cliente/${id}`)
+                await axios.delete(`http://localhost:5000/api/cliente/${Id}`)
                 Swal.fire("Eliminado", "cliente eliminada exitosamente", "success");
                 obtenerClientes()
             }
