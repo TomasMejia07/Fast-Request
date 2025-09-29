@@ -11,6 +11,7 @@ function TopBar({ onToggleNav }) {
         setPerfilActive(!perfilActive);
     };
 
+
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (perfilRef.current && !perfilRef.current.contains(e.target)) {
@@ -73,10 +74,10 @@ function TopBar({ onToggleNav }) {
                             </Link>
                         </li>
                         <li className='menu-perfil-ul-li'>
-                            <a href="#" className='menu-perfil-ul-li-a'>
+                            <Link to="/" className='menu-perfil-ul-li-a'>
                                 <span className="icono-menu-user"><ion-icon name="log-out"></ion-icon></span>
                                 <span className="nav-titulo">Cerrar sesión</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>

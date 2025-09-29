@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { validacionDeCampos } from "../helpers/validacionDeCampos";
 
 
 export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
@@ -249,11 +248,6 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
     setUserData({
       ...userData,
       [name]: value
-    })
-
-    setErrores({
-      ...errores,
-      [name]: validacionDeCampos(name, value)
     })
   }
 

@@ -7,8 +7,8 @@ exports.findAllUser = async (req, res) => {
         const { usuarioId } = req.params;
 
         const usuario = await Usuario.findOne({
-            where: { id: usuarioId },
-            attributes: ['id', 'nombre', 'apellido', 'correo'],
+            where: { Id: usuarioId },
+            attributes: ['Id', 'nombre', 'apellido', 'correo'],
             include: [{
                 model: Perfil,
                 attributes: ['telefono', 'direccion', 'fechaNacimiento', 'Imagen_De_Perfil'],
@@ -49,7 +49,7 @@ exports.perfilUsuario = async (req, res) => {
         }
 
 
-        let perfil = await Perfil.findOne({ where: { usuarioId: usuario.id } });
+        let perfil = await Perfil.findOne({ where: { usuarioId: usuario.Id } });
 
         if (perfil) {
 
@@ -63,7 +63,7 @@ exports.perfilUsuario = async (req, res) => {
         } else {
 
             perfil = await Perfil.create({
-                usuarioId: usuario.id,
+                usuarioId: usuario.Id,
                 telefono: telefono || "Por completar",
                 direccion: direccion || "Por completar",
                 fechaNacimiento: fechaNacimiento || null,

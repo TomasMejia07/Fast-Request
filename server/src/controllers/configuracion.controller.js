@@ -5,10 +5,10 @@ const bcrypt = require('bcrypt');
 
 exports.updateDataConfi = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { Id } = req.params;
         const { nombre, apellido } = req.body;
 
-        const usuario = await Usuario.findByPk(id);
+        const usuario = await Usuario.findByPk(Id);
         if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
 
 
@@ -17,16 +17,16 @@ exports.updateDataConfi = async (req, res) => {
         }
 
         const objectData = {}
-        if (nombre !== undefined) objectData.nombre = nombre
-        if (apellido !== undefined) objectData.apellido = apellido
+        if (nombre !== undefined) objectData.Nombre = nombre
+        if (apellido !== undefined) objectData.Apellido = apellido
 
         await Usuario.update(
             objectData,
-            { where: { id } }
+            { where: { Id } }
         );
 
-        const updatedUser = await Usuario.findByPk(id, {
-            attributes: ["nombre", "apellido"],
+        const updatedUser = await Usuario.findByPk(Id, {
+            attributes: ["Nombre", "Apellido"],
         });
 
         res.status(200).json({ message: 'Datos actualizados con éxito', updatedUser });
@@ -41,7 +41,7 @@ exports.updateDataConfi = async (req, res) => {
 exports.updatePassword = async (req, res) => {
     try {
 
-        const { id } = req.params;
+        const { Id } = req.params;
         const { current, new: newPass, confirm } = req.body;
 
         if (!current || !newPass || !confirm) {
@@ -52,18 +52,18 @@ exports.updatePassword = async (req, res) => {
             return res.status(400).json({ message: "Las contraseñas no coinciden" });
         }
 
-        const usuario = await Usuario.findByPk(id);
+        const usuario = await Usuario.findByPk(Id);
         if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
 
-        const comparacion = await bcrypt.compare(current, usuario.password);
+        const comparacion = await bcrypt.compare(current, usuario.Password);
         if (!comparacion) return res.status(401).json({ message: 'La contraseña \"actual\" es incorrecta. Por Favor vuelve a intentarlo' });
 
         const hashedPassword = await bcrypt.hash(newPass, 12);
 
 
         await Usuario.update(
-            { password: hashedPassword },
-            { where: { id } }
+            { Password: hashedPassword },
+            { where: { Id } }
         );
 
         res.status(200).json({ message: 'Contraseña actualizada con éxito' });

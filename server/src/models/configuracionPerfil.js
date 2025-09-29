@@ -9,7 +9,7 @@ const Perfil = sequelize.define('Perfil', {
         allowNull: false,
         references:{
             model: 'usuarios',
-            key: 'id'
+            key: 'Id'
         }
     },
 
@@ -45,12 +45,12 @@ const Perfil = sequelize.define('Perfil', {
 
 Perfil.belongsTo(Usuario, {  // Cada perfil pertenece a un usuario.
     foreignKey: 'usuarioId',
-    sourceKey: 'id'
+    sourceKey: 'Id'
 })
 
 Usuario.hasOne(Perfil, {  // Un usuario tiene un solo perfil.
     foreignKey: 'usuarioId',
-    targetKey: 'id'
+    targetKey: 'Id'
 })
 
 
