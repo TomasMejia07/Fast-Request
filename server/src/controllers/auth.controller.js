@@ -1,39 +1,80 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('../utils/jwt'); 
-const { Usuario, Empresa, Rol } = require('../models');
+const bcrypt = require("bcryptjs");
+const jwt = require("../utils/jwt");
+const Usuario = require("../models/Usuario");
+const Empresa = require("../models/Empresa");
+const Rol = require("../models/Roles");
 
-exports.registrarUsuario = async (req, res) => {
+exports.registrarAdmin = async (req, res) => {
   try {
-    const { Correo, Nombre, Apellido, Password, EmpresaId, RolId } = req.body;
+    const { nombre, apellido, correo, password, nombreEmpresa } = req.body;
 
-    // ✅ Verificar si el usuario ya existe
-    const usuarioExistente = await Usuario.findOne({ where: { Correo } });
-    if (usuarioExistente) {
-      return res.status(400).json({ error: 'El correo ya está registrado' });
+    console.log('Datos recibidos en backend:', req.body); // Para debug
+
+    // ✅ Validar que todos los campos requeridos estén presentes
+    if (!nombre || !apellido || !correo || !password || !nombreEmpresa) {
+      return res.status(400).json({ 
+        error: "Todos los campos son requeridos: nombre, apellido, correo, password, nombreEmpresa" 
+      });
     }
 
-    const hashedPassword = await bcrypt.hash(Password, 10);
+    // 🔐 cifrar contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const usuario = await Usuario.create({
-      Correo,
-      Nombre,
-      Apellido,
-      Password: hashedPassword,
-      EmpresaId, // ✅ 1
-      RolId      // ✅ 1
+    // 🏢 Crear empresa primero
+    const empresa = await Empresa.create({
+      NombreEmpresa: nombreEmpresa, // ✅ Usar el nombre correcto del campo
+      Estado: "Activo"
     });
 
-    // Omitir el password en la respuesta
-    const usuarioRespuesta = { ...usuario.toJSON() };
-    delete usuarioRespuesta.Password;
+    // 🔑 Buscar rol "Admin"
+    const rolAdmin = await Rol.findOne({ where: { NombreRol: "Administrador" } });
 
-    res.status(201).json({ 
-      message: 'Usuario administrador registrado con éxito', 
-      usuario: usuarioRespuesta 
+    if (!rolAdmin) {
+      return res.status(400).json({ error: "No existe rol Admin en la BD" });
+    }
+
+    // 👤 Crear usuario y asociar a la empresa
+    const usuario = await Usuario.create({
+      Nombre: nombre,
+      Apellido: apellido,
+      Correo: correo,
+      Password: hashedPassword,
+      RolId: rolAdmin.Id,
+      EmpresaId: empresa.Id
+    });
+
+    // 🎟️ Generar token JWT
+    const token = jwt.generarToken({ 
+      id: usuario.Id, 
+      rol: rolAdmin.NombreRol,
+      empresaId: empresa.Id 
+    });
+
+    return res.status(201).json({
+      message: "Administrador y empresa creados con éxito",
+      usuario: {
+        id: usuario.Id,
+        nombre: usuario.Nombre,
+        apellido: usuario.Apellido,
+        correo: usuario.Correo,
+        rol: rolAdmin.NombreRol
+      },
+      empresa: {
+        id: empresa.Id,
+        nombre: empresa.NombreEmpresa
+      },
+      token
     });
   } catch (err) {
-    console.error('Error al registrar usuario:', err);
-    res.status(500).json({ error: 'Error al registrar usuario' });
+    console.error("Error al registrar admin:", err);
+    
+    // Manejar error de correo duplicado
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ error: "El correo ya está registrado" });
+    }
+    
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 

@@ -26,6 +26,7 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
         setError('');
         setCargando(true);
 
+        // Validaciones
         if (!password || !confirmarPassword) {
             setError('Por favor ingrese ambas contraseñas.');
             setCargando(false);
@@ -44,17 +45,14 @@ const PasoContrasena = ({ anterior, datos, actualizar }) => {
             return;
         }
 
-        // ✅ Preparar datos en el formato que espera el backend (mayúsculas)
+        // ✅ Preparar datos COMPLETOS para el backend
         const datosParaBackend = {
-            Correo: datos.correo,
-            Nombre: datos.nombre,
-            Apellido: datos.apellido,
-            Password: password,
-            EmpresaId: datos.empresaId, // ✅ 1
-            RolId: datos.rolId          // ✅ 1
+            nombre: datos.nombre,
+            apellido: datos.apellido,
+            correo: datos.correo,
+            password: password,
+            nombreEmpresa: datos.nombreEmpresa // Asegurar que este campo existe
         };
-
-        actualizar({ ...datos, password });
 
         try {
             const response = await axios.post(

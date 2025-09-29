@@ -11,6 +11,10 @@ const Empresa = sequelize.define('Empresa', {
     type: DataTypes.STRING(150),
     allowNull: false
   },
+  Estado: {
+    type: DataTypes.ENUM('Activo', 'Inactivo'),
+    defaultValue: 'Activo'
+  },
   LogoEmpresa: {
     type: DataTypes.STRING(255), 
     allowNull: true

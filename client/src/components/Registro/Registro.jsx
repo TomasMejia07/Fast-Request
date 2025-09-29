@@ -10,16 +10,16 @@ function RegistroFormulario() {
     correo: '',
     nombre: '',
     apellido: '',
+    nombreEmpresa: '', 
     codigo: '',
-    password: '',  
-    empresaId: 1, // ✅ Valor fijo para empresa
-    rolId: 1      // ✅ Valor fijo para rol admin
+    password: ''
   });
 
   const avanzarPaso = () => setPaso((prev) => prev + 1);
   const retrocederPaso = () => setPaso((prev) => prev - 1);
 
   const actualizarDatos = (nuevosDatos) => {
+    console.log('Datos actualizados:', { ...formData, ...nuevosDatos }); // Para debug
     setFormData((prevData) => ({ ...prevData, ...nuevosDatos }));
   };
 

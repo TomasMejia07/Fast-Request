@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const PasoNombre = ({ siguiente, datos, actualizar }) => {
-
   const [nombre, setNombre] = useState(datos.nombre || '');
-
   const [apellido, setApellido] = useState(datos.apellido || '');
-
+  const [nombreEmpresa, setNombreEmpresa] = useState(datos.nombreEmpresa || '');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -15,12 +13,18 @@ const PasoNombre = ({ siguiente, datos, actualizar }) => {
   const manejarEnvio = (e) => {
     e.preventDefault();
 
-    if (!nombre || !apellido) {
+    if (!nombre || !apellido || !nombreEmpresa) {
       setError('Por favor, complete todos los campos.');
     } else {
-        setError('');
-        actualizar({ ...datos, nombre, apellido });
-        siguiente(); 
+      setError('');
+      // ✅ Asegurar que todos los datos se actualicen
+      actualizar({ 
+        ...datos, 
+        nombre, 
+        apellido, 
+        nombreEmpresa 
+      });
+      siguiente(); 
     }
   };
 
@@ -30,7 +34,7 @@ const PasoNombre = ({ siguiente, datos, actualizar }) => {
         <div className="login-img-container">
           <img className="login-avatar" src="/img/user.png" alt="usuario" />
         </div>
-        <h3>Elige un nombre para ti o para tu negocio</h3>
+        <h3>Información Personal y de Empresa</h3>
 
         <div className="input-container ic1 mb-3">
           <input
@@ -49,6 +53,16 @@ const PasoNombre = ({ siguiente, datos, actualizar }) => {
             value={apellido}
             onChange={(e) => setApellido(e.target.value)}
             placeholder="Apellido"
+          />
+        </div>
+
+        <div className="input-container ic1 mb-3">
+          <input
+            type="text"
+            className="login-input"
+            value={nombreEmpresa}
+            onChange={(e) => setNombreEmpresa(e.target.value)}
+            placeholder="Nombre de la Empresa"
           />
         </div>
 
