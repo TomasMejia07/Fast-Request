@@ -67,7 +67,7 @@ const EstadisticasDashboard = () => {
 
 
     return (
-        <DashboardLayout title="Estadísticas">
+        <DashboardLayout title="Estadísticas - Fast Request">
             <div className="stats-dashboard">
                 {/* Resumen general */}
                 <div className="stats-card summary-card">

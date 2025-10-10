@@ -41,7 +41,7 @@ const RolesDashboard = () => {
     }, []);
 
     return (
-        <DashboardLayout title="Roles">
+        <DashboardLayout title="Roles - Fast Request">
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Roles</h2>

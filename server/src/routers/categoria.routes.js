@@ -1,11 +1,12 @@
-
 const express = require("express");
 const router = express.Router();
 const categoriaController = require("../controllers/categoria.controller");
+const verificarJWT = require('../middlewares/verificarJWT');
+const { soloAdmin } = require('../middlewares/verificarRoles');
 
-router.get("/", categoriaController.VisualizarCategorias);
-router.post("/", categoriaController.CrearCategoria);
-router.put("/:id", categoriaController.ActualizarCategoria);
-router.delete("/:id", categoriaController.EliminarCategoria);
+router.get("/", verificarJWT, categoriaController.VisualizarCategorias);
+router.post("/", verificarJWT, categoriaController.CrearCategoria);
+router.put("/:id", verificarJWT, categoriaController.ActualizarCategoria);
+router.delete("/:id", verificarJWT, categoriaController.EliminarCategoria);
 
 module.exports = router

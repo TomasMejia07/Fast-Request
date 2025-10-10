@@ -17,7 +17,6 @@ function MenuConfiguracion() {
                     { to: '/dashboard', icon: 'home', title: 'Inicio' },
                     { to: '/dashboard/perfil', icon: 'person-circle', title: 'Perfil'},
                     { to: '/dashboard/configuracion', icon: 'cog', title: 'Configuración' },
-                    { to: '/', icon: "log-out", title: "Cerrar Sesión"}
                 ].map((item, index) => (
                     <li
                         key={index}

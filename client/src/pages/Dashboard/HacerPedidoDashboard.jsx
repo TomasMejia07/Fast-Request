@@ -101,7 +101,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
 
 
     return (
-        <DashboardLayout title="Hacer Pedido">
+        <DashboardLayout title="Hacer Pedido - Fast Request">
             <section className="agenda-pedido">
                 <h2>Tomar Pedido</h2>
                 <form id="form-agenda" onSubmit={handleSubmit}>

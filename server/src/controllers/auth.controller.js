@@ -81,7 +81,14 @@ exports.registrarAdmin = async (req, res) => {
 exports.loginUsuario = async (req, res) => {
   try {
     const { usuario, password } = req.body;
-    const user = await Usuario.findOne({ where: { Correo: usuario } });
+    
+    const user = await Usuario.findOne({ 
+      where: { Correo: usuario },
+      include: [
+        { model: Rol, attributes: ['Id', 'NombreRol'] },
+        { model: Empresa, attributes: ['Id', 'NombreEmpresa'] }
+      ]
+    });
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -92,16 +99,29 @@ exports.loginUsuario = async (req, res) => {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
+    // ✅ Payload mejorado con información de relaciones
     const payload = {
       id: user.Id,
       correo: user.Correo,
+      rol: user.Rol.NombreRol,
       rolId: user.RolId,
-      empresaId: user.EmpresaId
+      empresaId: user.EmpresaId,
+      empresa: user.Empresa.NombreEmpresa
     };
 
     const token = jwt.generarToken(payload);
 
-    res.json({ message: 'Login exitoso', token });
+    res.json({ 
+      message: 'Login exitoso', 
+      token,
+      usuario: {
+        id: user.Id,
+        nombre: user.Nombre,
+        correo: user.Correo,
+        rol: user.Rol.NombreRol,
+        empresa: user.Empresa.NombreEmpresa
+      }
+    });
   } catch (err) {
     console.error('Error en login:', err);
     res.status(500).json({ error: 'Error en login' });

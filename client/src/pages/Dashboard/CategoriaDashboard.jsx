@@ -38,7 +38,7 @@ const CategoriaDashboard = () => {
 
 
     return (
-        <DashboardLayout title="Categoría">
+        <DashboardLayout title="Categoría - Fast Request">
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Categoria</h2>

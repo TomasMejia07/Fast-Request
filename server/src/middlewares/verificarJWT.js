@@ -1,21 +1,49 @@
 const jwt = require('jsonwebtoken');
 
-function verificarJWT(req, res, next) {
-  const authHeader = req.headers['authorization'] || req.headers['Authorization'];
-  if (!authHeader) return res.status(401).json({ error: 'No token provided' });
+async function verificarJWT(req, res, next) {
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Token no proporcionado' });
+  }
 
-  const parts = authHeader.split(' ');
-  if (parts.length !== 2 || parts[0] !== 'Bearer') return res.status(401).json({ error: 'Token mal formado' });
-// 
-  const token = parts[1];
+  const token = authHeader.split(' ')[1];
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    // adjunta datos útiles al request
-    req.user = { id: payload.id, role: payload.role };
+    
+    // ✅ Cargar información completa del usuario según tu estructura
+    const Usuario = require("../models/Usuario");
+    const Rol = require("../models/Roles");
+    const Empresa = require("../models/Empresa");
+    
+    const usuario = await Usuario.findByPk(payload.id, {
+      include: [
+        { model: Rol, attributes: ['Id', 'NombreRol'] },
+        { model: Empresa, attributes: ['Id', 'NombreEmpresa'] }
+      ]
+    });
+
+    if (!usuario) {
+      return res.status(401).json({ error: 'Usuario no encontrado' });
+    }
+
+    req.user = {
+      id: usuario.Id,
+      correo: usuario.Correo,
+      rol: usuario.Rol ? usuario.Rol.NombreRol : null,
+      rolId: usuario.RolId,
+      empresaId: usuario.EmpresaId,
+      empresa: usuario.Empresa ? usuario.Empresa.NombreEmpresa : null,
+      usuarioCompleto: usuario // Opcional: para acceso rápido
+    };
+
     next();
   } catch (err) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: 'Token expirado' });
+    }
+    return res.status(401).json({ error: 'Token inválido' });
   }
 }
 

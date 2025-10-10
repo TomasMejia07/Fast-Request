@@ -60,7 +60,7 @@ const ClientesDashboard = () => {
     const navigate = useNavigate();
 
     return (
-        <DashboardLayout title="Clientes">
+        <DashboardLayout title="Clientes - Fast Request">
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Clientes</h2>

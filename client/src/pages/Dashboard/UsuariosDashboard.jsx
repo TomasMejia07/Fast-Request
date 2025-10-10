@@ -15,7 +15,7 @@ const UsuariosDashboard = ({ onClose }) => {
         if (formRef.current) formRef.current.reset(); // Resetea el formulario
     };
     return (
-        <DashboardLayout title="Usuarios">
+        <DashboardLayout title="Usuarios - Fast Request">
             <div className="container_tablas">
             <div className="table_Header">
                 <h2>Usuarios</h2>

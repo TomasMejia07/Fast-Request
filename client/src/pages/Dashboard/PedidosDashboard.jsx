@@ -48,7 +48,7 @@ const PedidosDashboard = ({ onClose }) => {
 
 
     return (
-        <DashboardLayout title="Pedidos">
+        <DashboardLayout title="Pedidos - Fast Request">
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Pedidos</h2>

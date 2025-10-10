@@ -37,7 +37,7 @@ const ProductosDashboard = () => {
 
 
     return (
-        <DashboardLayout title="Productos">
+        <DashboardLayout title="Productos - Fast Request">
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Productos</h2>
