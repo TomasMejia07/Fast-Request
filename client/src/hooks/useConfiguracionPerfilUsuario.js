@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { authHeader } from "../helpers/authHeader";
 
 const useConfiguracionPerfilUsuario = (initial) => {
 

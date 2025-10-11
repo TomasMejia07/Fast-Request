@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const categoriaController = require("../controllers/categoria.controller");
 const verificarJWT = require('../middlewares/verificarJWT');
-const { soloAdmin } = require('../middlewares/verificarRoles');
+const { soloAdmin, soloEmpresa } = require('../middlewares/verificarRoles');
 
 router.get("/", verificarJWT, categoriaController.VisualizarCategorias);
 router.post("/", verificarJWT, categoriaController.CrearCategoria);

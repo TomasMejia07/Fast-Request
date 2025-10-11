@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { authHeader } from "../helpers/authHeader";
 
 const API_URL = "http://localhost:5000/api/categorias";
 
@@ -18,14 +19,15 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
 
     const cargarCategorias = async () => {
         try {
-            const res = await axios.get(API_URL);
+            const res = await axios.get(API_URL, {
+                headers: authHeader()
+            });
             setCategorias(res.data);
         } catch (error) {
             console.error("Error al cargar categorías:", error);
             Swal.fire("Error", "No se pudo cargar los datos de la categoría", "error");
         }
     };
-
     const validarFormulario = () => {
         const erroresTemp = {};
 
@@ -93,7 +95,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
     const guardarCategoria = async () => {
         if (!validarFormulario()) {
             Swal.fire({
-                title: "Datos no validos",
+                title: "Datos no válidos",
                 text: "Digita correctamente los datos del formulario",
                 icon: "error",
                 background: "#272727",
@@ -104,36 +106,22 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
 
         try {
             if (formCategoriaData.Id) {
-                await axios.put(`${API_URL}/${formCategoriaData.Id}`, formCategoriaData);
-                Swal.fire({
-                    title: "Actualizado",
-                    text: "Categoría actualizada correctamente",
-                    icon: "success",
-                    background: "#272727",
-                    color: "#c9c9c9"
+                await axios.put(`${API_URL}/${formCategoriaData.Id}`, formCategoriaData, {
+                    headers: authHeader()
                 });
+                Swal.fire("Actualizado", "Categoría actualizada correctamente", "success");
             } else {
-                await axios.post(API_URL, formCategoriaData);
-                Swal.fire({
-                    title: "Creado",
-                    text: "Categoría creada correctamente",
-                    icon: "success",
-                    background: "#272727",
-                    color: "#c9c9c9"
+                await axios.post(API_URL, formCategoriaData, {
+                    headers: authHeader()
                 });
+                Swal.fire("Creado", "Categoría creada correctamente", "success");
             }
 
             cargarCategorias();
             closeModal();
         } catch (error) {
             console.error("Error al guardar categoría:", error);
-            Swal.fire({
-                title: "Error",
-                text: "No se pudo guardar la categoría",
-                icon: "error",
-                background: "#272727",
-                color: "#c9c9c9"
-            });
+            Swal.fire("Error", "No se pudo guardar la categoría", "error");
         }
     };
 
@@ -150,24 +138,14 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`${API_URL}/${Id}`);
-                Swal.fire({
-                    title: "Eliminado",
-                    text: "Categoría eliminada",
-                    icon: "success",
-                    background: "#272727",
-                    color: "#c9c9c9"
+                await axios.delete(`${API_URL}/${Id}`, {
+                    headers: authHeader()
                 });
+                Swal.fire("Eliminado", "Categoría eliminada", "success");
                 cargarCategorias();
             } catch (error) {
                 console.error("Error al eliminar categoría:", error);
-                Swal.fire({
-                    title: "Error",
-                    text: "No se pudo eliminar la categoría",
-                    icon: "error",
-                    background: "#272727",
-                    color: "#c9c9c9"
-                });
+                Swal.fire("Error", "No se pudo eliminar la categoría", "error");
             }
         }
     };

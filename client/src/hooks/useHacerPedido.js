@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { validacionDeCampos } from "../helpers/validacionDeCampos"
 import axios from 'axios'
+import { authHeader } from "../helpers/authHeader";
 
 export const useHacerPedido = (initial) => {
 
@@ -66,6 +67,7 @@ export const useHacerPedido = (initial) => {
             const res = await axios.get('http://localhost:5000/api/pedidos/productos', {
                 headers: {
                     'Content-Type': 'application/json',
+                    ...authHeader()
                 },
             });
 
@@ -82,6 +84,7 @@ export const useHacerPedido = (initial) => {
             const res = await axios.get('http://localhost:5000/api/pedidos/clientes', {
                 headers: {
                     'Content-Type': 'application/json',
+                    ...authHeader()
                 },
             });
 

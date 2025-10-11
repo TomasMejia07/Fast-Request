@@ -1,12 +1,13 @@
-
 const express = require('express');
 const router = express.Router();
 const pedido = require('../controllers/hacerPedido.controller');
+const verificarJWT = require('../middlewares/verificarJWT');
+const { soloAdmin, soloEmpresa } = require('../middlewares/verificarRoles');
 
-router.post('/nuevoPedido', pedido.nuevoPedido);
-router.get('/ObtenerPedidos', pedido.seleccionarPedidos);
-router.get('/cliente-pedidos/:clienteId', pedido.obtenerPedidosConClientes)
-router.get('/productos', pedido.obtenerNombresProductos)
-router.get('/clientes', pedido.obtenerNombresClientes)
+router.post('/nuevoPedido', verificarJWT, pedido.nuevoPedido);
+router.get('/ObtenerPedidos', verificarJWT, pedido.seleccionarPedidos);
+router.get('/cliente-pedidos/:clienteId', verificarJWT, pedido.obtenerPedidosConClientes)
+router.get('/productos', verificarJWT, pedido.obtenerNombresProductos)
+router.get('/clientes', verificarJWT, pedido.obtenerNombresClientes)
 
 module.exports = router

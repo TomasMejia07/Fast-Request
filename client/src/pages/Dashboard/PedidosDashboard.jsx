@@ -6,8 +6,7 @@ import ModalDashboard from "../../components/Dashboard/ModalDashboard";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from 'axios'
-
-
+import { authHeader } from "../../helpers/authHeader";
 
 const PedidosDashboard = ({ onClose }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,7 +20,9 @@ const PedidosDashboard = ({ onClose }) => {
 
     const obtenerPedidos = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/pedidos/ObtenerPedidos')
+            const res = await axios.get('http://localhost:5000/api/pedidos/ObtenerPedidos', {
+                headers: authHeader()
+            })
             setFullPedidos(res.data);
             console.log('Pedidos recibidos:', res.data); 
         } catch (err) {

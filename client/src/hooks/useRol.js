@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
-
+import { authHeader } from "../helpers/authHeader";
 
 const API_URL = "http://localhost:5000/api/rol"
 
@@ -20,7 +20,9 @@ export const useRol = (initial = {NombreRol: "", EstadoRol: ""}) => {
 
     const cargarRol = async () =>{
         try {
-            const res = await axios.get(API_URL)
+            const res = await axios.get(API_URL, {
+                headers: authHeader()
+            })
             setRoles(res.data)
         } catch (error) {
             console.error("Error al cargar los roles")
@@ -109,7 +111,9 @@ export const useRol = (initial = {NombreRol: "", EstadoRol: ""}) => {
 
     try {
         if (formRolData.Id) {
-            await axios.put(`${API_URL}/${formRolData.Id}`, payload);
+            await axios.put(`${API_URL}/${formRolData.Id}`, payload, {
+                headers: authHeader()
+            });
             Swal.fire({ 
                 title: "Actualizado", 
                 text: "Rol actualizado", 
@@ -117,7 +121,9 @@ export const useRol = (initial = {NombreRol: "", EstadoRol: ""}) => {
                 "#272727", 
                 color: "#c9c9c9" });
         } else {
-            await axios.post(API_URL, payload);
+            await axios.post(API_URL, payload, {
+                headers: authHeader()
+            });
             Swal.fire({ 
                 title: "Creado", 
                 text: "Rol creado", 
@@ -151,7 +157,9 @@ export const useRol = (initial = {NombreRol: "", EstadoRol: ""}) => {
 
         if (result.isConfirmed){
             try {
-                await axios.delete(`${API_URL}/${Id}`)
+                await axios.delete(`${API_URL}/${Id}`, {
+                    headers: authHeader()
+                })
                 Swal.fire({
                     title: "Eliminado",
                     text: "Rol eliminado",

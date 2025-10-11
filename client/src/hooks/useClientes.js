@@ -1,7 +1,8 @@
 import { useState, useRef } from "react"
 import axios from "axios";
 import Swal from "sweetalert2";
-import { validacionDeCampos } from "../helpers/validacionDeCampos"
+import { validacionDeCampos } from "../helpers/validacionDeCampos";
+import { authHeader } from "../helpers/authHeader";
 
 export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "" }) => {
 
@@ -33,7 +34,11 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
 
     const obtenerClientes = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/cliente/')
+            const res = await axios.get('http://localhost:5000/api/cliente/', 
+                {
+                    headers: authHeader()
+                }
+            )
             setClientes(res.data)
         } catch (err) {
             console.error("Error al obtener los Clientes:", err);
@@ -43,10 +48,18 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
     const CrearOactualizarCliente = async () => {
         try {
             if (formData.Id) {
-                await axios.put(`http://localhost:5000/api/cliente/${formData.Id}`, formData)
+                await axios.put(`http://localhost:5000/api/cliente/${formData.Id}`, formData, 
+                    {
+                        headers: authHeader()
+                    }
+                )
                 Swal.fire("Actualizado", "Cliente actualizado correctamente", "success");
             } else {
-                await axios.post('http://localhost:5000/api/cliente/', formData);
+                await axios.post('http://localhost:5000/api/cliente/', formData, 
+                    {
+                        headers: authHeader()
+                    }
+                );
                 Swal.fire({
                     title: "Creado",
                     text: "Cliente creado correctamente",
@@ -72,7 +85,11 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
         });
         try {
             if (result.isConfirmed) {
-                await axios.delete(`http://localhost:5000/api/cliente/${Id}`)
+                await axios.delete(`http://localhost:5000/api/cliente/${Id}`, 
+                    {
+                        headers: authHeader()
+                    }
+                )
                 Swal.fire("Eliminado", "cliente eliminada exitosamente", "success");
                 obtenerClientes()
             }

@@ -1,5 +1,6 @@
 import React from "react";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
+import { authHeader } from "../../helpers/authHeader";
 
 /* IMPORTACIONES PARA LOS GRAFICOS */
 import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, BarElement, ArcElement, Filler } from 'chart.js';
@@ -7,15 +8,12 @@ import { Chart } from 'react-chartjs-2';
 
 /* IMPORTACIONES DE HELPERS NECESARIOS PARA LOS GRAFICOS */
 import { Configuraciones, setData } from "../../helpers/graficoHelper";
-import { valuesGraficos } from "../../helpers/valuesGraficos";
 import { useEstadisticas } from "../../hooks/useEstadisticasModulo1";
 import { useEstadisticasModulo2 } from "../../hooks/useEstadisticasModulo2";
 
 
 ChartJS.register(CategoryScale, BarElement, ArcElement, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-
-const { datosParaLosGraficos } = valuesGraficos()
 
 
 const MiGrafico = ({ tipoGrafico, Config, Dates, RefDatos }) => {

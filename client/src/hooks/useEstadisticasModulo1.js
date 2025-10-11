@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { authHeader } from "../helpers/authHeader";
 
 export const useEstadisticas = () => {
 
@@ -60,6 +61,7 @@ export const useEstadisticas = () => {
         try {
             const res = await axios.get(`${API_URL}/ingresos-totales?periodo=${periodoIngresosTotales}`, {
                 headers: {
+                    ...authHeader(),
                     'Content-Type': 'application/json'
                 }
             })
@@ -80,6 +82,7 @@ export const useEstadisticas = () => {
         try {
             const res = await axios.get(`${API_URL}/ventas-totales?periodo=${periodoVentasTotales}`, {
                 headers: {
+                    ...authHeader(),
                     'Content-Type': 'application/json'
                 }
             })
@@ -100,6 +103,7 @@ export const useEstadisticas = () => {
         try {
             const res = await axios.get(`${API_URL}/nuevos-clientes?periodo=${periodonuevosClientes}`, {
                 headers: {
+                    ...authHeader(),
                     'Content-Type': 'application/json'
                 }
             })
@@ -120,6 +124,7 @@ export const useEstadisticas = () => {
         try {
             const res = await axios.get(`${API_URL}/promedio-venta?periodo=${periodopromedioVenta}`, {
                 headers: {
+                    ...authHeader(),
                     'Content-Type': 'application/json'
                 }
             })

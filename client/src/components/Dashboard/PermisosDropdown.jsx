@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { authHeader } from "../../helpers/authHeader";
 
 function PermisosDropdown({ onChange }) {
   const [permisos, setPermisos] = useState([]);
@@ -12,7 +13,10 @@ function PermisosDropdown({ onChange }) {
   useEffect(() => {
     const fetchPermisos = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/permisos"); // Ajusta si usas proxy
+        const res = await axios.get("http://localhost:5000/api/permisos",{
+          headers: authHeader()
+        }
+        ); // Ajusta si usas proxy
         setPermisos(res.data);
       } catch (error) {
         console.error("Error al cargar permisos:", error);

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useCategorias } from "./useCategorias";
-
+import { authHeader } from "../helpers/authHeader";
 
 const API_URL = "http://localhost:5000/api/productos";
 
@@ -24,7 +24,9 @@ export const useProductos = (initial = {NombreProducto: "", IdCategoria: "", Pre
 
     const cargarProductos = async () => {
         try {
-            const res = await axios.get(API_URL)
+            const res = await axios.get(API_URL, {
+                headers: authHeader()
+            })
             setProductos(res.data)
         } catch (error) {
             console.error("Error al cargar los productos")
@@ -163,7 +165,10 @@ export const useProductos = (initial = {NombreProducto: "", IdCategoria: "", Pre
 
         try {
             if (formProductoData.Id) {
-                await axios.put(`${API_URL}/${formProductoData.Id}`, formProductoData);
+                await axios.put(`${API_URL}/${formProductoData.Id}`, formProductoData, 
+                    {
+                        headers: authHeader()
+                    });
                 Swal.fire({
                     title: "Actualizado",
                     text: "Producto actualizado correctamente",
@@ -172,7 +177,11 @@ export const useProductos = (initial = {NombreProducto: "", IdCategoria: "", Pre
                     color: "#c9c9c9"
                 });
             } else {
-                await axios.post(API_URL, formProductoData);
+                await axios.post(API_URL, formProductoData, 
+                    {
+                        headers: authHeader()
+                    }
+                );
                 Swal.fire({
                     title: "Creado",
                     text: "Producto creado correctamente",
@@ -209,7 +218,11 @@ export const useProductos = (initial = {NombreProducto: "", IdCategoria: "", Pre
 
         if (result.isConfirmed){
             try {
-                await axios.delete(`${API_URL}/${Id}`)
+                await axios.delete(`${API_URL}/${Id}`, 
+                    {
+                        headers: authHeader()
+                    }
+                )
                 Swal.fire({
                     title: "Eliminado",
                     text: "Producto eliminado",

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
+import { authHeader } from "../helpers/authHeader";
 
 export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
   const [userData, setUserData] = useState(initial);

@@ -4,7 +4,8 @@ import DashboardLayout from "../../components/Dashboard/DashboardLayout";
 import { useHacerPedido } from "../../hooks/useHacerPedido";
 import axios from "axios";
 import Swal from 'sweetalert2';
-import { validacionDeCampos } from '../../helpers/validacionDeCampos'
+import { validacionDeCampos } from '../../helpers/validacionDeCampos';
+import { authHeader } from "../../helpers/authHeader";
 
 const HacerPedidoDashboard = ({ onClose }) => {
 
@@ -69,8 +70,10 @@ const HacerPedidoDashboard = ({ onClose }) => {
         try {
             const response = await axios.post('http://localhost:5000/api/pedidos/nuevoPedido', formPedidosData, {
                 headers: {
+                    ...authHeader(),
                     'Content-Type': 'application/json',
                 },
+
             });
             if (response.status === 200 || response.status === 201) {
                 Swal.fire({
