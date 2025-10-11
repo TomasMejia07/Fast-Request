@@ -3,6 +3,7 @@ import '../../assets/css/pedidosporcliente.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
 import { generarPDF } from '../../hooks/PedidoPdf';
+import { authHeader } from '../../helpers/authHeader';
 
 const PedidosPorCliente = () => {
 
@@ -12,7 +13,11 @@ const PedidosPorCliente = () => {
 
     const obtenerPedidos = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/pedidos/cliente-pedidos/${clienteId}`);
+            const response = await axios.get(`http://localhost:5000/api/pedidos/cliente-pedidos/${clienteId}`,
+                {
+                    headers: authHeader()
+                } 
+                );
             setPedidos(response.data);
         } catch (err) {
             console.error('Error al obtener los pedidos de cliente', err);

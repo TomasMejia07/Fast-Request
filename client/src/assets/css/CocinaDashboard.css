@@ -1,0 +1,185 @@
+:root {
+  --white-text: #c9c9c9;
+  --white-icons: #e9e9e9;
+  --black: #13161C;
+  --Gray: #272727;
+  --Buton-color: #6366F1;
+  --Buton-hover-color: #5356F2;
+  --tabla-linea-color: #ffffff;
+  --white-red: #d85757;
+  --white-greens: #1ba73e;
+  --white-green: #e67e22;
+  --font: "General Sans", sans-serif;
+  --color-prueba: #00c5ff;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.cocina-container {
+  min-height: 100vh;
+  background: var(--Gray);
+  color: var(--white-text);
+  font-family: var(--font);
+  padding: 3rem 2rem 4rem; /* más aire arriba y abajo */
+  overflow-x: hidden;
+}
+
+/* ENCABEZADO */
+.cocina-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem; /* más espacio con los pedidos */
+}
+
+.cocina-header h2 {
+  color: var(--white-icons);
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+.cocina-header .icon {
+  font-size: 2rem;
+  color: var(--white-icons);
+}
+
+/* CONTENEDOR DE PEDIDOS */
+.pedidos-grid {
+  display: flex;
+  gap: 1.8rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  margin-bottom: 3.5rem; /* más separación con el botón */
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--Buton-color) transparent;
+}
+
+.pedidos-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pedidos-grid::-webkit-scrollbar-thumb {
+  background: var(--Buton-color);
+  border-radius: 4px;
+}
+
+.pedidos-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* TARJETA DE PEDIDO */
+.pedido-card {
+  flex: 0 0 320px;
+  background: var(--black);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  transition: 0.3s ease;
+}
+
+.pedido-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* CABECERA DEL PEDIDO */
+.pedido-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+}
+
+.pedido-header h3 {
+  color: var(--white-icons);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.pedido-header ion-icon {
+  color: var(--white-icons);
+  font-size: 1.2rem;
+}
+
+.cliente {
+  color: var(--color-prueba);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+/* CUERPO DEL PEDIDO */
+.pedido-body {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--white-text);
+  line-height: 1.4;
+}
+
+.pedido-body strong {
+  color: var(--white-icons);
+}
+
+.total {
+  margin-top: 0.8rem;
+  font-weight: bold;
+  color: var(--white-greens);
+}
+
+/* FOOTER DEL PEDIDO */
+.pedido-footer {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.btn-completar {
+  background: var(--Buton-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn-completar ion-icon {
+  font-size: 1.1rem;
+}
+
+.btn-completar:hover {
+  background: var(--Buton-hover-color);
+}
+
+/* BOTÓN REGRESAR */
+.btn-regresar {
+  margin-top: 3rem; /* más espacio hacia abajo */
+  background: transparent;
+  color: var(--white-icons);
+  border: 1px solid var(--white-icons);
+  border-radius: 8px;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.3s ease;
+}
+
+.btn-regresar:hover {
+  background: var(--Buton-color);
+  border-color: var(--Buton-color);
+  color: #fff;
+}

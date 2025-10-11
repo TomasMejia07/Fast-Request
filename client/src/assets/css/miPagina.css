@@ -39,12 +39,20 @@
   color: #ccc;
 }
 .nav-buttons button {
+  width: 40px;
+  height: 40px;
   background: transparent;
   border: none;
   color: white;
   margin-left: 1rem;
   cursor: pointer;
 }
+
+.nav-buttons ion-icon {
+  font-size: 25px; /* Puedes ajustar: 1.5rem, 2rem, etc. */
+  vertical-align: middle;
+}
+
 .nav-buttons button:hover {
   background: #222;
   border-radius: 6px;
@@ -200,13 +208,24 @@
   gap: 1rem;
 }
 .socials a {
+  display: flex;               /* centra el icono */
+  align-items: center;
+  justify-content: center;
+  width: 40px;                 /* tamaño de la burbuja */
+  height: 40px;
   background: #333;
-  padding: 0.5rem;
   border-radius: 50%;
   color: white;
+  text-decoration: none;
+  transition: background 0.3s ease;
 }
+
 .socials a:hover {
   background: #555;
+}
+
+.socials ion-icon {
+  font-size: 20px; /* tamaño del ícono dentro de la burbuja */
 }
 .copy {
   border-top: 1px solid #333;
