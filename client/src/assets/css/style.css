@@ -10,11 +10,24 @@
   --white-green: #e67e22; /* COLOR DE LOS HOVERS DE LAS TARJETAS POR EL MOMENTO */
   --font:  "General Sans", sans-serif; /* TIPO DE FUENTE */
 }
+html.light {
+  --white-text: #222222; /* texto más oscuro */
+  --white-icons: #333333; /* iconos oscuros */
+  --black: #f5f5f5; /* fondos de tarjetas/tablas */
+  --Gray: #ffffff; /* contenedor más claro */
+  --Buton-color: #4f46e5;
+  --Buton-hover-color: #4338ca;
+  --tabla-linea-color: #dcdcdc; /* líneas grises */
+  --white-red: #d32f2f;
+  --white-green: #e67e22;
+}
+
 
 body {
-  background-color: #13161C !important;
-  font-family: 'General Sans', sans-serif !important;
+  background-color: var(--Gray) !important;
+  font-family: var(--font) !important;
   color: var(--white-text) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* CONTENEDOR */
