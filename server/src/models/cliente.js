@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, where } = require('sequelize');
 const { sequelize } = require('../config/db');
 const Pedido = require('./hacerPedido')
 
@@ -27,14 +27,38 @@ const Clientes = sequelize.define('clientes', {
         allowNull: false,
     },
     EstadoCliente: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('activo', 'inactivo'),
         allowNull: false,
+        defaultValue: 'activo'
     },
 
-},  {
-        tableName: 'clientes',
-        timestamps: true,
+}, {
+    tableName: 'clientes',
+    timestamps: true,
+
+    // cada vez que yo pida "clientes", muéstra SOLO los que tienen el estado activo, 
+    // sin que tenga que pedirlo manualmente
+    defaultScope: {
+        where: {
+            EstadoCliente: 'activo'
+        }
+    },
+
+    // cada vez que yo pida "clientes", muéstra los clientes tanto con estado
+    // activo eh inactivo, sin que tenga que pedirlo manualmente
+    scopes: {
+        clientesInactivos: {
+            where: {}
+        },
+        
+        //cada vez que yo pida "clientes", muéstra SOLO los que tienen el estado inactivo, 
+        // sin que tenga que pedirlo manualmente
+        soloClientesInactivos: {
+            where: { EstadoCliente: 'inactivo' }
+        }
     }
+
+}
 );
 
 Clientes.hasMany(Pedido, {
@@ -45,6 +69,6 @@ Clientes.hasMany(Pedido, {
 Pedido.belongsTo(Clientes, {
     foreignKey: 'clienteId',
     targetKey: 'Id'
-}) 
+})
 
 module.exports = Clientes;

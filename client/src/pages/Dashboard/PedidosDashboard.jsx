@@ -7,15 +7,13 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from 'axios'
 import { authHeader } from "../../helpers/authHeader";
+import { useNavigate } from 'react-router-dom'
 
 const PedidosDashboard = ({ onClose }) => {
-    const [modalVisible, setModalVisible] = useState(false);
     const [fullPedidos, setFullPedidos] = useState([])
     const [busqueda, setBusqueda] = useState('')
     const [paginacionActual, setPaginacionActual] = useState(1)
-
-
-    const formRef = useRef(null);
+    const navigate = useNavigate()
 
 
     const obtenerPedidos = async () => {
@@ -30,18 +28,8 @@ const PedidosDashboard = ({ onClose }) => {
         }
     }
 
-    const openModal = () => {
-        setModalVisible(true);
-    };
-
-    const closeModal = () => {
-        setModalVisible(false);
-        if (formRef.current) formRef.current.reset(); // Resetea el formulario
-    };
-
     useEffect(() => {
         obtenerPedidos()
-
     }, [])
 
     const res = useFiltro(fullPedidos, busqueda)
@@ -84,7 +72,10 @@ const PedidosDashboard = ({ onClose }) => {
                                 <td className="tabladashb_tbody_tr_td">{p.cantidadProducto}</td>
                                 <td className="tabladashb_tbody_tr_td">{new Date(p.createdAt).toLocaleDateString()}</td>
                                 <td className="tabladashb_tbody_tr_td">
-                                    <button className="detalles_pedido" onClick={openModal}><ion-icon id="iconosoperaciondetalles" name="filter"></ion-icon></button>
+                                    <button className="detalles_pedido" onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/dashboard/pedido-full/${p.id}`)
+                                        }}><ion-icon id="iconosoperaciondetalles" name="filter"></ion-icon></button>
                                 </td>
                             </tr>
                         ))}
@@ -111,22 +102,7 @@ const PedidosDashboard = ({ onClose }) => {
                     }}
                 />
             </Stack>
-
-
-            <ModalDashboard show={modalVisible} onClose={closeModal}>
-                <form ref={formRef}>
-                    <h2 className="modal__title">Detalles del Pedido</h2>
-                    <div className="botones_formulario">
-                        <button type="submit" className="boton_formulario">Modificar</button>
-                        <button className="close__modal" onClick={onClose}>Cerrar </button>
-                    </div>
-                </form>
-            </ModalDashboard>
         </DashboardLayout>
-
-
-
-
     )
 }
 

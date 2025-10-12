@@ -269,7 +269,7 @@ exports.analisisClientes = async (req, res) => {
             ],
             where: whereCondition,
             include: [{
-                model: Cliente,
+                model: Cliente.unscoped(),
                 attributes: ['NombreCliente', 'NumeroContacto', 'CorreoElectronico']
             }],
             group: ['clienteId', 'cliente.id'],

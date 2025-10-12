@@ -20,6 +20,8 @@ import Configuracion from './pages/Configuracion/configuracion';
 import Perfil from './pages/Configuracion/perfil';
 import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
 import PedidosPorCliente from './pages/Dashboard/pedidosPorCliente';
+import VisualizarInactividadDeClientes from './pages/Dashboard/visualizarClientesInactivos';
+import PedidoCompleto from './pages/Dashboard/PedidoCompleto';
 
 const AppContent = () => {
 
@@ -41,8 +43,10 @@ const AppContent = () => {
             <Route path="/dashboard/clientes" element={<ClientesDashboard />} />
             <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />
             <Route path="/dashboard/pedidos" element={<PedidosDashboard />} />
+            <Route path="/dashboard/pedido-full/:id" element={<PedidoCompleto />} />
             <Route path="/dashboard/hacerPedido" element={<HacerPedidoDashboard />} />
             <Route path="/dashboard/pedidosPorCliente/:clienteId" element={<PedidosPorCliente />} />
+            <Route path="/dashboard/clientesInactivos" element={<VisualizarInactividadDeClientes />} />
             <Route path="/dashboard/configuracion" element={<Configuracion />} />
             <Route path="/dashboard/perfil" element={<Perfil />} />
           </Routes>

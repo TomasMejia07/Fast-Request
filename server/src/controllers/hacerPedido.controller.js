@@ -16,9 +16,15 @@ exports.nuevoPedido = async (req, res) => {
             notasAdicionales,
         } = req.body;
 
-        const cliente = await Clientes.findOne({ where: { id: clienteId } });
+        const cliente = await Clientes.findOne({ where: { Id: clienteId } });
         if (!cliente) return res.status(400).json({ message: 'Cliente no existe. Debes registrarlo con todos sus datos primero.' });
 
+
+        if (cliente.EstadoCliente === 'inactivo') {
+            return res.status(400).json({
+                mensaje: 'No se pueden crear pedidos para clientes con estado \"inactivo\" '
+            });
+        }
 
         const producto = await Producto.findOne({ where: { id: productoId } });
         if (!producto) return res.status(400).json({ message: 'Producto no existe. Debes registrarlo con todos sus datos primero.' });
@@ -61,11 +67,13 @@ exports.nuevoPedido = async (req, res) => {
 
 exports.seleccionarPedidos = async (req, res) => {
     try {
-        const pedidos = await Pedido.findAll({include: [{
+        const pedidos = await Pedido.findAll({
+            include: [{
                 model: Producto,
-                attributes: ['NombreProducto'], 
+                attributes: ['NombreProducto'],
                 required: true
-            }]});
+            }]
+        });
 
         res.status(201).json(pedidos);
     } catch (error) {
@@ -74,7 +82,7 @@ exports.seleccionarPedidos = async (req, res) => {
     }
 }
 
-
+// controlador para visualizar todos los predidos realizados por un cliente
 exports.obtenerPedidosConClientes = async (req, res) => {
     try {
         console.log('req.params:', req.params);
@@ -121,13 +129,46 @@ exports.obtenerNombresProductos = async (req, res) => {
 
 exports.obtenerNombresClientes = async (req, res) => {
     try {
-        const clientes = await Clientes.findAll();
+        const clientes = await Clientes.findAll({
+            where: {
+                EstadoCliente: 'activo'
+            },
+        });
         res.status(200).json(clientes);
 
         console.log('nombres del cliente obtenidos exitosamente')
 
     } catch (err) {
         res.status(500).json({ err: 'Error al obtener los cleintes' });
+    }
+}
+
+
+exports.ObtenerPedidoCompleto = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const pedido = await Pedido.findByPk(id, {
+            include: [{
+                model: Clientes.unscoped(),
+                attributes: ['NombreCliente', 'EstadoCliente'],
+                required: true
+            },{
+                model: Producto,
+                attributes: ['NombreProducto', 'PrecioProducto'],
+                required: true
+            }],
+            
+        })
+
+        if(!pedido) return res.status(404).json({ message: 'Pedido no realizado. Debes realizarlo primero.' })
+
+        console.log('Datos del pedido obtenidos de manera correcta')
+        res.status(200).json({ message: 'Datos del pedido obtenidos de manera correcta', data: pedido })
+
+    } catch (err) {
+        console.error('Error al obtener el pedido:', err);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 }
 

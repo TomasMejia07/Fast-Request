@@ -21,7 +21,7 @@ export const useFiltro = (data, busqueda) => {
 
 //useFiltro categoria
 export const useFiltroCategoria = (data, busqueda) => {
-     const res = useMemo(() => {
+    const res = useMemo(() => {
         if (!busqueda.trim()) return data;
         const termino = busqueda.toLowerCase();
         return data.filter((item) => {
@@ -38,11 +38,11 @@ export const useFiltroCategoria = (data, busqueda) => {
 
 //useFiltro Productos
 export const useFiltroProductos = (data, busqueda) => {
-     const res = useMemo(() => {
+    const res = useMemo(() => {
         if (!busqueda.trim()) return data;
         const termino = busqueda.toLowerCase();
         return data.filter((item) => {
-             return [
+            return [
                 item.id?.toString(),
                 item.NombreProducto?.toLowerCase(),
                 item.NombreCategoria?.toLowerCase(),
@@ -83,11 +83,11 @@ export const useFiltroRoles = (data, busqueda) => {
 //useFiltro clientes
 
 export const useFiltroClientes = (data, busqueda) => {
-     const res = useMemo(() => {
+    const res = useMemo(() => {
         if (!busqueda.trim()) return data;
         const termino = busqueda.toLowerCase();
         return data.filter((item) => {
-             return [
+            return [
                 item.id?.toString(),
                 item.NombreCliente?.toLowerCase(),
                 item.NumeroDocumento?.toString(),

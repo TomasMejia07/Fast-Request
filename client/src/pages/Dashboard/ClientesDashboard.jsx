@@ -13,11 +13,10 @@ import { usePaginacion } from "../../hooks/usePaginacion";
 const ClientesDashboard = () => {
     const {
         onChangeInputs,
-        CrearOactualizarCliente,
-        eliminarCliente,
+        CrearCliente,
+        cambiarEstadoCliente,
         clientes,
         obtenerClientes,
-        editarCliente,
         openModal,
         isCreating,
         modalVisible,
@@ -64,8 +63,8 @@ const ClientesDashboard = () => {
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Clientes</h2>
-                    <button className="boton_raro" onClick={openModal}>Crear Nuevo</button>
-
+                    <button className="boton_raro" onClick={openModal}>Crear Cliente</button>
+    
                     <div className="input_search">
                         <input
                             type="search"
@@ -75,6 +74,15 @@ const ClientesDashboard = () => {
                         />
                         <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
                     </div>
+
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/dashboard/clientesInactivos`)
+                        }}>
+                        <ion-icon id="iconosoperacionVisualizarEstado" name="reader-outline"></ion-icon>
+                    </a>
                 </div>
 
                 <table className="tabladashb">
@@ -101,18 +109,9 @@ const ClientesDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            editarCliente(customer);
+                                            cambiarEstadoCliente(customer.Id);
                                         }}>
-                                        <ion-icon id="iconosoperacionEditar" name="pencil"></ion-icon>
-                                    </a>
-
-                                    <a
-                                        href="#"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            eliminarCliente(customer.Id);
-                                        }}>
-                                        <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
+                                        <ion-icon id="iconosoperacionEliminar" name="ban"></ion-icon>
                                     </a>
 
                                     <a
@@ -157,12 +156,12 @@ const ClientesDashboard = () => {
                     ref={formRef}
                     onSubmit={(e) => {
                         e.preventDefault();
-                        CrearOactualizarCliente();
+                        CrearCliente();
                         validaciones()
                     }}
                 >
                     <h2 className="modal__title">
-                        {isCreating ? "Crear Cliente" : "Editar Cliente"}
+                        Crear Cliente
                     </h2>
 
                     <div className="dashinputs_formulario">
@@ -224,19 +223,18 @@ const ClientesDashboard = () => {
 
 
                     <div className="dashinputs_formulario">
-                        <label htmlFor="EstadoCliente">Estado:</label>
-                        <select
+                        <label htmlFor="EstadoCliente">Estado Del Cliente:</label>
+                        <input
                             name="EstadoCliente"
                             id="EstadoCliente"
+                            type="text"
                             className="dashinputs_formulario_Labels"
                             value={formData.EstadoCliente}
                             onChange={onChangeInputs}
                             required
+                            disabled
                         >
-                            <option value="" hidden>Selecciona uno</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
+                        </input>
                     </div>
 
                     <div className="botones_formulario">
