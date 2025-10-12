@@ -59,6 +59,11 @@ const Pedido = sequelize.define('Pedido', {
     total: {
         type: DataTypes.DECIMAL,
         allowNull: false,
+    },
+    estadoDelPedido: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        defaultValue: 'En proceso',
     }
 }, {
     tableName: 'pedidos',

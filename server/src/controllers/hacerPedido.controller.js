@@ -1,4 +1,4 @@
-const { Pedido, Clientes, Producto } = require('../models')
+const { Pedido, Clientes, Producto } = require('../models');
 
 exports.nuevoPedido = async (req, res) => {
     try {
@@ -29,9 +29,7 @@ exports.nuevoPedido = async (req, res) => {
         const producto = await Producto.findOne({ where: { id: productoId } });
         if (!producto) return res.status(400).json({ message: 'Producto no existe. Debes registrarlo con todos sus datos primero.' });
 
-
         const total = parseFloat(producto.PrecioProducto) * parseInt(cantidadProducto);
-
 
         const nuevoPedido = await Pedido.create({
             clienteId: cliente.Id,
@@ -45,7 +43,8 @@ exports.nuevoPedido = async (req, res) => {
             deseaGaseosa,
             tipos_gaseosas,
             notasAdicionales,
-            total
+            total,
+            estadoDelPedido: 'En proceso' // 👈 Valor por defecto
         });
 
         const pedidoConProducto = await Pedido.findOne({
@@ -82,29 +81,30 @@ exports.seleccionarPedidos = async (req, res) => {
     }
 }
 
-// controlador para visualizar todos los predidos realizados por un cliente
+
 exports.obtenerPedidosConClientes = async (req, res) => {
     try {
         console.log('req.params:', req.params);
-        const { clienteId } = req.params
+        const { clienteId } = req.params;
 
         if (!clienteId) {
             return res.status(400).json({ error: 'clienteId no proporcionado' });
         }
+
         const pedidos = await Pedido.findAll({
             where: { clienteId: clienteId },
-            include: [{
-                model: Clientes,
-                attributes: [],
-                required: true
-            },
-            {
-                model: Producto,
-                attributes: ['NombreProducto', 'PrecioProducto'],
-                required: true
-            }
+            include: [
+                {
+                    model: Clientes,
+                    attributes: [],
+                    required: true
+                },
+                {
+                    model: Producto,
+                    attributes: ['NombreProducto', 'PrecioProducto'],
+                    required: true
+                }
             ],
-
         });
 
         res.json(pedidos);
@@ -114,18 +114,16 @@ exports.obtenerPedidosConClientes = async (req, res) => {
     }
 };
 
-
 exports.obtenerNombresProductos = async (req, res) => {
     try {
         const productos = await Producto.findAll();
         res.status(200).json(productos);
 
-        console.log('nombres del producto obtenidos exitosamente')
+        console.log('nombres del producto obtenidos exitosamente');
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener productos' });
     }
-}
-
+};
 
 exports.obtenerNombresClientes = async (req, res) => {
     try {
@@ -136,11 +134,11 @@ exports.obtenerNombresClientes = async (req, res) => {
         });
         res.status(200).json(clientes);
 
-        console.log('nombres del cliente obtenidos exitosamente')
-
+        console.log('nombres del cliente obtenidos exitosamente');
     } catch (err) {
-        res.status(500).json({ err: 'Error al obtener los cleintes' });
+        res.status(500).json({ err: 'Error al obtener los clientes' });
     }
+
 }
 
 
@@ -171,6 +169,8 @@ exports.ObtenerPedidoCompleto = async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 }
+
+
 
 
 
