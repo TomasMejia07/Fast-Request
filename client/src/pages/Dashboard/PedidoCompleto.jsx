@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePedidoCompleto } from '../../hooks/usePedidoCompleto'
 
+
 const PedidoCompleto = () => {
     const { id } = useParams()
     const navigate = useNavigate()
@@ -27,12 +28,12 @@ const PedidoCompleto = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <span className="label">Nombre:</span>
-                                    <span className="value">{dataPedido.cliente?.NombreCliente || 'N/A'}</span>
+                                    <span className="value">{dataPedido.cliente?.NombreCliente}</span>
                                 </div>
                                 <div className="info-item">
                                     <span className="label">Estado:</span>
                                     <span className={`badge badge-${dataPedido.cliente?.EstadoCliente}`}>
-                                        {dataPedido.cliente?.EstadoCliente || 'N/A'}
+                                        {dataPedido.cliente?.EstadoCliente}
                                     </span>
                                 </div>
                             </div>
@@ -47,11 +48,11 @@ const PedidoCompleto = () => {
                             <div className="producto-info">
                                 <div className="info-row">
                                     <span className="label">Producto:</span>
-                                    <span className="value">{dataPedido.Producto?.NombreProducto || 'N/A'}</span>
+                                    <span className="value">{dataPedido.Producto?.NombreProducto}</span>
                                 </div>
                                 <div className="info-row">
                                     <span className="label">Precio Unitario:</span>
-                                    <span className="value precio">${dataPedido.Producto?.PrecioProducto || 0}</span>
+                                    <span className="value precio">${dataPedido.Producto?.PrecioProducto}</span>
                                 </div>
                                 <div className="info-row">
                                     <span className="label">Cantidad:</span>

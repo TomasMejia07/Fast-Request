@@ -8,6 +8,9 @@ const Permiso = require('./Permisos');
 const Rol = require('./Roles');
 const Perfil = require('./configuracionPerfil')
 const Empresa = require('./Empresa');
+const Salsas = require('./Salsas')
+const Gaseosas = require('./Gaseosas')
+
 
 module.exports = {
   Usuario,
@@ -19,6 +22,8 @@ module.exports = {
   Permiso,
   Rol,
   Perfil,
-  Empresa
+  Empresa,
+  Salsas,
+  Gaseosas
 };
 

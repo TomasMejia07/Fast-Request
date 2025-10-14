@@ -24,7 +24,10 @@ const HacerPedidoDashboard = ({ onClose }) => {
         total: undefined
     }
 
-    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas, openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible, openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas, setFormPedidosData, setErrores, errores, productos, clientes } = useHacerPedido(initial)
+    const { OnChangeInputs, modalVisibleSalsas, formRef, closeModalSalsas,
+        openModalSalsas, formPedidosData, checkboxs, modalGaseosaVisible,
+        openModalGaseosa, closeModalGaseosa, isCreatingSalsas, isCreatingGaseosas,
+        setFormPedidosData, setErrores, errores, productos, clientes, salsas, gaseosas } = useHacerPedido(initial)
 
     const {
         clienteId,
@@ -112,7 +115,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     <select
                         name="clienteId"
                         value={clienteId}
-                        onChange={OnChangeInputs}   
+                        onChange={OnChangeInputs}
                         required
                         className="select_foranea"
                     >
@@ -129,7 +132,7 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     <select
                         name="productoId"
                         value={productoId}
-                        onChange={OnChangeInputs}   
+                        onChange={OnChangeInputs}
                         required
                         className="select_foranea"
                     >
@@ -217,96 +220,18 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     {deseaSalsas === "si" && (
                         <ModalDashboard show={modalVisibleSalsas} onClose={closeModalSalsas}>
                             <div className='selecionDeSalsas' id="seleccionSalsas" ref={formRef}>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='rosada'
-                                        checked={tipos_salsas.includes('rosada')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa Rosada
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='guacamole'
-                                        checked={tipos_salsas.includes('guacamole')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa Guacamole
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='mayonesa'
-                                        checked={tipos_salsas.includes('mayonesa')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa De Mayonesa
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='tomate'
-                                        checked={tipos_salsas.includes('tomate')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa De Tomate
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='cebolla'
-                                        checked={tipos_salsas.includes('cebolla')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa De Cebolla
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='showy'
-                                        checked={tipos_salsas.includes('showy')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa Showy
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='ajo'
-                                        checked={tipos_salsas.includes('ajo')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa De Ajo
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='bbq'
-                                        checked={tipos_salsas.includes('bbq')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa BBQ
-                                </label>
-                                <label className="form-input-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_salsas"
-                                        value='DeLaCasa'
-                                        checked={tipos_salsas.includes('DeLaCasa')}
-                                        onChange={checkboxs}
-                                    />
-                                    Salsa De La Casa
-                                </label>
+                                {salsas.map((salsa) => (
+                                    <label className="form-input-checkbox" key={salsa.id}>
+                                        <input
+                                            type="checkbox"
+                                            name="tipos_salsas"
+                                            value={salsa.nombreSalsa}
+                                            checked={tipos_salsas.includes(salsa.nombreSalsa)}
+                                            onChange={checkboxs}
+                                        />
+                                        {`Salsa ${salsa.nombreSalsa}`}
+                                    </label>
+                                ))}
                                 <div className="botones_formulario">
                                     <button className="close__modal" onClick={closeModalSalsas} disabled={isCreatingSalsas}>Cerrar</button>
                                 </div>
@@ -341,96 +266,18 @@ const HacerPedidoDashboard = ({ onClose }) => {
                     {deseaGaseosa === "si" && (
                         <ModalDashboard show={modalGaseosaVisible} onClose={closeModalGaseosa}>
                             <div className='selecionDeGaseosas' id="seleccionGaseosas" ref={formRef}>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='manzana'
-                                        checked={tipos_gaseosas.includes('manzana')}
-                                        onChange={checkboxs}
-                                    />
-                                    Manzana
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='hit_de_mango'
-                                        checked={tipos_gaseosas.includes('hit_de_mango')}
-                                        onChange={checkboxs}
-                                    />
-                                    Hit De Mango
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='pepsi'
-                                        checked={tipos_gaseosas.includes('pepsi')}
-                                        onChange={checkboxs}
-                                    />
-                                    Pepsi
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='uva'
-                                        checked={tipos_gaseosas.includes('uva')}
-                                        onChange={checkboxs}
-                                    />
-                                    Uva
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='premio'
-                                        checked={tipos_gaseosas.includes('premio')}
-                                        onChange={checkboxs}
-                                    />
-                                    Premio
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='sprite'
-                                        checked={tipos_gaseosas.includes('sprite')}
-                                        onChange={checkboxs}
-                                    />
-                                    Sprite
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='colombiana'
-                                        checked={tipos_gaseosas.includes('colombiana')}
-                                        onChange={checkboxs}
-                                    />
-                                    Colombiana
-                                </label>
-                                <label className="form-input-checkbox" >
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='cuatro'
-                                        checked={tipos_gaseosas.includes('cuatro')}
-                                        onChange={checkboxs}
-                                    />
-                                    Cuatro
-                                </label>
-                                <label className="form-input-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        name="tipos_gaseosas"
-                                        value='Coca-Cola'
-                                        checked={tipos_gaseosas.includes('Coca-Cola')}
-                                        onChange={checkboxs}
-                                    />
-                                    Coca-Cola
-                                </label>
+                                {gaseosas.map((gaseosa) => (
+                                    <label className="form-input-checkbox" key={gaseosa.id}>
+                                        <input
+                                            type="checkbox"
+                                            name="tipos_gaseosas"
+                                            value={gaseosa.nombreGaseosa}
+                                            checked={tipos_gaseosas.includes(gaseosa.nombreGaseosa)}
+                                            onChange={checkboxs}
+                                        />
+                                        {`Gaseosa ${gaseosa.nombreGaseosa}`}
+                                    </label>
+                                ))}
                                 <div className="botones_formulario">
                                     <button className="close__modal" onClick={closeModalGaseosa} disabled={isCreatingGaseosas}>Cerrar</button>
 

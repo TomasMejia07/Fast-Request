@@ -1,4 +1,4 @@
-const { Pedido, Clientes, Producto } = require('../models');
+const { Pedido, Clientes, Producto, Salsas, Gaseosas } = require('../models');
 
 exports.nuevoPedido = async (req, res) => {
     try {
@@ -138,7 +138,6 @@ exports.obtenerNombresClientes = async (req, res) => {
     } catch (err) {
         res.status(500).json({ err: 'Error al obtener los clientes' });
     }
-
 }
 
 
@@ -151,15 +150,15 @@ exports.ObtenerPedidoCompleto = async (req, res) => {
                 model: Clientes.unscoped(),
                 attributes: ['NombreCliente', 'EstadoCliente'],
                 required: true
-            },{
+            }, {
                 model: Producto,
                 attributes: ['NombreProducto', 'PrecioProducto'],
                 required: true
             }],
-            
+
         })
 
-        if(!pedido) return res.status(404).json({ message: 'Pedido no realizado. Debes realizarlo primero.' })
+        if (!pedido) return res.status(404).json({ message: 'Pedido no realizado. Debes realizarlo primero.' })
 
         console.log('Datos del pedido obtenidos de manera correcta')
         res.status(200).json({ message: 'Datos del pedido obtenidos de manera correcta', data: pedido })
@@ -171,6 +170,36 @@ exports.ObtenerPedidoCompleto = async (req, res) => {
 }
 
 
+// visualizacion de las salsa y gaseosas a la hora de realizar el pedido 👹
+
+exports.obtenerNombresSalsas = async (req, res) => {
+    try {
+        const salsas = await Salsas.findAll({
+            where: {
+                estadoSalsa: 'activo'
+            },
+        });
+        res.status(200).json(salsas);
+
+        console.log('nombres de las salsa obtenidas exitosamente');
+    } catch (err) {
+        res.status(500).json({ err: 'Error al obtener los clientes' });
+    }
+}
 
 
+exports.obtenerNombresGaseosas = async (req, res) => {
+    try {
+        const gaseosas = await Gaseosas.findAll({
+            where: {
+                estadoGaseosa: 'activo'
+            },
+        });
+        res.status(200).json(gaseosas);
+
+        console.log('nombres de las gaseosas obtenidas exitosamente');
+    } catch (err) {
+        res.status(500).json({ err: 'Error al obtener los clientes' });
+    }
+}
 

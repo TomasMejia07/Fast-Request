@@ -61,6 +61,7 @@ esperarDB().then(() => {
   const rolRoutes = require('./routers/rol.routes.js');
   const configuracionPerfil = require('./routers/configuracionPerfil.routes.js')
   const configuracion = require('./routers/configuracion.routes.js')
+  const complementos = require('./routers/complementos.routes.js')
 
   // Rutas protegidas o públicas
   app.use("/api/usuarios", usuarioRoutes);
@@ -76,6 +77,7 @@ esperarDB().then(() => {
   app.use("/api/rol", rolRoutes);
   app.use('/api/perfil', configuracionPerfil)
   app.use('/api/configuracion', configuracion)
+  app.use('/api/complementos', complementos)
 
   app.get("/", (req, res) => {
     res.send("API de registro de usuarios en funcionamiento.");

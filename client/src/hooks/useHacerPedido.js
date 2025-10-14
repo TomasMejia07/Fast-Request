@@ -12,6 +12,8 @@ export const useHacerPedido = (initial) => {
     const [isCreatingGaseosas, setIsCreatingGaseosas] = useState(false);
     const [clientes, setClientes] = useState([])
     const [productos, setProductos] = useState([]);
+    const [salsas, setSalsas] = useState([]);
+    const [gaseosas, setGaseosas] = useState([]);
     const [errores, setErrores] = useState({
         nombreCliente: '',
         productoId: '',
@@ -95,6 +97,44 @@ export const useHacerPedido = (initial) => {
         }
     }
 
+
+
+    const restApiSalsas = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/pedidos/salsas', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...authHeader()
+                },
+            });
+
+            setSalsas(res.data);
+            console.log('datos cargados d emanera correta ✅')
+
+        } catch (err) {
+            console.error('Error al cargar productos', err);
+        }
+    }
+
+
+    const resApiGaseosa = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/pedidos/gaseosas', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...authHeader()
+                },
+            });
+
+            setGaseosas(res.data);
+            console.log('datos cargados d emanera correta ✅')
+
+        } catch (err) {
+            console.error('Error al cargar productos', err);
+        }
+    }
+
+
     const openModalGaseosa = () => {
         setModalGaseosaVisible(true);
     };
@@ -116,6 +156,8 @@ export const useHacerPedido = (initial) => {
     useEffect(() => {
         restApi()
         restApiClientes()
+        restApiSalsas(),
+        resApiGaseosa()
     }, [])
 
     return {
@@ -139,7 +181,9 @@ export const useHacerPedido = (initial) => {
         restApi,
         productos,
         restApiClientes,
-        clientes
+        clientes,
+        salsas,
+        gaseosas
     }
 }
 

@@ -140,7 +140,7 @@ exports.nuevosClientes = async (req, res) => {
             }
         }
 
-        const totalNuevosClientes = await Cliente.count({
+        const totalNuevosClientes = await Cliente.unscoped().count({
             where: whereCondition
         });
 

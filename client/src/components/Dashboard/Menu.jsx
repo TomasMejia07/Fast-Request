@@ -19,6 +19,7 @@ function MenuDashboard() {
                     { to: '/dashboard/cocina', icon: 'restaurant', title: 'Cocina'},
                     { to: '/dashboard/categoria', icon: 'list', title: 'Categorías' },
                     { to: '/dashboard/productos', icon: 'fast-food', title: 'Productos' },
+                    { to: '/dashboard/complementos', icon: 'basket', title: 'Complementos' },
                     { to: '/dashboard/roles', icon: 'id-card', title: 'Roles' },
                     { to: '/dashboard/usuarios', icon: 'people', title: 'Usuarios' },
                     { to: '/dashboard/clientes', icon: 'person', title: 'Clientes' },

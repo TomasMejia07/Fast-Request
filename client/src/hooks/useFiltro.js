@@ -100,3 +100,39 @@ export const useFiltroClientes = (data, busqueda) => {
 
     return res;
 }
+
+//useFiltro Salsas
+
+export const useFiltroSalsas = (data, busqueda) => {
+    const res = useMemo(() => {
+        if (!busqueda.trim()) return data;
+        const termino = busqueda.toLowerCase();
+        return data.filter((item) => {
+            return [
+                item.id?.toString(),
+                item.nombreSalsa?.toLowerCase(),
+                item.estadoSalsa?.toLowerCase(),
+            ].some(value => value?.toLowerCase().includes(termino));
+        });
+    }, [data, busqueda]);
+
+    return res;
+}
+
+//useFiltro Gaseosas
+
+export const useFiltroGaseosas = (data, busqueda) => {
+    const res = useMemo(() => {
+        if (!busqueda.trim()) return data;
+        const termino = busqueda.toLowerCase();
+        return data.filter((item) => {
+            return [
+                item.id?.toString(),
+                item.nombreGaseosa?.toLowerCase(),
+                item.estadoGaseosa?.toLowerCase(),
+            ].some(value => value?.toLowerCase().includes(termino));
+        });
+    }, [data, busqueda]);
+
+    return res;
+}
