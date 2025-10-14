@@ -1434,3 +1434,52 @@ input:checked+.toggle-slider:before {
         margin-right: 0;
     }
 }
+
+/* INPUTS Y CAMPOS DE TEXTO */
+:root.light .text-input,
+:root.light .password-input,
+:root.light .form-group input,
+:root.light input[type="text"],
+:root.light input[type="email"],
+:root.light input[type="password"],
+:root.light input[type="number"],
+:root.light textarea,
+:root.light select {
+    background-color: var(--Gray) !important;
+    color: var(--white-text) !important;
+    border: 1px solid var(--tabla-linea-color) !important;
+}
+
+
+
+
+
+
+/* LÍNEAS Y SOMBRAS */
+:root.light .config-header,
+:root.light .perfil-header,
+:root.light .block-header {
+    border-color: var(--tabla-linea-color) !important;
+}
+
+/* ============================================================
+   🌞 FIX COLOR DE TEXTO EN TABLAS (modo claro)
+   ============================================================ */
+:root.light .tabladashb .tabladashb_thead {
+    background-color: var(--tabla-linea-color) !important; /* fondo del encabezado */
+    color: var(--white-text) !important; /* texto oscuro */
+}
+
+:root.light .tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td {
+    background-color: var(--Gray) !important;
+    color: var(--white-text) !important;
+    border-bottom: 1px solid var(--tabla-linea-color) !important;
+}
+
+/* Íconos dentro de la tabla */
+:root.light #iconosoperacion,
+:root.light #iconosoperacionEditar,
+:root.light #iconosoperacionEliminar,
+:root.light #iconosoperacionVisualizar {
+    color: var(--white-icons) !important;
+}

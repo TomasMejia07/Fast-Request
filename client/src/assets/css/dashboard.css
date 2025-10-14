@@ -463,6 +463,7 @@ body {
     color: var(--white-icons);
 }
 
+
 .input_search_complementos {
     position: relative;
 }
@@ -490,29 +491,37 @@ body {
 }
 
 
+
 .tabladashb {
     border-spacing: 0;
     margin-top: 1rem;
+    width: 100%;
 }
 
+/* Encabezado de la tabla */
 .tabladashb .tabladashb_thead {
     background-color: var(--tabla-linea-color);
     color: var(--black);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .tabladashb .tabladashb_thead .tabladashb_thead_th {
     padding: 10px;
     text-align: center;
+    font-weight: 600;
 }
 
+/* Filas del cuerpo */
 .tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td {
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid var(--white-text);
     color: var(--white-text);
+    transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
 }
 
-.tabladashb .tabladashb_tbody .tabladashb_tbody_tr .tabladashb_tbody_tr_td #iconosoperacion,
+/* Íconos de operaciones */
+#iconosoperacion,
 #iconosoperacionEditar,
 #iconosoperacionEliminar,
 #iconosoperacionVisualizar {
@@ -520,6 +529,13 @@ body {
     cursor: pointer;
     margin-left: 10px;
     color: var(--white-icons);
+    transition: color 0.3s ease;
+}
+
+
+/* Hover opcional */
+.tabladashb .tabladashb_tbody .tabladashb_tbody_tr:hover {
+    background-color: var(--Gray);
 }
 
 #iconosoperacionEditar:hover {
@@ -1205,26 +1221,26 @@ label {
 
 
 /* -----------------------ESTILOS DE LA SECCION HACER PEDIDO-----------------------*/
-
 .agenda-pedido {
     max-width: 500px;
     margin: 40px auto;
     padding: 34px;
-    background-color: #13161C;
+    background-color: var(--black);
     border-radius: 16px;
-    color: #ffffff;
+    color: var(--white-text);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .agenda-pedido h2 {
     text-align: center;
     text-transform: uppercase;
     font-weight: 800;
-    text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
     font-size: 28px;
     margin: 5px 0 25px;
     letter-spacing: 1px;
+    color: var(--white-text);
     position: relative;
 }
 
@@ -1251,26 +1267,28 @@ label {
     user-select: none;
     font-weight: 500;
     letter-spacing: 0.5px;
-    color: #ededed;
+    color: var(--white-text);
 }
+
 
 .form-input-pedidos {
     border: none;
-    border-bottom: 2px solid #2e2e2e;
+    border-bottom: 2px solid var(--tabla-linea-color);
     outline: none;
-    background: rgba(0, 0, 0, 0.15);
+    background: var(--Gray);
     padding: 12px 10px;
     width: 100%;
+    color: var(--white-text);
     transition: all 0.3s ease;
-    color: #ffffff;
-    user-select: none;
     font-size: 15px;
     border-radius: 4px 4px 0 0;
 }
 
+
 .form-input-pedidos::placeholder {
-    color: rgba(255, 255, 255, 0.704);
+    color: var(--white-icons);
 }
+
 
 .form-input-pedidos:focus:not(.form-radio-pedidos) {
     border-bottom: 2px solid var(--white-green);
