@@ -20,6 +20,8 @@ import Configuracion from './pages/Configuracion/configuracion';
 import Perfil from './pages/Configuracion/perfil';
 import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
 import PedidosPorCliente from './pages/Dashboard/pedidosPorCliente';
+import MiPagina from './pages/MiPagina/miPagina';
+import CocinaDashboard from './pages/Dashboard/CocinaDashboard';
 
 const AppContent = () => {
 
@@ -45,6 +47,7 @@ const AppContent = () => {
             <Route path="/dashboard/pedidosPorCliente/:clienteId" element={<PedidosPorCliente />} />
             <Route path="/dashboard/configuracion" element={<Configuracion />} />
             <Route path="/dashboard/perfil" element={<Perfil />} />
+            <Route path="/dashboard/cocina" element={<CocinaDashboard />} /> 
           </Routes>
         </ThemeProvider>
       ) : (
@@ -52,6 +55,7 @@ const AppContent = () => {
           <Route path="/" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
+          <Route path='/miPagina' element={<MiPagina />} /> 
         </Routes>
       )}
     </>
