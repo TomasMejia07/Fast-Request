@@ -18,6 +18,7 @@ import HacerPedidoDashboard from './pages/Dashboard/HacerPedidoDashboard';
 import ConditionalBootstrap from './components/ConditionalBootstrap';
 import Configuracion from './pages/Configuracion/configuracion';
 import Perfil from './pages/Configuracion/perfil';
+import Empresa from './pages/Configuracion/empresa';
 import ClientesDashboard from './pages/Dashboard/ClientesDashboard';
 import PedidosPorCliente from './pages/Dashboard/pedidosPorCliente';
 import VisualizarInactividadDeClientes from './pages/Dashboard/visualizarClientesInactivos';
@@ -55,6 +56,7 @@ const AppContent = () => {
             <Route path="/dashboard/clientesInactivos" element={<VisualizarInactividadDeClientes />} />
             <Route path="/dashboard/configuracion" element={<Configuracion />} />
             <Route path="/dashboard/perfil" element={<Perfil />} />
+            <Route path="/dashboard/empresa" element={<Empresa />} />
             <Route path="/dashboard/cocina" element={<CocinaDashboard />} /> 
           </Routes>
         </ThemeProvider>

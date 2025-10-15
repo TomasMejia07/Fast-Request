@@ -17,6 +17,7 @@ function MenuConfiguracion() {
                     { to: '/dashboard', icon: 'home', title: 'Inicio' },
                     { to: '/dashboard/perfil', icon: 'person-circle', title: 'Perfil'},
                     { to: '/dashboard/configuracion', icon: 'cog', title: 'Configuración' },
+                    { to: '/dashboard/empresa', icon: 'business', title: 'Empresa' }
                 ].map((item, index) => (
                     <li
                         key={index}

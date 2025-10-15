@@ -59,8 +59,9 @@ esperarDB().then(() => {
   const estadisticasRoutes = require('./routers/estadisticas.routes.js');
   const permisosRoutes = require('./routers/permiso.routes.js');
   const rolRoutes = require('./routers/rol.routes.js');
-  const configuracionPerfil = require('./routers/configuracionPerfil.routes.js')
   const configuracion = require('./routers/configuracion.routes.js')
+  const configuracionPerfil = require('./routers/configuracionPerfil.routes.js')
+  const configuracionEmpresa = require('./routers/configuracionEmpresa.routes.js')
   const complementos = require('./routers/complementos.routes.js')
 
   // Rutas protegidas o públicas
@@ -75,8 +76,9 @@ esperarDB().then(() => {
   app.use("/api/estadisticas", estadisticasRoutes);
   app.use("/api/permisos", permisosRoutes);
   app.use("/api/rol", rolRoutes);
-  app.use('/api/perfil', configuracionPerfil)
   app.use('/api/configuracion', configuracion)
+  app.use('/api/perfil', configuracionPerfil)
+  app.use('/api/empresa', configuracionEmpresa)
   app.use('/api/complementos', complementos)
 
   app.get("/", (req, res) => {
