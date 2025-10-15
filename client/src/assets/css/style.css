@@ -11,16 +11,17 @@
   --font:  "General Sans", sans-serif; /* TIPO DE FUENTE */
 }
 
+/* -------------------- BASE -------------------- */
 body {
-  background-color: #13161C !important;
+  background-color: var(--black) !important;
   font-family: 'General Sans', sans-serif !important;
   color: var(--white-text) !important;
 }
 
-/* CONTENEDOR */
+/* -------------------- CONTENEDOR -------------------- */
 .login-container {
   margin-top: 15vh;
-  border: 1px solid rgb(255, 255, 255);
+  border: 1px solid var(--tabla-linea-color);
   border-radius: 30px;
   width: 400px !important;
   min-width: 400;
@@ -28,9 +29,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--Gray);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* FORMULARIO */
+/* -------------------- FORMULARIO -------------------- */
 .login-form-group {
   margin-top: 20px;
   width: 350px;
@@ -40,43 +43,151 @@ body {
   align-items: center;
 }
 
-/* TITULO */
+/* -------------------- TITULO -------------------- */
 .titulo {
   text-align: center;
-  color: white;
-  font-weight: 400;
+  color: var(--white-text);
+  font-weight: 600;
   font-size: 1.5rem;
   letter-spacing: 3px;
 }
 
-/* BOTONES */
-.login-btn {
+/* -------------------- BOTONES -------------------- */
+/* -------------------- BOTONES MODERNOS -------------------- */
+.login-btn-ingresar,
+.login-btn-registrar,
+.btn,
+.button,
+.btn-continuar {
   width: 100%;
-  margin-bottom: 20px;  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 35px;
-  letter-spacing: 2px;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  font-family: var(--font);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
 }
 
-.login-btn-ingresar{
-  border-color: #fff48d !important;
-  height: 45px;
+/* ✨ EFECTO DE BRILLO DESLIZANTE */
+.login-btn-ingresar::before,
+.login-btn-registrar::before,
+.btn::before,
+.btn-continuar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+  transform: skewX(-25deg);
+  transition: left 0.7s ease;
 }
 
-/* MENSAJE DE ERROR */
+.login-btn-ingresar:hover::before,
+.login-btn-registrar:hover::before,
+.btn:hover::before,
+.btn-continuar:hover::before {
+  left: 125%;
+}
+
+/* ☀️ MODO CLARO */
+:root.light .login-btn-ingresar {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  box-shadow: 0 4px 10px rgba(230, 126, 34, 0.4);
+}
+
+:root.light .login-btn-registrar {
+  background: linear-gradient(135deg, #e67e22, #b85d0a);
+  box-shadow: 0 4px 10px rgba(184, 93, 10, 0.4);
+}
+
+/* 🌙 MODO OSCURO */
+:root:not(.light) .login-btn-ingresar {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+}
+
+:root:not(.light) .login-btn-registrar {
+  background: linear-gradient(135deg, #e67e22, #a84300);
+  box-shadow: 0 4px 15px rgba(255, 120, 0, 0.3);
+}
+
+/* 🌈 OTROS BOTONES (por si los usas fuera del login) */
+:root.light .btn,
+:root.light .btn-continuar {
+  background: linear-gradient(135deg, var(--Buton-color), var(--Buton-hover-color));
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+:root:not(.light) .btn,
+:root:not(.light) .btn-continuar {
+  background: linear-gradient(135deg, var(--Buton-color), #1e1e1e);
+  box-shadow: 0 3px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* 🪶 EFECTO HOVER */
+.login-btn-ingresar:hover,
+.login-btn-registrar:hover,
+.btn:hover,
+.btn-continuar:hover {
+  transform: translateY(-3px) scale(1.03);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 💫 ANIMACIÓN DE BRILLO PULSANTE */
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.35); }
+  100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+}
+
+.login-btn-ingresar,
+.login-btn-registrar {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* ✨ FOCUS */
+.login-btn-ingresar:focus,
+.login-btn-registrar:focus,
+.btn:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+}
+
+/* 🔒 DESHABILITADOS */
+button:disabled,
+.login-btn-ingresar:disabled,
+.login-btn-registrar:disabled,
+.btn:disabled {
+  background: #d6d6d6 !important;
+  color: #888 !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.8;
+  animation: none;
+}
+
+/* -------------------- MENSAJE DE ERROR -------------------- */
 .error {
-  color: rgb(255, 0, 0);
+  color: var(--white-red);
   left: 2px;
   font-size: 14px;
   position: absolute;
   bottom: auto;
-
 }
 
-/* Caja de contenido (genérica) */
-.login-box-t	 {
+/* -------------------- CAJA -------------------- */
+.login-box-t {
   border-radius: 30px;
   width: 330px;
   height: 100px;
@@ -85,7 +196,7 @@ body {
   align-items: center;
 }
 
-/* CONTENEDOR DE LA IMAGEN */
+/* -------------------- IMAGEN -------------------- */
 fieldset .login-img-container {
   display: flex;
   justify-content: center;
@@ -93,65 +204,104 @@ fieldset .login-img-container {
   margin-bottom: 20px;
 }
 
-/* IMAGEN DE USUARIO */
 .login-avatar { 
   height: 120px;
   width: 120px;
 }
 
-/* CONTENEDOR DE LOS INPUTS, LABEL Y SPAN */
+/* -------------------- INPUTS -------------------- */
+/* -------------------- CONTENEDOR DE INPUT -------------------- */
 .input-container {
-  height: 50px;
   position: relative;
   width: 100%;
+  margin: 20px 0;
+  height: auto;
 }
 
-.ic1 {
-  margin-top: 40px;
-}
-.ic2 {
-  margin-top: 50px;
-}
+.ic1 { margin-top: 40px; }
+.ic2 { margin-top: 50px; }
 
-/* INPUTS */
+/* -------------------- INPUT PRINCIPAL -------------------- */
 .login-input {
-  border: none;
-  border-bottom: 1px solid white;
-  border-radius: 0;
-  color: white;
-  outline: none;
-  box-shadow: none;
-  box-sizing: border-box;
-  height: 100%;
-  padding: 4px 20px 0;
-  width: 300px;
-  max-width: 300px;
-  background-color: transparent;
+  width: 100%;
+  padding: 12px 16px;
   font-size: 1rem;
   font-weight: 500;
+  border-radius: 12px;
+  border: 1.5px solid var(--tabla-linea-color);
+  color: var(--white-text);
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease-in-out;
-  letter-spacing: 1px;
-}
-.login-input::placeholder {
-  color: #ffffff !important;
-  opacity: 0.5; 
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
 }
 
-/* Estilo del input al enfocar (subrayado) */
+/* 🌙 MODO OSCURO */
+:root:not(.light) .login-input {
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1.5px solid var(--tabla-linea-color);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* ☀️ MODO CLARO */
+:root.light .login-input {
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid #dcdcdc;
+  color: var(--white-text);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ✨ EFECTO FOCUS */
 .login-input:focus {
-  border-bottom: 2px solid var(--tabla-linea-color);
-  border-radius: 0;
+  border-color: var(--Buton-color);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+  transform: scale(1.01);
   outline: none;
 }
 
-/* ESTILO AUTOFILL */
+/* 🪶 PLACEHOLDER */
+.login-input::placeholder {
+  color: var(--white-text);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.login-input:focus::placeholder {
+  opacity: 0.35;
+}
+
+/* 💡 ANIMACIÓN DE BRILLO AL FOCUS */
+@keyframes glowInput {
+  from { box-shadow: 0 0 0 rgba(230, 126, 34, 0); }
+  to { box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
+}
+
+.login-input:focus {
+  animation: glowInput 0.4s ease;
+}
+
+/* 🧩 AUTOFILL */
 .login-input:-webkit-autofill {
-  background-color: rgb(255, 255, 255);
-  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.1) inset;
+  -webkit-text-fill-color: var(--white-text);
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Línea de registro */
+/* ⚠️ MENSAJE DE ERROR */
+.error {
+  color: var(--white-red);
+  font-size: 13px;
+  margin-top: 5px;
+  margin-left: 4px;
+  display: block;
+  letter-spacing: 0.3px;
+}
+
+
+/* -------------------- LINEA DE REGISTRO -------------------- */
 .linea-registro {
   display: flex;
   align-items: center;
@@ -159,40 +309,52 @@ fieldset .login-img-container {
   margin: 10px 0;
 }
 
-.linea-registro::after, .linea-registro::before {
+.linea-registro::after,
+.linea-registro::before {
   content: "";
   flex: 1;
-  border-bottom: 1.5px solid #ffffffa2;
+  border-bottom: 1.5px solid var(--tabla-linea-color);
 }
 
-.linea-registro:not(:empty)::after {
-  margin-left: 10px;
-}
-
-.linea-registro:not(:empty)::before {
-  margin-right: 10px;
-}
+.linea-registro:not(:empty)::after { margin-left: 10px; }
+.linea-registro:not(:empty)::before { margin-right: 10px; }
 
 .linea-registro span {
-  color: white;
+  color: var(--white-text);
   font-size: 14px;
 }
 
+/* -------------------- LINKS -------------------- */
 .acepto {
-  color: #fff;
+  color: var(--white-text);
 }
 
 .aRecuperar {
   display: flex;
   justify-content: flex-end;
   font-size: 13px;
-  color: #ffffff !important;
+  color: var(--white-text) !important;
   text-decoration: none;
   letter-spacing: 1px;
   margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
 
 .aRecuperar:hover {
-  color: #ffffff !important;
+  color: var(--Buton-color) !important;
 }
 
+
+@media (max-width: 450px) {
+  .login-container {
+    width: 90% !important;
+    min-width: unset;
+    margin-top: 10vh;
+  }
+  .login-form-group {
+    width: 90%;
+  }
+  .titulo {
+    font-size: 1.3rem;
+  }
+}
