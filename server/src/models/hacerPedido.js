@@ -62,12 +62,17 @@ const Pedido = sequelize.define('Pedido', {
     },
     estadoDelPedido: {
         type: DataTypes.ENUM('En espera', 'En proceso', 'terminado'),
-        allowNull: false,
-        defaultValue: 'En proceso',
+        allowNull: false
     }
 }, {
     tableName: 'pedidos',
     timestamps: true,
+
+    scopes: {
+        enEspera: { where: { estadoDelPedido: 'En espera' } },
+        enProceso: { where: { estadoDelPedido: 'En proceso' } },
+        terminado: { where: { estadoDelPedido: 'terminado' } },
+    }
 });
 
 Producto.hasMany(Pedido, {

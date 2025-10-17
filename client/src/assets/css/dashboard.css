@@ -1740,6 +1740,45 @@ input:-moz-autofill {
     line-height: 1.6;
 }
 
+/* Estado del pedido */
+.estado-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Colores por estado */
+.estado-en-espera {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+
+.estado-en-proceso {
+    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+    color: #1e3a8a;
+    border: 1px solid #60a5fa;
+}
+
+.estado-terminado {
+    background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+    color: #065f46;
+    border: 1px solid #34d399;
+}
+
+/* Efecto hover (opcional) */
+.estado-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
 /* Footer */
 .pedido-card__footer {
     background: #f9fafb;
