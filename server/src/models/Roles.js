@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, where } = require('sequelize');
 const { sequelize } = require('../config/db');
 const Permiso = require('./Permisos');
 
@@ -15,13 +15,33 @@ const Rol = sequelize.define('Rol', {
         unique: true
     },
     EstadoRol: {
-        type: DataTypes.ENUM('Activo', 'Inactivo'),
-        defaultValue: 'Activo',
+        type: DataTypes.ENUM('activo', 'inactivo'),
+        defaultValue: 'activo',
         allowNull: false
     }
 }, {
     tableName: 'roles',
-    timestamps: true
+    timestamps: true,
+
+    defaultScope: {
+        where: {
+            EstadoRol: 'activo'
+        }
+    },
+
+    scopes: {
+        RolesInactivos:{
+            where: {
+
+            }
+        },
+
+        soloRolesInactivos: {
+            where: {
+                EstadoRol: 'inactivo'
+            }
+        }
+    }
 });
 
 

@@ -26,6 +26,9 @@ import MiPagina from './pages/MiPagina/miPagina';
 import CocinaDashboard from './pages/Dashboard/CocinaDashboard';
 import Complementos from './pages/Dashboard/complementos';
 import ComplementosCompletos from './pages/Dashboard/complementosCompletos';
+import CategoriasInactivas from './pages/Dashboard/CategoriasInactivasDashboard';
+import ProductosInactivos from './pages/Dashboard/ProductosInactivosDashboard';
+import RolesInactivos from './pages/Dashboard/RolesInactivosDashboard';
 
 const AppContent = () => {
 
@@ -41,8 +44,11 @@ const AppContent = () => {
           <Routes>
             <Route path="/dashboard" element={<InicioDashboard />} />
             <Route path="/dashboard/categoria" element={<CategoriaDashboard />} />
+            <Route path="/dashboard/categoriasInactivas" element={<CategoriasInactivas />} />
             <Route path="/dashboard/productos" element={<ProductosDashboard />} />
+            <Route path="/dashboard/productosInactivos" element={<ProductosInactivos />} />
             <Route path="/dashboard/roles" element={<RolesDashboard />} />
+            <Route path="/dashboard/rolesInactivos" element={<RolesInactivos />} />
             <Route path="/dashboard/usuarios" element={<UsuariosDashboard />} />
             <Route path="/dashboard/clientes" element={<ClientesDashboard />} />
             <Route path="/dashboard/estadisticas" element={<EstadisticasDashboard />} />

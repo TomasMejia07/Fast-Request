@@ -61,7 +61,7 @@ const Pedido = sequelize.define('Pedido', {
         allowNull: false,
     },
     estadoDelPedido: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.ENUM('En espera', 'En proceso', 'terminado'),
         allowNull: false,
         defaultValue: 'En proceso',
     }

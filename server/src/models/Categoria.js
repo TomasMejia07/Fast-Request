@@ -13,12 +13,33 @@ const Categoria = sequelize.define('categoria',{
         unique: true
     },
     EstadoCategoria: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('activo', 'inactivo'),
         allowNull: false,
+        defaultValue: 'activo'
     },
 }, {
     tableName: 'categoria',
     timestamps: true,
+
+    defaultScope: {
+        where: {
+            EstadoCategoria: 'activo'
+        }
+    },
+
+    scopes:{
+        CategoriaInactiva:{
+            where:{
+
+            }
+        },
+
+        soloCategoriasInactivas: {
+            where: {
+                EstadoCategoria: 'inactivo'
+            }
+        }
+    }
 }
 );
 
