@@ -24,6 +24,8 @@ export const ThemeProvider = ({ children }) => {
                 root.classList.add("light");
             }
 
+            root.style.colorScheme = theme === "light" ? "light" : "dark"; 
+
             localStorage.setItem("theme", theme);
         };
 

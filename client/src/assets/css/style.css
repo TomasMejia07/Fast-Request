@@ -60,7 +60,8 @@ body {
 .button,
 .btn-continuar {
   width: 100%;
-  height: 48px;
+  height: auto;
+  min-height: 45px;
   border: none;
   border-radius: 12px;
   font-weight: 600;
@@ -73,6 +74,7 @@ body {
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
+  white-space: normal;
 }
 
 /* ✨ EFECTO DE BRILLO DESLIZANTE */
@@ -96,6 +98,13 @@ body {
 .btn:hover::before,
 .btn-continuar:hover::before {
   left: 125%;
+}
+
+button span, 
+.btn span, 
+.login-btn span, 
+.register-btn span {
+  white-space: normal;
 }
 
 /* ☀️ MODO CLARO */
@@ -232,10 +241,11 @@ fieldset .login-img-container {
   color: var(--white-text);
   outline: none;
   background-color: rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out, background-color 0.4s ease;
   letter-spacing: 0.5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(8px);
+  will-change: background-color, box-shadow;
 }
 
 /* 🌙 MODO OSCURO */
@@ -243,6 +253,12 @@ fieldset .login-img-container {
   background-color: rgba(0, 0, 0, 0.25);
   border: 1.5px solid var(--tabla-linea-color);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  color: var(--white-text); 
+}
+
+:root:not(.light) .login-input:focus {
+  border-color: var(--Buton-hover-color);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
 /* ☀️ MODO CLARO */
@@ -251,6 +267,11 @@ fieldset .login-img-container {
   border: 1.5px solid #dcdcdc;
   color: var(--white-text);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+:root.light .login-input:focus {
+  border-color: var(--Buton-color);
+  box-shadow: 0 0 6px rgba(255, 149, 0, 0.4);
 }
 
 /* ✨ EFECTO FOCUS */
@@ -286,7 +307,8 @@ fieldset .login-img-container {
 /* 🧩 AUTOFILL */
 .login-input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.1) inset;
-  -webkit-text-fill-color: var(--white-text);
+  -webkit-text-fill-color: var(--white-text) ;/* 🔥 fuerza color texto */
+  background-color: transparent; /* 🔥 evita el color fijo del navegador */
   transition: background-color 5000s ease-in-out 0s;
 }
 
