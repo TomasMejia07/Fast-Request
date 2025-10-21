@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../assets/css/configuracion.css";
 import ConfiguracionLayout from "../../components/Configuracion/ConfiguracionLayout";
 import useConfiguracionEmpresa from "../../hooks/useConfiguracionEmpresa";
@@ -20,9 +20,15 @@ const Empresa = () => {
     saveChanges,
     handleProfilePictureChange,
     showNotification,
+    cargarEmpresa,
   } = useConfiguracionEmpresa(initial);
 
-  const { Id, NombreEmpresa, LogoEmpresa } = userData;
+  const { NombreEmpresa, LogoEmpresa } = userData;
+
+  useEffect(() => {
+    // Cargar datos de la empresa al montar el componente
+    cargarEmpresa();
+  }, []);
 
   return (
     <ConfiguracionLayout>
@@ -37,28 +43,30 @@ const Empresa = () => {
             <div className="foto-container">
               <img
                 src={
-                  userData.Imagen_De_Perfil
-                    ? userData.Imagen_De_Perfil instanceof File
-                      ? URL.createObjectURL(userData.Imagen_De_Perfil)
-                      : userData.Imagen_De_Perfil
+                  userData.LogoEmpresa
+                    ? userData.LogoEmpresa instanceof File
+                      ? URL.createObjectURL(userData.LogoEmpresa)
+                      : userData.LogoEmpresa
                     : "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png"
                 }
-                alt="Foto de perfil"
+                alt="Logo de la empresa"
               />
               <div className="overlay">
-                <label
-                  htmlFor="file-input"
-                  className={`${isEditing ? "edit-icon" : ""}`}
-                  title="Cambiar Logo"
-                >
-                  {isEditing && <ion-icon name="camera-outline"></ion-icon>}
-                </label>
+                {isEditing && (
+                  <label
+                    htmlFor="file-input"
+                    className="edit-icon"
+                    title="Cambiar Logo"
+                  >
+                    <ion-icon name="camera-outline"></ion-icon>
+                  </label>
+                )}
               </div>
             </div>
+
             <input
               id="file-input"
               type="file"
-              name="image"
               ref={fileInputRef}
               onChange={handleProfilePictureChange}
               accept="image/*"
@@ -73,14 +81,15 @@ const Empresa = () => {
               <div className="info-section">
                 <div className="info-group">
                   <div className="info-icon">
-                    <ion-icon name="people-circle-outline"></ion-icon>
+                    <ion-icon name="business-outline"></ion-icon>
                   </div>
                   <div className="info-text">
                     <label>Nombre del Establecimiento</label>
-                    <p>{NombreEmpresa}</p>
+                    <p>{NombreEmpresa || "Sin nombre registrado"}</p>
                   </div>
                 </div>
               </div>
+
               <button
                 id="edit-profile"
                 className="btn-edit"
@@ -105,7 +114,7 @@ const Empresa = () => {
                   <input
                     type="text"
                     id="edit-nombre"
-                    name="nombre"
+                    name="NombreEmpresa"
                     value={NombreEmpresa || ""}
                     onChange={handleInputChange}
                   />

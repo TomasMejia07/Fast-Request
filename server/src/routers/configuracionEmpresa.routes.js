@@ -1,13 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const uploadCloud = require('../middlewares/upload')
-const configuracionEmpresa = require('../controllers/configuracionEmpresa.controller');
+const configuracionEmpresaController = require('../controllers/configuracionEmpresa.controller');
 const verificarJWT = require('../middlewares/verificarJWT');
 const { soloAdmin, soloEmpresa } = require('../middlewares/verificarRoles');
 
-router.get('/getUser/:usuarioId', verificarJWT,)
-
-router.put('/update-perfil/:usuarioId', verificarJWT, uploadCloud.single('image'), configuracionPerfilController.perfilUsuario);
+router.get("/", verificarJWT, configuracionEmpresaController.obtenerConfiguracion);
+router.put(
+  "/:id",
+  verificarJWT,
+  uploadCloud.single("LogoEmpresa"),
+  configuracionEmpresaController.actualizarConfiguracion
+);
 
 module.exports = router
 
