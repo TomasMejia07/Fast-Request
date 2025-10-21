@@ -29,6 +29,7 @@ import ComplementosCompletos from './pages/Dashboard/complementosCompletos';
 import CategoriasInactivas from './pages/Dashboard/CategoriasInactivasDashboard';
 import ProductosInactivos from './pages/Dashboard/ProductosInactivosDashboard';
 import RolesInactivos from './pages/Dashboard/RolesInactivosDashboard';
+import Carta from './pages/MiPagina/Carta';
 
 const AppContent = () => {
 
@@ -69,7 +70,10 @@ const AppContent = () => {
           <Route path="/" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
+
+          
           <Route path='/miPagina' element={<MiPagina />} /> 
+          <Route path="/miPagina/carta" element={<Carta />} />
         </Routes>
       )}
     </>

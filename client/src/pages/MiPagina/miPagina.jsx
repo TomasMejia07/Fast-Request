@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/miPagina.css";
-
-
+import { useNavigate } from "react-router-dom";
 const MiPagina = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const navigate = useNavigate()
   const sliderImages = [
-    { id: 1, src: "https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Oferta+Especial+1", alt: "Oferta 1" },
-    { id: 2, src: "https://via.placeholder.com/800x400/7C3AED/FFFFFF?text=Nuevos+Productos", alt: "Oferta 2" },
-    { id: 3, src: "https://via.placeholder.com/800x400/EF4444/FFFFFF?text=Descuentos+Increíbles", alt: "Oferta 3" },
-    { id: 4, src: "https://via.placeholder.com/800x400/10B981/FFFFFF?text=Productos+Premium", alt: "Oferta 4" },
+    { id: 1, src: "https://placehold.co/800x400?text=Oferta+1", alt: "Oferta 1" },
+    { id: 2, src: "https://placehold.co/800x400?text=Oferta+2", alt: "Oferta 2" },
+    { id: 3, src: "https://placehold.co/800x400?text=Oferta+3", alt: "Oferta 3" },
+    { id: 4, src: "https://placehold.co/800x400?text=Oferta+4", alt: "Oferta 4" },
   ];
 
   const topProducts = [
-    { id: 1, name: "Producto Premium 1", price: "$125.000", image: "https://via.placeholder.com/250x200/6366F1/FFFFFF?text=Producto+1" },
-    { id: 2, name: "Producto Estrella 2", price: "$89.900", image: "https://via.placeholder.com/250x200/8B5CF6/FFFFFF?text=Producto+2" },
-    { id: 3, name: "Producto Popular 3", price: "$156.000", image: "https://via.placeholder.com/250x200/F59E0B/FFFFFF?text=Producto+3" },
-    { id: 4, name: "Producto Favorito 4", price: "$78.500", image: "https://via.placeholder.com/250x200/EF4444/FFFFFF?text=Producto+4" },
+    { id: 1, name: "Producto Premium 1", price: "$125.000", image: "https://placehold.co/250x200?text=Producto+1" },
+    { id: 2, name: "Producto Estrella 2", price: "$89.900", image: "https://placehold.co/250x200?text=Producto+2" },
+    { id: 3, name: "Producto Popular 3", price: "$156.000", image: "https://placehold.co/250x200?text=Producto+3" },
+    { id: 4, name: "Producto Favorito 4", price: "$78.500", image: "https://placehold.co/250x200?text=Producto+4" },
   ];
 
   useEffect(() => {
@@ -36,10 +35,9 @@ const MiPagina = () => {
         <div className="navbar-container">
           <div className="logo">LOGO</div>
           <div className="menu">
-            <a href="#">Inicio</a>
-            <a href="#">Productos o Carta</a>
-            <a href="#">Sobre Nosotros</a>
-            <a href="#">Contáctanos</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina")}} >Inicio</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/carta")}} >Carta</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("")}} >Contáctanos</a>
           </div>
           <div className="nav-buttons">
             <button><ion-icon name="cart-outline"></ion-icon></button>
@@ -87,6 +85,16 @@ const MiPagina = () => {
         </div>
       </div>
 
+
+      {/* Sobre Nosotros */}
+      <div className="about-us">
+          <h2>Sobre Nosostros</h2>
+          <div className="about-us-container">
+              <p>Contenido sobre nuestra empresa, misión, visión y valores.</p>
+              <img src="https://placehold.co/400x300" alt="Imagen de la Empresa" />
+          </div>
+      </div>
+
       {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
@@ -99,7 +107,6 @@ const MiPagina = () => {
             <ul>
               <li><a href="#">Inicio</a></li>
               <li><a href="#">Productos</a></li>
-              <li><a href="#">Sobre Nosotros</a></li>
               <li><a href="#">Contacto</a></li>
             </ul>
           </div>

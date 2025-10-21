@@ -58,30 +58,90 @@
   border-radius: 6px;
 }
 
+/* Estilo general para la barra de categorías */
+.navbar-categorias {
+  background: #1a1a1a;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #333;
+}
+
+.navbar-categorias-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Icono de búsqueda */
+.icono-busqueda ion-icon {
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Menú de categorías (centrado) */
+.categorias-menu {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+  padding: 0px 0px 4px 8px;
+}
+
+.categorias-menu a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.categorias-menu a:hover {
+  color: #ccc;
+}
+
+.menu-extra ion-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #fff;
+}
+
 /* Slider */
 .slider {
-  max-width: 900px;
-  margin: 2rem auto;
+  width: 100%;
+  height: 600px;
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-  height: 400px;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0; /* Elimina márgenes laterales */
 }
+
 .slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 0.5s ease;
 }
+
 .slide.active {
   opacity: 1;
 }
+
 .slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
+.slide-btn.left {
+  left: 1rem;
+}
+
+.slide-btn.right {
+  right: 1rem;
+}
+
 .slide-btn {
   position: absolute;
   top: 50%;
@@ -103,6 +163,7 @@
   display: flex;
   gap: 0.5rem;
 }
+
 .indicators button {
   width: 10px;
   height: 10px;
@@ -111,6 +172,7 @@
   background: rgba(255,255,255,0.5);
   cursor: pointer;
 }
+
 .indicators button.active {
   background: white;
 }
@@ -166,16 +228,58 @@
   color: #16a34a;
 }
 .price-action button {
-  background: #2563eb;
+  background: #000000a3;
   color: white;
   border: none;
   padding: 0.5rem;
   border-radius: 50%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 .price-action button:hover {
   background: #1e40af;
 }
+
+/* Sobre Nosotros */
+.about-us {
+  background: #fff;
+  padding: 4rem 1rem;
+  margin: 3rem 0;
+}
+
+.about-us h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #111827;
+  margin-bottom: 2rem;
+}
+
+.about-us-container {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.about-us-container p {
+  flex: 1;
+  font-size: 1.125rem;
+  color: #4b5563;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+.about-us-container img {
+  flex: 1;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
 
 /* Footer */
 .footer {
@@ -233,4 +337,124 @@
   margin-top: 2rem;
   padding-top: 1rem;
   color: #aaa;
+}
+
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+/* Contenedor general de todos los productos */
+/* Contenedor principal de productos */
+.Container-Productos {
+  max-width: 1400px;
+  margin: 3rem auto;
+  padding: 2rem 3rem;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Contenedor de categorías */
+.Categorias-Lista {
+  display: flex;
+  flex-direction: column; /* Asegura que las categorías estén una debajo de otra */
+  gap: 3.5rem;
+}
+
+/* Cada bloque de categoría */
+.Productos {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+/* Título de la categoría */
+.Titulo-de-categoria {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #111827;
+  border-left: 5px solid #000;
+  padding-left: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Contenedor de productos (grid adaptable) */
+.Lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 2rem 3rem;
+}
+
+/* Cada producto */
+.Producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.Producto:hover {
+  transform: scale(1.01);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Información del producto */
+.Producto .informacion {
+  flex: 2;
+}
+
+.Producto .informacion h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.Producto .informacion p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+
+/* Imagen y botón (+) */
+.Producto .imagen-prod {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.Producto .imagen-prod img {
+  width: 240px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #e5e7eb;
+}
+
+.Producto .imagen-prod ion-icon {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #000;
+  color: white;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.Producto .imagen-prod ion-icon:hover {
+  background: #1e40af;
 }
