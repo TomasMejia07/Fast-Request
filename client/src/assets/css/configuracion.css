@@ -195,43 +195,6 @@ body {
     cursor: pointer;
     color: var(--white-icons);
 }
-
-.dashboard-container .topbar .buscar {
-    position: relative;
-    width: 400px;
-    margin: 0 10px;
-    padding-top: 20px;
-}
-
-.dashboard-container .topbar .buscar .label-buscar {
-    position: relative;
-    width: 100%;
-}
-
-.dashboard-container .topbar .buscar .label-buscar .label-input-buscar {
-    width: 100%;
-    height: 40px;
-    border-radius: 40px;
-    padding: 5px 20px;
-    padding-left: 35px;
-    font-size: 1em;
-    outline: none;
-    border: 1px solid var(--white-icons);
-    background-color: var(--Gray);
-    /* COLOR DEL FONDO DE LA BARRA DE BUSQUEDA*/
-    color: var(--white-text);
-    /* COLOR DEL TEXTO DE LA BARRA DE BUSQUEDA */
-}
-
-.dashboard-container .topbar .buscar .label-buscar ion-icon {
-    position: absolute;
-    color: var(--white-icons);
-    /* COLOR DEL ICONO DE LA BARRA BUSQUEDA TOPBAR  */
-    top: 10px;
-    left: 10px;
-    font-size: 1.2em;
-}
-
 .dashboard-container .topbar .perfil-usuario {
     position: relative;
     width: 40px;

@@ -67,16 +67,6 @@ function TopBar({ onToggleNav }) {
       <div className="toggle" onClick={onToggleNav}>
         <ion-icon name="menu"></ion-icon>
       </div>
-      <div className="buscar">
-        <label className="label-buscar">
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="label-input-buscar"
-          />
-          <ion-icon name="search"></ion-icon>
-        </label>
-      </div>
       <div
         className={`perfil-usuario ${perfilActive ? "active" : ""}`}
         onClick={togglePerfil}
