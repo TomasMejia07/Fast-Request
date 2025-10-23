@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { authHeader } from "../helpers/authHeader";
 
-const API_URL = "http://localhost:5000/api/configuracion-empresa";
+const API_URL = "http://localhost:5000/api/empresa";
 
 export default function useConfiguracionEmpresa(initial) {
   const [userData, setUserData] = useState(initial);
@@ -27,7 +27,7 @@ export default function useConfiguracionEmpresa(initial) {
     try {
       const response = await axios.get(API_URL, { headers: authHeader() });
       if (response.data?.empresa) {
-        setUserData(response.data.empresa);
+        setUserData(response.data.empresa); // ✅ asigna directamente la empresa
       } else {
         console.warn("No se encontró información de la empresa.");
       }

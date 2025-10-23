@@ -2,14 +2,15 @@ const Empresa = require("../models/Empresa.js");
 
 exports.obtenerConfiguracion = async (req, res) => {
   try {
-    const empresaId = req.user.EmpresaId; // extraído del token JWT
+    const empresaId = req.user.empresaId || req.user.EmpresaId; // compatible con minúsculas/mayúsculas
     const empresa = await Empresa.findByPk(empresaId);
 
     if (!empresa) {
       return res.status(404).json({ message: "Empresa no encontrada" });
     }
 
-    res.status(200).json(empresa);
+    // Devuelve dentro de { empresa } como espera el frontend
+    res.status(200).json({ empresa });
   } catch (error) {
     console.error("Error al obtener configuración:", error);
     res.status(500).json({ message: "Error interno del servidor" });
@@ -18,8 +19,8 @@ exports.obtenerConfiguracion = async (req, res) => {
 
 exports.actualizarConfiguracion = async (req, res) => {
   try {
-    const { NombreEmpresa } = req.body;
-    const empresaId = req.user.EmpresaId; // viene del JWT
+    const { NombreEmpresa, LogoEmpresa } = req.body;
+    const empresaId = req.user.empresaId || req.user.EmpresaId;
     const empresa = await Empresa.findByPk(empresaId);
 
     if (!empresa) {
@@ -27,10 +28,12 @@ exports.actualizarConfiguracion = async (req, res) => {
     }
 
     if (NombreEmpresa) empresa.NombreEmpresa = NombreEmpresa;
-    if (req.file) empresa.LogoEmpresa = req.file.path; // URL Cloudinary
+    if (LogoEmpresa) empresa.LogoEmpresa = LogoEmpresa;
 
     await empresa.save();
+
     res.status(200).json({
+      success: true,
       message: "Configuración actualizada correctamente",
       empresa,
     });
