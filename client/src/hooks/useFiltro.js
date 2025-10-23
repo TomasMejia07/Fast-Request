@@ -93,7 +93,6 @@ export const useFiltroClientes = (data, busqueda) => {
                 item.NumeroDocumento?.toString(),
                 item.CorreoElectronico?.toLowerCase(),
                 item.NumeroContacto?.toString(),
-                item.EstadoCliente?.toLowerCase(),
             ].some(value => value?.toLowerCase().includes(termino));
         });
     }, [data, busqueda]);

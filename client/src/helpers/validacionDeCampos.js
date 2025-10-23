@@ -1,7 +1,9 @@
 export const validacionDeCampos = (name, value, clientes = []) => {
     let errores = '';
 
-    if (value.trim() === '') {
+    const trimmedValue = (typeof value === 'string' ? value : '').trim()
+
+    if (trimmedValue === '') {
         return errores
     }
 
@@ -240,7 +242,6 @@ export const validacionDeCampos = (name, value, clientes = []) => {
     }
 
 
-
     if (name === 'NumeroContacto') {
         const regex = /^[0-9]+$/;
         const trimmed = value.trim();
@@ -261,6 +262,52 @@ export const validacionDeCampos = (name, value, clientes = []) => {
             errores = '';
         }
     }
+
+
+    // -------------------- validaciones para los modales de gaseosas y salsas --------------------
+
+    if (name === 'nombreSalsa') {
+        const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/;
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.';
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length <= 2) {
+            errores = 'Este valor es demasiado corto.';
+        } else if (trimmed.length >= 40) {
+            errores = 'Este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener letras y espacios.';
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = '';
+        }
+    }
+
+    if (name === 'nombreGaseosa') {
+        const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/;
+        const trimmed = value.trim();
+
+        if (trimmed === '') {
+            errores = 'Este campo no puede estar vacío.';
+        } else if (value !== trimmed) {
+            errores = 'No debe haber espacios al inicio o al final.';
+        } else if (trimmed.length <= 3) {
+            errores = 'Este valor es demasiado corto.';
+        } else if (trimmed.length >= 40) {
+            errores = 'Este valor es demasiado largo.';
+        } else if (!regex.test(trimmed)) {
+            errores = 'Este campo solo debe contener letras y espacios.';
+        } else if (/\s{2,}/.test(trimmed)) {
+            errores = 'No se permiten espacios múltiples entre palabras.';
+        } else {
+            errores = '';
+        }
+    }
+
 
     return errores;
 }

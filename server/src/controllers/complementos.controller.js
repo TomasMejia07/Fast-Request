@@ -6,7 +6,7 @@ const { Salsas, Gaseosas } = require('../models')
 exports.findAllSalsas = async (req, res) => {
     try {
         const salsas = await Salsas.findAll({
-            where:{
+            where: {
                 estadoSalsa: 'activo'
             }
         })
@@ -85,7 +85,7 @@ exports.cambiarEstadoSalsaInactivo = async (req, res) => {
         })
 
         console.log('Salsa con cambio de estado "inactivo" cambiado correctamente');
-        res.status(200).json({ message: 'Salsa con estado modificado correctamente',});
+        res.status(200).json({ message: 'Salsa con estado modificado correctamente', });
 
     } catch (err) {
         console.log('Error al cambiar el estado de la salsa', err)
@@ -122,7 +122,7 @@ exports.cambioEstadoSalsaActivo = async (req, res) => {
         })
 
         console.log('Salsa reactivado correctamente');
-        res.status(200).json({ message: 'Salsa reactivado correctamente',});
+        res.status(200).json({ message: 'Salsa reactivado correctamente', });
 
     } catch (err) {
         console.log('Error al cambiar el estado de la salsa', err)
@@ -131,6 +131,51 @@ exports.cambioEstadoSalsaActivo = async (req, res) => {
 }
 
 
+exports.eliminacioDeSalsa = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        if (!id) {
+            return res.status(400).json({ message: 'El id es obligatorio' });
+        }
+
+        const salsa = await Salsas.unscoped().findByPk(id)
+
+        if (!salsa) return res.status(404).json({ message: 'id de la salsa no encontrado' })
+
+        await salsa.destroy()
+
+        console.log('Salsa eliminada correctamente');
+        res.status(200).json({ message: 'Salsa eliminada correctamente', });
+
+    } catch (err) {
+        console.log('Error al eliminar la salsa', err)
+        res.status(500).json({ message: 'Error interno del servidor', err: err })
+    }
+}
+
+
+exports.validacionDeNombreSalsa = async (req, res) => {
+    try {
+        const { nombreSalsa } = req.body
+
+        if (!nombreSalsa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la salsa' })
+
+        const validacionSalsa = await Salsas.findOne({
+            where: { nombreSalsa: nombreSalsa.trim().toLowerCase() }
+        })
+
+        if (validacionSalsa) {
+            return res.status(200).json({ existe: true, mensaje: 'Esta salsa ya existe.' });
+        } else {
+            return res.status(200).json({ existe: false, mensaje: 'Este salsa está aun creada..' });
+        }
+
+    } catch (err) {
+        console.log('Error al crear la salsa', err)
+        res.status(500).json({ message: 'Error interno del servidor', err: err })
+    }
+}
 
 // --------------------- Controlador para "Gaseosas" ---------------------
 
@@ -138,7 +183,7 @@ exports.cambioEstadoSalsaActivo = async (req, res) => {
 exports.findAllGaseosas = async (req, res) => {
     try {
         const gaseosas = await Gaseosas.findAll({
-            where:{
+            where: {
                 estadoGaseosa: 'activo'
             }
         })
@@ -249,17 +294,66 @@ exports.cambioEstadoGaseosaActivo = async (req, res) => {
 
         const gaseosa = await Gaseosas.scope('soloGaseosasInactivas').findByPk(id)
 
-        if (!gaseosa) return res.status(400).json({ message: 'Gaseosa no encontrada' })
+        if (!gaseosa) return res.status(400).json({ message: 'Gaseosa no es encontrada' })
 
         await gaseosa.update({
             estadoGaseosa: 'activo'
         })
 
         console.log('Gaseosa reactivado correctamente');
-        res.status(200).json({ message: 'Gaseosa reactivado correctamente',});
+        res.status(200).json({ message: 'Gaseosa reactivado correctamente', });
 
     } catch (err) {
         console.log('Error al cambiar el estado de la gaseosa', err)
+        res.status(500).json({ message: 'Error interno del servidor', err: err })
+    }
+}
+
+
+
+exports.eliminacioDeGaseosa = async (req, res) => {
+    console.log('🟢 Entrando al controlador eliminacioDeSalsa con ID:', req.params.id);
+    try {
+        const { id } = req.params
+
+        if (!id) {
+            return res.status(400).json({ message: 'El id es obligatorio' });
+        }
+
+        const gaseosa = await Gaseosas.unscoped().findByPk(id)
+
+        if (!gaseosa) return res.status(404).json({ message: 'id de la gaseosa no es encontrada' })
+
+        await gaseosa.destroy()
+
+        console.log('Gaseosa eliminada correctamente');
+        res.status(200).json({ message: 'Gaseosa eliminada correctamente', });
+
+    } catch (err) {
+        console.log('Error al eliminar la gaseosa', err)
+        res.status(500).json({ message: 'Error interno del servidor', err: err })
+    }
+}
+
+
+exports.validacionDeNombreGaseosa = async (req, res) => {
+    try {
+        const { nombreGaseosa } = req.body
+
+        if (!nombreGaseosa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la gaseosa' })
+
+        const validacionGaseosa = await Gaseosas.findOne({
+            where: { nombreGaseosa: nombreGaseosa.trim().toLowerCase() }
+        })
+
+        if (validacionGaseosa) {
+            return res.status(200).json({ existe: true, mensaje: 'Esta gaseosa ya existe.' });
+        } else {
+            return res.status(200).json({ existe: false, mensaje: 'Este gaseosa no está aun creada.' });
+        }
+
+    } catch (err) {
+        console.log('Error al crear la salsa', err)
         res.status(500).json({ message: 'Error interno del servidor', err: err })
     }
 }

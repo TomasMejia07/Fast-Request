@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { authHeader } from "../helpers/authHeader";
 import Swal from 'sweetalert2';
+import { validacionDeCampos } from '../helpers/validacionDeCampos';
 
 export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: "activo" }, initialGaseosas = { nombreGaseosa: "", estadoGaseosa: "" }) => {
     const [dataSalsas, setDataSalsas] = useState([]);
@@ -16,15 +17,44 @@ export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: 
     const [busquedaGaseosa, setBusquedaGaseosa] = useState('')
     const [paginacionActualSalsas, setPaginacionActualSalsas] = useState(1)
     const [paginacionActualGaseosas, setPaginacionActualGaseosas] = useState(1)
+    const [errores, setErrores] = useState({
+        nombreSalsa: "",
+        nombreGaseosa: ""
+    })
+
     const formRef = useRef(null);
 
-    const onChangeInputs = ({ target }) => {
+    const onChangeInputs = async ({ target }) => {
         const { name, value } = target;
         setForComplementosData({
             ...forComplementosData,
             [name]: value
         });
+
+        const tipo = name === 'nombreSalsa' ? 'salsa' : 'gaseosa'
+
+        const mensajeError = await validacionDeComplementos(tipo, value)
+
+        setErrores(prev => ({
+            ...prev,
+            [name]: validacionDeCampos(name, value) || mensajeError
+        }))
     };
+
+
+    const validacionesDeCampos = () => {
+        const nombreSalsaError = validacionDeCampos('nombreSalsa', forComplementosData.nombreSalsa, dataSalsas)
+        const nombreGaseosaError = validacionDeCampos('nombreGaseosa', forComplementosData.nombreGaseosa, dataGaseosas)
+
+        setErrores({
+            nombreSalsa: nombreSalsaError,
+            nombreGaseosa: nombreGaseosaError
+        })
+
+        return nombreSalsaError || nombreGaseosaError
+
+    }
+
 
     const resApiSalsas = async () => {
         try {
@@ -181,7 +211,7 @@ export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: 
                 });
 
                 Swal.fire("¡Cambio de estado exitoso!", "El cambio de estado de la gaseosa a sido exitoso", "success");
-                
+
                 resApiGaseosas()
             }
 
@@ -198,12 +228,44 @@ export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: 
     };
 
 
+    const validacionDeComplementos = async (tipo, name) => {
+
+        if (!name.trim()) return "El nombre no puede estar vacío.";
+
+        try {
+
+            const url = `http://localhost:5000/api/complementos/${tipo === 'salsa' ? 'verify-duplicate-salsa' : 'verify-duplicate-gaseosa'}`
+
+            const body = tipo === "salsa" ? { nombreSalsa: name }
+                : { nombreGaseosa: name };
+
+            const res = await axios.post(url, body,
+                {
+                    headers: authHeader()
+                },
+            )
+
+            if (res.data.existe) {
+                return res.data.mensaje;
+            }
+
+            return ""
+
+        } catch (error) {
+            console.error("Error al crear o actualizar la salsa:", error);
+            Swal.fire("Error", "No se pudo guardar la salsa", "error");
+        }
+    }
+
+
 
     const editarSalsa = (salsa) => {
         setForComplementosData(salsa)
         setModalTipo('salsa')
         setIsCreating(false);
         setModalVisible(true);
+
+
     }
 
     const editarGaseosa = (gaseosa) => {
@@ -260,7 +322,11 @@ export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: 
         paginacionActualGaseosas,
         setPaginacionActualGaseosas,
         cambiarEstadoSalsa,
-        cambiarEstadoGaseosa
+        cambiarEstadoGaseosa,
+        validacionesDeCampos,
+        errores,
+        validacionDeComplementos,
+        setErrores
     };
 };
 

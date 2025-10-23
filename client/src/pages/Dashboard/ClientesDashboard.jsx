@@ -221,22 +221,6 @@ const ClientesDashboard = () => {
                         {errores.NumeroContacto && <div style={{ color: 'red' }}>{errores.NumeroContacto}</div>}
                     </div>
 
-
-                    <div className="dashinputs_formulario">
-                        <label htmlFor="EstadoCliente">Estado Del Cliente:</label>
-                        <input
-                            name="EstadoCliente"
-                            id="EstadoCliente"
-                            type="text"
-                            className="dashinputs_formulario_Labels"
-                            value={formData.EstadoCliente}
-                            onChange={onChangeInputs}
-                            required
-                            disabled
-                        >
-                        </input>
-                    </div>
-
                     <div className="botones_formulario">
                         <button type="submit" className="boton_formulario">
                             {isCreating ? "Crear" : "Actualizar"}

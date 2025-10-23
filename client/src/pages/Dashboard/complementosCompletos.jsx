@@ -3,7 +3,9 @@ import { useComplemntosCompletos } from '../../hooks/useComplementosCompletos'
 
 const ComplementosCompletos = () => {
 
-    const { dataComplementoSalsa, dataComplementoGaseosa, volverAlInicio, loading, actualizaEstadoSalsa, actualizaEstadoGaseosa  } = useComplemntosCompletos()
+    const { dataComplementoSalsa, dataComplementoGaseosa, volverAlInicio, 
+        loading, actualizaEstadoSalsa, actualizaEstadoGaseosa, eliminacionDeGaseosa,
+        eliminacionDeSalsa  } = useComplemntosCompletos()
 
     if (loading) {
         return (
@@ -37,7 +39,7 @@ const ComplementosCompletos = () => {
                                     <td className="tabladashb_tbody_tr_td">{salsa.estadoSalsa}</td>
                                     <td className="tabladashb_tbody_tr_td" >
                                         <button
-                                            className="btn-imprimir"
+                                            className="btn-cambio-estado"
                                             title="Cambio de estado"
                                             aria-label={`Cambio de estado ${salsa.id}`}
                                             onClick={(e) => {
@@ -47,6 +49,17 @@ const ComplementosCompletos = () => {
                                         >
                                             <ion-icon name="checkmark-outline"></ion-icon>
                                         </button>
+                                        <button
+                                            className="btn-elminacion"
+                                            title="Eliminacion"
+                                            aria-label={`Eliminacion ${salsa.id}`}
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                eliminacionDeSalsa(salsa.id)
+                                            }}
+                                        >
+                                            <ion-icon name="trash-bin-outline"></ion-icon>
+                                        </button>
                                     </td>
                                 </tr>
 
@@ -54,6 +67,7 @@ const ComplementosCompletos = () => {
                         </tbody>
                     </table>
                 </section>
+
 
                 <section className="containerGaseosas">
                     <div className="tituloSeccionGaseosas">
@@ -74,15 +88,26 @@ const ComplementosCompletos = () => {
                                     <td className="tabladashb_tbody_tr_td">{gaseosa.estadoGaseosa}</td>
                                     <td className="tabladashb_tbody_tr_td" >
                                         <button
-                                            className="btn-imprimir"
+                                            className="btn-cambio-estado"
                                             title="Cambio de estado"
-                                            aria-label={`Cambio de estado ${gaseosa.id}`}
+                                            aria-label={`Eliminacion ${gaseosa.id}`}
                                             onClick={(e) => {
                                                 e.preventDefault()
                                                 actualizaEstadoGaseosa(gaseosa.id)
                                             }}
                                         >
                                             <ion-icon name="checkmark-outline"></ion-icon>
+                                        </button>
+                                        <button
+                                            className="btn-elminacion"
+                                            title="Eliminacion"
+                                            aria-label={`Cambio de estado ${gaseosa.id}`}
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                eliminacionDeGaseosa(gaseosa.id)
+                                            }}
+                                        >
+                                            <ion-icon name="trash-bin-outline"></ion-icon>
                                         </button>
                                     </td>
                                 </tr>
