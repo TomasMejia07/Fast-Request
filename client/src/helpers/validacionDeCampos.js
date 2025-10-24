@@ -1,4 +1,4 @@
-export const validacionDeCampos = (name, value, clientes = []) => {
+export const validacionDeCampos = (name, value) => {
     let errores = '';
 
     const trimmedValue = (typeof value === 'string' ? value : '').trim()
@@ -219,8 +219,6 @@ export const validacionDeCampos = (name, value, clientes = []) => {
             errores = 'Este valor es demasiado largo.';
         } else if (!regex.test(trimmed)) {
             errores = 'Este campo solo debe contener números.';
-        } else if (clientes.some(cliente => cliente.NumeroDocumento?.trim() === trimmed)) {
-            errores = 'Este documento ya está registrado.';
         } else {
             errores = '';
         }
@@ -234,8 +232,6 @@ export const validacionDeCampos = (name, value, clientes = []) => {
             errores = 'Este campo no puede estar vacío.';
         } else if (!regex.test(trimmed)) {
             errores = 'El correo debe tener un formato válido, como ejemplo@dominio.com.';
-        } else if (clientes.some(cliente => cliente.CorreoElectronico?.trim().toLowerCase() === trimmed.toLowerCase())) {
-            errores = 'Este correo ya está registrado.'
         } else {
             errores = '';
         }
@@ -256,8 +252,6 @@ export const validacionDeCampos = (name, value, clientes = []) => {
             errores = 'Este valor es demasiado largo.';
         } else if (!regex.test(trimmed)) {
             errores = 'Este campo solo debe contener números.';
-        } else if (clientes.some(cliente => cliente.NumeroContacto?.trim() === trimmed)) {
-            errores = 'Este número de contacto ya está registrado.';
         } else {
             errores = '';
         }

@@ -28,8 +28,9 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
 
         setErrores(prevErrores => ({
             ...prevErrores,
-            [name]: validacionDeCampos(name, value, clientes)
+            [name]: validacionDeCampos(name, value)
         }))
+
     }
 
     const obtenerClientes = async () => {
@@ -105,6 +106,38 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
     }
 
 
+
+    const validacionDeClientes = async () => {
+        try {
+
+            const res = await axios.post(`http://localhost:5000/api/cliente/verify-duplicate`, formData,
+                {
+                    headers: authHeader()
+                },
+            )
+
+            return {
+                NumeroDocumento: res.data.NumeroDocumento.mensaje || '',
+                CorreoElectronico: res.data.CorreoElectronico.mensaje || '',
+                NumeroContacto: res.data.NumeroContacto.mensaje || ''
+            }
+
+        } catch (error) {
+            console.error("Error al validar duplicados:", error);
+
+            if (error.response?.status >= 500 || !error.response) {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se pudo validar la información. Intente nuevamente.",
+                    icon: "error",
+                    background: "#272727",
+                    color: "#c9c9c9",
+                });
+            }
+        }
+    }
+
+
     const limpiarFormulario = () => {
         setFormData({ NombreCliente: "", NumeroDocumento: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "activo" });
     };
@@ -135,7 +168,8 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
         formData,
         closeModal,
         errores,
-        setErrores
+        setErrores,
+        validacionDeClientes
     }
 }
 

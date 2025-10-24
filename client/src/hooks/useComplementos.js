@@ -230,8 +230,6 @@ export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: 
 
     const validacionDeComplementos = async (tipo, name) => {
 
-        if (!name.trim()) return "El nombre no puede estar vacío.";
-
         try {
 
             const url = `http://localhost:5000/api/complementos/${tipo === 'salsa' ? 'verify-duplicate-salsa' : 'verify-duplicate-gaseosa'}`
@@ -246,14 +244,23 @@ export const useComplementos = (initialSalsas = { nombreSalsa: "", estadoSalsa: 
             )
 
             if (res.data.existe) {
-                return res.data.mensaje;
+                return res.data.mensaje || ''
             }
 
             return ""
 
         } catch (error) {
-            console.error("Error al crear o actualizar la salsa:", error);
-            Swal.fire("Error", "No se pudo guardar la salsa", "error");
+            console.error("Error al validar duplicados:", error);
+
+            if (error.response?.status >= 500 || !error.response) {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se pudo validar la información. Intente nuevamente.",
+                    icon: "error",
+                    background: "#272727",
+                    color: "#c9c9c9",
+                });
+            }
         }
     }
 

@@ -24,8 +24,10 @@ const ClientesDashboard = () => {
         formData,
         closeModal,
         errores,
-        setErrores
+        setErrores,
+        validacionDeClientes
     } = useClientes();
+
 
     useEffect(() => {
         obtenerClientes();
@@ -36,22 +38,32 @@ const ClientesDashboard = () => {
     const res = useFiltroClientes(clientes, busqueda)
     const { itemsPorPagina, funtionFinally } = usePaginacion(paginacionActual, res)
 
+    const validaciones = async () => {
 
-    const validaciones = () => {
+        const nombreClienteError = validacionDeCampos('NombreCliente', formData.NombreCliente)
+        const NumeroDocumentoError = validacionDeCampos('NumeroDocumento', formData.NumeroDocumento)
+        const CorreoElectronicoError = validacionDeCampos('CorreoElectronico', formData.CorreoElectronico)
+        const NumeroContactoError = validacionDeCampos('NumeroContacto', formData.NumeroContacto)
 
-        const nombreClienteError = validacionDeCampos('NombreCliente', formData.NombreCliente, clientes)
-        const NumeroDocumentoError = validacionDeCampos('NumeroDocumento', formData.NumeroDocumento, clientes)
-        const CorreoElectronicoError = validacionDeCampos('CorreoElectronico', formData.CorreoElectronico, clientes)
-        const NumeroContactoError = validacionDeCampos('NumeroContacto', formData.NumeroContacto, clientes)
-
-        setErrores({
-            nombreCliente: nombreClienteError,
+        let erroresTemp = {
+            NombreCliente: nombreClienteError,
             NumeroDocumento: NumeroDocumentoError,
             CorreoElectronico: CorreoElectronicoError,
-            NumeroContacto: NumeroContactoError,
-        })
+            NumeroContacto: NumeroContactoError
+        }
 
-        if (nombreClienteError || NumeroDocumentoError || CorreoElectronicoError || NumeroContactoError) return;
+        if (!NumeroDocumentoError || !CorreoElectronicoError || !NumeroContactoError) {
+            const backendErrores = await validacionDeClientes()
+            erroresTemp = {
+                ...erroresTemp,
+                NumeroDocumento: backendErrores?.NumeroDocumento || erroresTemp.NumeroDocumento,
+                CorreoElectronico: backendErrores?.CorreoElectronico || erroresTemp.CorreoElectronico,
+                NumeroContacto: backendErrores?.NumeroContacto || erroresTemp.NumeroContacto
+            }
+            setErrores(erroresTemp)
+        }
+
+        return Object.values(erroresTemp).some(err => err)
 
     }
 
@@ -64,7 +76,7 @@ const ClientesDashboard = () => {
                 <div className="table_Header">
                     <h2>Clientes</h2>
                     <button className="boton_raro" onClick={openModal}>Crear Cliente</button>
-    
+
                     <div className="input_search">
                         <input
                             type="search"
@@ -99,9 +111,9 @@ const ClientesDashboard = () => {
                     <tbody className="tabladashb_tbody">
                         {funtionFinally.map((customer) => (
                             <tr className="tabladashb_tbody_tr" key={customer.Id}>
-                                <td className="tabladashb_tbody_tr_td">{customer.NombreCliente}</td>
-                                <td className="tabladashb_tbody_tr_td">{customer.NumeroDocumento}</td>
-                                <td className="tabladashb_tbody_tr_td">{customer.CorreoElectronico}</td>
+                                <td className="tabladashb_tbody_tr_td">{customer.NombreCliente.toLowerCase()}</td>
+                                <td className="tabladashb_tbody_tr_td">{customer.NumeroDocumento.toLowerCase()}</td>
+                                <td className="tabladashb_tbody_tr_td">{customer.CorreoElectronico.toLowerCase()}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.NumeroContacto}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.EstadoCliente}</td>
                                 <td className="tabladashb_tbody_tr_td">
@@ -154,10 +166,14 @@ const ClientesDashboard = () => {
                 <form
                     id="miFormulario"
                     ref={formRef}
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                         e.preventDefault();
+
+                        const hayErrores = await validaciones()
+                        if (hayErrores) return
+
                         CrearCliente();
-                        validaciones()
+
                     }}
                 >
                     <h2 className="modal__title">

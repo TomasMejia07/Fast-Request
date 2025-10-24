@@ -161,7 +161,7 @@ exports.validacionDeNombreSalsa = async (req, res) => {
 
         if (!nombreSalsa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la salsa' })
 
-        const validacionSalsa = await Salsas.findOne({
+        const validacionSalsa = await Salsas.unscoped().findOne({
             where: { nombreSalsa: nombreSalsa.trim().toLowerCase() }
         })
 
@@ -342,7 +342,7 @@ exports.validacionDeNombreGaseosa = async (req, res) => {
 
         if (!nombreGaseosa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la gaseosa' })
 
-        const validacionGaseosa = await Gaseosas.findOne({
+        const validacionGaseosa = await Gaseosas.unscoped().findOne({
             where: { nombreGaseosa: nombreGaseosa.trim().toLowerCase() }
         })
 

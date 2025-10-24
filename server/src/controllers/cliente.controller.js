@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Clientes, Pedido } = require('../models');
 
 
@@ -110,3 +111,44 @@ exports.CambioEstadoActivoClientes = async (req, res) => {
         res.status(500).json({ error: 'Error al reactivar cliente' });
     }
 }
+
+
+exports.validacionDeCampos = async (req, res) => {
+    try {
+        const { NumeroDocumento, CorreoElectronico, NumeroContacto } = req.body;
+
+        if (!NumeroDocumento || !CorreoElectronico || !NumeroContacto) {
+            return res.status(400).json({ message: 'Debes proporcionar todos los campos requeridos' });
+        }
+
+        const clientes = await Clientes.unscoped().findAll({
+            where: {
+                // [Op.or] significa: buscar coincidencias en cualquiera de los campos especificados
+                // Op:  Significa operaciones lógicas en las consultas
+                // or: Significa "o" lógico, es decir, al menos una de las condiciones debe cumplirse
+                [Op.or]: [
+                    { NumeroDocumento: NumeroDocumento.trim() },
+                    { CorreoElectronico: CorreoElectronico.trim().toLowerCase() },
+                    { NumeroContacto: NumeroContacto.trim() }
+                ]
+            }
+        });
+
+        const resultados = {
+            NumeroDocumento: clientes.some(client => client.NumeroDocumento === NumeroDocumento.trim()) ?
+                { existe: true, mensaje: 'Este documento ya existe.' } : '',
+
+            CorreoElectronico: clientes.some(client => client.CorreoElectronico === CorreoElectronico.trim().toLowerCase()) ?
+                { existe: true, mensaje: 'Este correo ya existe.' } : '',
+
+            NumeroContacto: clientes.some(client => client.NumeroContacto === NumeroContacto.trim()) ?
+                { existe: true, mensaje: 'Este número de contacto ya existe.' } : '',
+        };
+
+        res.status(200).json(resultados);
+
+    } catch (err) {
+        console.error('Error al validar campos', err);
+        res.status(500).json({ message: 'Error interno del servidor', err });
+    }
+};

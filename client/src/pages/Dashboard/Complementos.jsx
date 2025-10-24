@@ -92,7 +92,7 @@ const Complementos = () => {
                         <tbody>
                             {salsasPaginadas.map((salsa) => (
                                 <tr className="tabladashb_tbody_tr" key={salsa.id}>
-                                    <td className="tabladashb_tbody_tr_td">{salsa.nombreSalsa}</td>
+                                    <td className="tabladashb_tbody_tr_td">{salsa.nombreSalsa.toLowerCase()}</td>
                                     <td className="tabladashb_tbody_tr_td">{salsa.estadoSalsa}</td>
                                     <td className="tabladashb_tbody_tr_td" >
                                         <a
@@ -171,7 +171,7 @@ const Complementos = () => {
                         <tbody>
                             {gaseosasPaginadas.map((gaseosa) => (
                                 <tr className="tabladashb_tbody_tr" key={gaseosa.id}>
-                                    <td className="tabladashb_tbody_tr_td">{gaseosa.nombreGaseosa}</td>
+                                    <td className="tabladashb_tbody_tr_td">{gaseosa.nombreGaseosa.toLowerCase()}</td>
                                     <td className="tabladashb_tbody_tr_td">{gaseosa.estadoGaseosa}</td>
                                     <td className="tabladashb_tbody_tr_td" >
                                         <a
