@@ -3,6 +3,7 @@ const { Empresa } = require("../models");
 exports.obtenerConfiguracion = async (req, res) => {
   try {
 
+
     const empresaId = req.user.empresaId
 
     if (!empresaId) {
@@ -13,11 +14,14 @@ exports.obtenerConfiguracion = async (req, res) => {
       attributes: ['NombreEmpresa', 'LogoEmpresa']
     })
 
+
     if (!empresa) {
       return res.status(404).json({ message: "Empresa no encontrada" });
     }
 
+
     res.status(200).json(empresa);
+
 
   } catch (error) {
     console.error("Error al obtener configuración:", error);
@@ -30,6 +34,7 @@ exports.actualizarConfiguracion = async (req, res) => {
   try {
     const { NombreEmpresa } = req.body;
     const empresaId = req.user.empresaId
+
     const empresa = await Empresa.findByPk(empresaId);
 
     let logoEmpresa

@@ -99,6 +99,7 @@ export default function useConfiguracionEmpresa(initial) {
 
       if (response.data) {
         setUserData(response.data);
+
       } else {
         console.warn("No se encontró información de la empresa.");
       }
