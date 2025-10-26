@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const uploadCloud = require('../middlewares/upload')
+const { uploadCloud } = require('../middlewares/upload')
 const configuracionPerfilController = require('../controllers/configuracionPerfil.controller');
 const verificarJWT = require('../middlewares/verificarJWT');
 const { soloAdmin, soloEmpresa } = require('../middlewares/verificarRoles');

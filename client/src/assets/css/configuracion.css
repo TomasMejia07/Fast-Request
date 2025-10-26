@@ -976,7 +976,24 @@ body {
     transition: all 0.3s ease;
 }
 
+.info-group-empresa{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+    padding: 1rem;
+    border-radius: 12px;
+    background-color: var(--Gray);
+    transition: all 0.3s ease;
+}
+
 .info-group:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-left: 3px solid var(--Buton-color);
+}
+
+.info-group-empresa:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     border-left: 3px solid var(--Buton-color);
@@ -1088,6 +1105,7 @@ body {
     font-size: 1rem;
     transition: all 0.3s ease;
 }
+
 
 /* Botones de acción en el formulario */
 .actions {

@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../../assets/css/configuracion.css";
 import ConfiguracionLayout from "../../components/Configuracion/ConfiguracionLayout";
 import useConfiguracionEmpresa from "../../hooks/useConfiguracionEmpresa";
 
 const initial = {
-  Id: "",
-  NombreEmpresa: "",
-  LogoEmpresa:
-    "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png",
+  NombreEmpresa: '',
+  LogoEmpresa: "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1761450639/store-4156934_640_cknbry.png",
 };
 
 const Empresa = () => {
@@ -17,18 +15,12 @@ const Empresa = () => {
     fileInputRef,
     setIsEditing,
     handleInputChange,
-    saveChanges,
     handleProfilePictureChange,
     showNotification,
-    cargarEmpresa,
+    saveChanges,
   } = useConfiguracionEmpresa(initial);
 
-  const { NombreEmpresa, LogoEmpresa } = userData;
-
-  useEffect(() => {
-    // Cargar datos de la empresa al montar el componente
-    cargarEmpresa();
-  }, []);
+  const { NombreEmpresa } = userData
 
   return (
     <ConfiguracionLayout>
@@ -47,7 +39,7 @@ const Empresa = () => {
                     ? userData.LogoEmpresa instanceof File
                       ? URL.createObjectURL(userData.LogoEmpresa)
                       : userData.LogoEmpresa
-                    : "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1757260230/user_izbzpi.png"
+                    : "https://res.cloudinary.com/dp9jbvpwl/image/upload/v1761450639/store-4156934_640_cknbry.png"
                 }
                 alt="Logo de la empresa"
               />
@@ -79,13 +71,13 @@ const Empresa = () => {
           {!isEditing ? (
             <div className="perfil-info">
               <div className="info-section">
-                <div className="info-group">
+                <div className="info-group-empresa">
                   <div className="info-icon">
                     <ion-icon name="business-outline"></ion-icon>
                   </div>
                   <div className="info-text">
                     <label>Nombre del Establecimiento</label>
-                    <p>{NombreEmpresa || "Sin nombre registrado"}</p>
+                    <p>{NombreEmpresa}</p>
                   </div>
                 </div>
               </div>
@@ -115,7 +107,7 @@ const Empresa = () => {
                     type="text"
                     id="edit-nombre"
                     name="NombreEmpresa"
-                    value={NombreEmpresa || ""}
+                    value={NombreEmpresa}
                     onChange={handleInputChange}
                   />
                 </div>

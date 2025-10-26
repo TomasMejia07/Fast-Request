@@ -140,6 +140,22 @@ body {
 
 }
 
+.nav-titulo-name {
+    position: relative;
+    display: block;
+    padding: 0 40px;
+    margin-left: 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: var(--tabla-linea-color) 2px solid;
+
+}
+
+
 /* FIN DEL MENU */
 
 /* DASHBOARD */
@@ -1463,7 +1479,7 @@ div:has(> #tipos-bebida) {
     padding: 0.5rem 0.75rem;
     border-radius: 8px;
     transition: background-color 0.2s ease;
-    
+
 }
 
 

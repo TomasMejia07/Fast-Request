@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import useConfiguracionEmpresa from '../../hooks/useConfiguracionEmpresa';
 
 function MenuDashboard() {
     const [activeIndex, setActiveIndex] = useState(null);
@@ -8,15 +9,35 @@ function MenuDashboard() {
         setActiveIndex(index);
     };
 
+    const initial = {
+        NombreEmpresa: ''
+    }
+
+    const { userData, cargarEmpresa } = useConfiguracionEmpresa(initial)
+
+    const { NombreEmpresa } = userData;
+
+    useEffect(() => {
+
+        const handleCompanyDates = () => {
+            cargarEmpresa();
+        }
+
+        window.addEventListener("companyDatesUpdated", handleCompanyDates);
+        return () =>
+            window.removeEventListener("companyDatesUpdated", handleCompanyDates);
+    }, [cargarEmpresa])
+
+
     return (
         <div className="navdash">
             <ul className='nav-ul'>
                 {[
-                    { icon: 'paper-plane', title: 'Fast Request' },
+                    { icon: 'paper-plane', title: NombreEmpresa.toUpperCase() },
                     { to: '/dashboard', icon: 'home', title: 'Inicio' },
                     { to: '/dashboard/hacerPedido', icon: 'create', title: 'Hacer Pedido' },
                     { to: '/dashboard/pedidos', icon: 'receipt', title: 'Pedidos' },
-                    { to: '/dashboard/cocina', icon: 'restaurant', title: 'Cocina'},
+                    { to: '/dashboard/cocina', icon: 'restaurant', title: 'Cocina' },
                     { to: '/dashboard/categoria', icon: 'list', title: 'Categorías' },
                     { to: '/dashboard/productos', icon: 'fast-food', title: 'Productos' },
                     { to: '/dashboard/complementos', icon: 'basket', title: 'Complementos' },
@@ -31,14 +52,14 @@ function MenuDashboard() {
                         onMouseOver={() => handleMouseOver(index)}
                     >
                         {item.to ? (
-                            <NavLink to={item.to}   end={item.to === '/dashboard'} className='nav-ul-li-a'>
+                            <NavLink to={item.to} end={item.to === '/dashboard'} className='nav-ul-li-a'>
                                 <span className="icono"><ion-icon name={item.icon}></ion-icon></span>
                                 <span className="nav-titulo">{item.title}</span>
                             </NavLink>
                         ) : (
                             <span className='nav-ul-li-a no-link'>
                                 <span className="icono"><ion-icon name={item.icon}></ion-icon></span>
-                                <span className="nav-titulo">{item.title}</span>
+                                <span className="nav-titulo-name">{item.title}</span>
                             </span>
                         )}
                     </li>
