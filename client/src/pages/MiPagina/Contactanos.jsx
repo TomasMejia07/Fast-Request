@@ -75,7 +75,7 @@ const Contactanos = () => {
           </p>
 
           <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="Inputs-Contactanos">
               <label htmlFor="nombre">Nombre</label>
               <input
                 type="text"
@@ -88,7 +88,7 @@ const Contactanos = () => {
               />
             </div>
 
-            <div className="form-group">
+            <div className="Inputs-Contactanos">
               <label htmlFor="email">Correo Electrónico</label>
               <input
                 type="email"
@@ -101,7 +101,7 @@ const Contactanos = () => {
               />
             </div>
 
-            <div className="form-group">
+            <div className="Inputs-Contactanos">
               <label htmlFor="mensaje">Mensaje</label>
               <textarea
                 id="mensaje"

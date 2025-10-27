@@ -40,8 +40,8 @@ const MiPagina = () => {
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/contacto")}} >Contáctanos</a>
           </div>
           <div className="nav-buttons">
-            <button><ion-icon name="cart-outline"></ion-icon></button>
-            <button><ion-icon name="log-in-outline"></ion-icon></button>
+            <button onClick={(e) => { e.preventDefault(); navigate("/miPagina")}}><ion-icon name="cart-outline"></ion-icon></button>
+            <button onClick={(e) => { e.preventDefault(); navigate("/miPagina/Login")}} ><ion-icon name="log-in-outline"></ion-icon></button>
           </div>
         </div>
       </nav>

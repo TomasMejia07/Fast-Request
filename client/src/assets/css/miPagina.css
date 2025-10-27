@@ -493,19 +493,19 @@
   text-align: left;
 }
 
-.form-group {
+.Inputs-Contactanos {
   display: flex;
   flex-direction: column;
 }
 
-.form-group label {
+.Inputs-Contactanos label {
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: #111827;
 }
 
-.form-group input,
-.form-group textarea {
+.Inputs-Contactanos input,
+.Inputs-Contactanos textarea {
   padding: 0.75rem 1rem;
   color: #000000;
   border: 1px solid #d1d5db;
@@ -515,8 +515,8 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.Inputs-Contactanos input:focus,
+.Inputs-Contactanos textarea:focus {
   outline: none;
   border-color: #000000;
   background: #fff;
@@ -538,3 +538,175 @@
 .btn-enviar:hover {
   background: #e67e22;
 }
+
+
+/* LOGIN  */
+
+:root {
+  --white-text: #c9c9c9;
+  --white-icons: #e9e9e9;
+  --black: #13161C;
+  --Gray: #272727;
+  --Buton-color: #6366F1;
+  --Buton-hover-color: #5356F2;
+  --tabla-linea-color: #fff48d;
+  --white-red: #d85757;
+  --white-green: #e67e22;
+  --font: "General Sans", sans-serif;
+}
+
+.login-page {
+  background-color: var(--Gray);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font);
+  color: var(--white-text);
+}
+
+/* Caja del login */
+.login-card {
+  background-color: var(--black);
+  border: 1px solid var(--tabla-linea-color);
+  border-radius: 25px;
+  width: 400px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+/* Tamaño más grande */
+.login-card.large {
+  width: 520px;       /* antes 400px */
+  padding: 3rem 3rem; /* más espacioso */
+}
+
+.login-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Título */
+.login-title {
+  color: var(--white-text);
+  font-weight: 500;
+  font-size: 2rem; /* más grande */
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+}
+
+/* Inputs */
+.login-form {
+  width: 100%;
+}
+
+.login-field {
+  margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--white-text);
+  color: var(--white-text);
+  padding: 0.8rem 0.4rem;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: var(--tabla-linea-color);
+  outline: none;
+}
+
+.login-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Link de olvidar contraseña */
+.login-extra {
+  text-align: right;
+  margin-bottom: 1.5rem;
+}
+
+.login-link {
+  color: var(--white-text);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Botones */
+.login-btn {
+  background: var(--Buton-color);
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background: var(--Buton-hover-color);
+}
+
+.login-btn.secondary {
+  background: transparent;
+  border: 2px solid var(--tabla-linea-color);
+  color: var(--white-text);
+}
+
+.login-btn.secondary:hover {
+  background: var(--tabla-linea-color);
+  color: #000;
+}
+
+/* Divisor */
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-divider:not(:empty)::before {
+  margin-right: 10px;
+}
+.login-divider:not(:empty)::after {
+  margin-left: 10px;
+}
+
+.login-divider span {
+  font-size: 1rem;
+  color: var(--white-text);
+  opacity: 0.8;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .login-card.large {
+    width: 90%;
+    padding: 2rem;
+  }
+}
+
+/* FIN LOGIN */
