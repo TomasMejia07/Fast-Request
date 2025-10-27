@@ -16,6 +16,7 @@ const Complementos = () => {
         estadoSalsa: "activo"
     }
 
+
     const initialGaseosas = {
         nombreGaseosa: "",
         estadoGaseosa: "activo"
@@ -27,7 +28,8 @@ const Complementos = () => {
         editarSalsa, editarGaseosa, busquedaSalsa, setBusquedaSalsa, busquedaGaseosa,
         setBusquedaGaseosa, paginacionActualSalsas,
         setPaginacionActualSalsas, paginacionActualGaseosas, setPaginacionActualGaseosas,
-        cambiarEstadoSalsa, cambiarEstadoGaseosa } = useComplementos(initialSalsas, initialGaseosas)
+        cambiarEstadoSalsa, cambiarEstadoGaseosa, validacionesDeCampos,
+        errores, validacionDeComplementos, setErrores } = useComplementos(initialSalsas, initialGaseosas)
 
     const resSalsa = useFiltroSalsas(dataSalsas, busquedaSalsa)
     const resGaseosas = useFiltroGaseosas(dataGaseosas, busquedaGaseosa)
@@ -90,7 +92,7 @@ const Complementos = () => {
                         <tbody>
                             {salsasPaginadas.map((salsa) => (
                                 <tr className="tabladashb_tbody_tr" key={salsa.id}>
-                                    <td className="tabladashb_tbody_tr_td">{salsa.nombreSalsa}</td>
+                                    <td className="tabladashb_tbody_tr_td">{salsa.nombreSalsa.toLowerCase()}</td>
                                     <td className="tabladashb_tbody_tr_td">{salsa.estadoSalsa}</td>
                                     <td className="tabladashb_tbody_tr_td" >
                                         <a
@@ -169,7 +171,7 @@ const Complementos = () => {
                         <tbody>
                             {gaseosasPaginadas.map((gaseosa) => (
                                 <tr className="tabladashb_tbody_tr" key={gaseosa.id}>
-                                    <td className="tabladashb_tbody_tr_td">{gaseosa.nombreGaseosa}</td>
+                                    <td className="tabladashb_tbody_tr_td">{gaseosa.nombreGaseosa.toLowerCase()}</td>
                                     <td className="tabladashb_tbody_tr_td">{gaseosa.estadoGaseosa}</td>
                                     <td className="tabladashb_tbody_tr_td" >
                                         <a
@@ -220,11 +222,33 @@ const Complementos = () => {
                     ref={formRef}
                     onSubmit={async (e) => {
                         e.preventDefault()
+
+                        const tipo = modalTipo
+                        const name = tipo === 'salsa' ? (nombreSalsa || '') : (nombreGaseosa || '')
+
+                        const hayErrores = validacionesDeCampos(
+                            tipo === 'salsa' ? 'nombreSalsa' : 'nombreGaseosa',
+                            name
+                        )
+                        const mensajeError = await validacionDeComplementos(tipo, name);
+
+                        if (mensajeError || hayErrores) {
+                            setErrores((prev) => ({
+                                ...prev,
+                                [tipo === "salsa" ? "nombreSalsa" : "nombreGaseosa"]: mensajeError || hayErrores
+                            }));
+                            return
+                        }
+                        
+                        if (hayErrores) return
+
                         if (modalTipo === 'salsa') {
                             await ComplementosSalsas()
                         } else {
                             await ComplementosGaseosas()
                         }
+
+                        closeModal()
                     }}
                 >
                     <h2 className="modal__title">
@@ -243,6 +267,10 @@ const Complementos = () => {
                             value={modalTipo === "salsa" ? nombreSalsa : nombreGaseosa}
                             onChange={onChangeInputs}
                         />
+                        {modalTipo === 'salsa'
+                            ? errores.nombreSalsa && <div style={{ color: 'red' }}>{errores.nombreSalsa}</div>
+                            : errores.nombreGaseosa && <div style={{ color: 'red' }}>{errores.nombreGaseosa}</div>
+                        }
                     </div>
 
                     <div className="botones_formulario">

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { authHeader } from '../helpers/authHeader'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { jwtDecode } from "jwt-decode";
 
 export const useComplemntosCompletos = () => {
 
@@ -20,6 +21,7 @@ export const useComplemntosCompletos = () => {
                     headers: authHeader()
                 }
             )
+
 
             setDataComplementoSalsa(res.data)
             console.log('Salsas obtenido de manera correcta')
@@ -101,6 +103,78 @@ export const useComplemntosCompletos = () => {
         }
     }
 
+
+    const eliminacionDeSalsa = async (id) => {
+
+        const result = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esto eliminará la salsa.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            background: "#272727",
+            color: "#c9c9c9"
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:5000/api/complementos/destroy-salsa/${id}`,
+                    {
+                        headers: authHeader()
+                    }
+                )
+                Swal.fire({
+                    title: "¡Salsa eliminada exitosamente!",
+                    text: "La salsa a sido eliminada de manera exitosa",
+                    icon: "success",
+                    background: "#272727",
+                    color: "#c9c9c9",
+                });
+                getSalsasCompletos()
+
+            } catch (err) {
+                console.log('Error al eliminar la salsa')
+                Swal.fire("Error", "No se a podidoeliminar la salsa", "error");
+            }
+        }
+    }
+
+    const eliminacionDeGaseosa = async (id) => {
+
+        const result = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esto eliminará la gaseosa.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            background: "#272727",
+            color: "#c9c9c9"
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:5000/api/complementos/destroy-gaseosa/${id}`,
+                    {
+                        headers: authHeader()
+                    }
+                )
+                Swal.fire({
+                    title: "¡Gaseosa eliminada exitosamente!",
+                    text: "La gaseosa a sido eliminada de manera exitosa",
+                    icon: "success",
+                    background: "#272727",
+                    color: "#c9c9c9",
+                });
+                getGaseosasCompletos()
+
+            } catch (err) {
+                console.log('Error al eliminar la gaseosa')
+                Swal.fire("Error", "No se a podido eliminar la gaseosa", "error");
+            }
+        }
+    }
+
+
     const volverAlInicio = (e) => {
         e.preventDefault()
         navigate('/dashboard/complementos')
@@ -126,7 +200,9 @@ export const useComplemntosCompletos = () => {
         volverAlInicio,
         loading,
         actualizaEstadoSalsa,
-        actualizaEstadoGaseosa
+        actualizaEstadoGaseosa,
+        eliminacionDeGaseosa,
+        eliminacionDeSalsa
     }
 }
 

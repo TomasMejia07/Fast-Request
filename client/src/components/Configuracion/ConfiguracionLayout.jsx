@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import MenuConfiguracion from "./MenuConfiguracion";
 import TopBar from "../Dashboard/TopBar";
 import "../../assets/css/configuracion.css";
