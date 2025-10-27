@@ -30,6 +30,7 @@ import CategoriasInactivas from './pages/Dashboard/CategoriasInactivasDashboard'
 import ProductosInactivos from './pages/Dashboard/ProductosInactivosDashboard';
 import RolesInactivos from './pages/Dashboard/RolesInactivosDashboard';
 import Carta from './pages/MiPagina/Carta';
+import Contactanos from './pages/MiPagina/Contactanos';
 
 const AppContent = () => {
 
@@ -74,6 +75,7 @@ const AppContent = () => {
           
           <Route path='/miPagina' element={<MiPagina />} /> 
           <Route path="/miPagina/carta" element={<Carta />} />
+          <Route path="/miPagina/contacto" element={<Contactanos />} />
         </Routes>
       )}
     </>

@@ -458,3 +458,83 @@
 .Producto .imagen-prod ion-icon:hover {
   background: #1e40af;
 }
+
+/* ======= CONTACTO ======= */
+.contact-section {
+  background: #f9fafb;
+  padding: 4rem 1rem;
+}
+
+.contact-container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.contact-container h2 {
+  font-size: 2rem;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.contact-container p {
+  color: #4b5563;
+  margin-bottom: 2.5rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.75rem 1rem;
+  color: #000000;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f9fafb;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #000000;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+}
+
+.btn-enviar {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
+}
+
+.btn-enviar:hover {
+  background: #e67e22;
+}

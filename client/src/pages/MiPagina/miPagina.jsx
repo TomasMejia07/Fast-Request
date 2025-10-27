@@ -37,7 +37,7 @@ const MiPagina = () => {
           <div className="menu">
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina")}} >Inicio</a>
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/carta")}} >Carta</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("")}} >Contáctanos</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/contacto")}} >Contáctanos</a>
           </div>
           <div className="nav-buttons">
             <button><ion-icon name="cart-outline"></ion-icon></button>
