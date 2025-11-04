@@ -1,6 +1,7 @@
 import React from "react";
 import "../../assets/css/miPagina.css";
 import { useNavigate } from "react-router-dom";
+import NavbarMiPag from "../../components/miPagina/Navbar";
 
 const Carta = () => {
   const navigate = useNavigate();
@@ -8,30 +9,7 @@ const Carta = () => {
   return (
     <div className="page">
       {/* Navbar principal */}
-      <nav className="navbar">
-        <div className="navbar-container">
-          <div className="logo">LOGO</div>
-          <div className="menu">
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina"); }}>
-              Inicio
-            </a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/carta"); }}>
-              Carta
-            </a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/contacto"); }}>
-              Contáctanos
-            </a>
-          </div>
-          <div className="nav-buttons">
-            <button>
-              <ion-icon name="cart-outline"></ion-icon>
-            </button>
-            <button>
-              <ion-icon name="log-in-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-      </nav>
+      <NavbarMiPag />
 
       {/* Navbar fija de categorías */}
       <nav className="navbar-categorias sticky-bar">

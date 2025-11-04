@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../assets/css/miPagina.css";
 import { useNavigate } from "react-router-dom";
+import NavbarMiPag from "../../components/miPagina/Navbar";
 
 const Contactanos = () => {
   const navigate = useNavigate();
@@ -23,49 +24,7 @@ const Contactanos = () => {
   return (
     <div className="page">
       {/* Navbar principal */}
-      <nav className="navbar sticky-bar">
-        <div className="navbar-container">
-          <div className="logo">LOGO</div>
-          <div className="menu">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/miPagina");
-              }}
-            >
-              Inicio
-            </a>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/miPagina/carta");
-              }}
-            >
-              Carta
-            </a>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/miPagina/contacto");
-              }}
-            >
-              Contáctanos
-            </a>
-          </div>
-          <div className="nav-buttons">
-            <button>
-              <ion-icon name="cart-outline"></ion-icon>
-            </button>
-            <button>
-              <ion-icon name="log-in-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-      </nav>
-
+      <NavbarMiPag />
       {/* Sección de contacto */}
       <section className="contact-section">
         <div className="contact-container">

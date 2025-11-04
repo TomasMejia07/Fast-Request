@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/miPagina.css";
 import { useNavigate } from "react-router-dom";
+import NavbarMiPag from "../../components/miPagina/Navbar";
 const MiPagina = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate()
@@ -31,21 +32,7 @@ const MiPagina = () => {
   return (
     <div className="page">
       {/* Navbar */}
-      <nav className="navbar">
-        <div className="navbar-container">
-          <div className="logo">LOGO</div>
-          <div className="menu">
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina")}} >Inicio</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/carta")}} >Carta</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/miPagina/contacto")}} >Contáctanos</a>
-          </div>
-          <div className="nav-buttons">
-            <button onClick={(e) => { e.preventDefault(); navigate("/miPagina")}}><ion-icon name="cart-outline"></ion-icon></button>
-            <button onClick={(e) => { e.preventDefault(); navigate("/miPagina/Login")}} ><ion-icon name="log-in-outline"></ion-icon></button>
-          </div>
-        </div>
-      </nav>
-
+      <NavbarMiPag />
       {/* Slider */}
       <div className="slider">
         {sliderImages.map((image, index) => (

@@ -541,21 +541,17 @@
 
 
 /* LOGIN  */
-
 :root {
   --white-text: #c9c9c9;
-  --white-icons: #e9e9e9;
   --black: #13161C;
   --Gray: #272727;
-  --Buton-color: #6366F1;
-  --Buton-hover-color: #5356F2;
-  --tabla-linea-color: #fff48d;
-  --white-red: #d85757;
-  --white-green: #e67e22;
+  --user-button: #6366F1;
+  --user-button-hover: #5356F2;
+  --user-line: #fff48d;
   --font: "General Sans", sans-serif;
 }
 
-.login-page {
+.user-login-page {
   background-color: var(--Gray);
   min-height: 100vh;
   display: flex;
@@ -565,148 +561,146 @@
   color: var(--white-text);
 }
 
-/* Caja del login */
-.login-card {
-  background-color: var(--black);
-  border: 1px solid var(--tabla-linea-color);
+.user-login-card {
+  background-color: transparent;
+  border: 1px solid var(--white-text);
   border-radius: 25px;
-  width: 400px;
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
+  width: 520px;
+  padding: 3rem 3rem;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 
-/* Tamaño más grande */
-.login-card.large {
-  width: 520px;       /* antes 400px */
-  padding: 3rem 3rem; /* más espacioso */
-}
-
-.login-card:hover {
-  transform: translateY(-4px);
-}
-
-/* Título */
-.login-title {
+.user-login-title {
+  font-size: 2.3rem;
+  margin-bottom: 2.5rem;
   color: var(--white-text);
-  font-weight: 500;
-  font-size: 2rem; /* más grande */
-  margin-bottom: 2rem;
   letter-spacing: 2px;
 }
 
-/* Inputs */
-.login-form {
+.user-login-form {
   width: 100%;
 }
 
-.login-field {
-  margin-bottom: 1.8rem;
-  display: flex;
-  flex-direction: column;
+.user-login-field {
+  margin-bottom: 2rem;
 }
 
-.login-input {
+.user-login-input {
+  width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 2px solid var(--white-text);
+  border-bottom: 3px solid var(--white-text);
+  padding: 1rem 0.8rem;
+  font-size: 1.2rem;
   color: var(--white-text);
-  padding: 0.8rem 0.4rem;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
 }
 
-.login-input:focus {
-  border-color: var(--tabla-linea-color);
+.user-login-input:focus {
+  border-bottom-color: var(--white-text);
   outline: none;
 }
 
-.login-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+.user-login-input::placeholder {
+  color: rgba(255,255,255,0.5);
 }
 
-/* Link de olvidar contraseña */
-.login-extra {
+.user-login-extra {
   text-align: right;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.login-link {
+.user-login-link {
   color: var(--white-text);
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-decoration: none;
 }
-
-.login-link:hover {
+.user-login-link:hover {
   text-decoration: underline;
 }
 
-/* Botones */
-.login-btn {
-  background: var(--Buton-color);
-  color: white;
-  border: none;
+.user-login-btn {
+  background: transparent;
+  color: #fff;
+  border: 2px solid var(--user-button);
   width: 100%;
-  padding: 0.9rem;
-  border-radius: 8px;
-  font-weight: 600;
+  padding: 13px;
+  border-radius: 10px;
+  font-size: 1.1rem;
   cursor: pointer;
   letter-spacing: 1px;
-  transition: background 0.3s ease;
+  font-weight: 600; 
 }
 
-.login-btn:hover {
-  background: var(--Buton-hover-color);
+.user-login-btn:hover {
+  background: var(--user-button-hover);
+  color: var(--black)
 }
 
-.login-btn.secondary {
+.user-login-btn.secondary {
   background: transparent;
-  border: 2px solid var(--tabla-linea-color);
+  text-decoration: none;
+  border: 2px solid var(--white-text);
   color: var(--white-text);
 }
 
-.login-btn.secondary:hover {
-  background: var(--tabla-linea-color);
+.user-login-btn.secondary:hover {
+  background: var(--white-text);
   color: #000;
 }
 
-/* Divisor */
-.login-divider {
+.user-login-divider {
   display: flex;
   align-items: center;
   text-align: center;
   margin: 2rem 0;
+  color: var(--white-text);
 }
 
-.login-divider::before,
-.login-divider::after {
+.user-login-divider::before,
+.user-login-divider::after {
   content: "";
   flex: 1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
 }
 
-.login-divider:not(:empty)::before {
-  margin-right: 10px;
-}
-.login-divider:not(:empty)::after {
-  margin-left: 10px;
-}
-
-.login-divider span {
+.user-login-divider span {
+  margin: 0 10px;
   font-size: 1rem;
+}
+
+
+.user-login-back {
+  text-decoration: none;
   color: var(--white-text);
-  opacity: 0.8;
+  font-size: 1.2rem;
+  transition: 0.3s ease;
 }
 
-/* Responsivo */
-@media (max-width: 600px) {
-  .login-card.large {
-    width: 90%;
-    padding: 2rem;
-  }
+.user-login-back:hover {
+  color: var(--user-button);
+  text-decoration: underline;
+  transition: 0.3s ease;
 }
 
-/* FIN LOGIN */
+
+.user-login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-login-back {
+  margin-top: 18px;
+  display: inline-block;
+  text-decoration: none;
+  color: var(--white-text);
+  font-size: 1.1rem;
+  transition: 0.3s ease;
+}
+
+.user-login-back:hover {
+  color: var(--user-button);
+  text-decoration: underline;
+}
