@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../assets/css/configuracion.css';
 import ConfiguracionLayout from '../../components/Configuracion/ConfiguracionLayout';
 import useConfiguracionPerfilUsuario from '../../hooks/useConfiguracionPerfilUsuario';
@@ -30,9 +30,9 @@ const ConfiguracionPerfilUsuario = () => {
     handleProfilePictureChange,
     showNotification,
     date,
-    fechaNacimineto
+    fechaNacimiento,
+    errores
   } = useConfiguracionPerfilUsuario(initial);
-
 
   const {
     nombre,
@@ -213,6 +213,7 @@ const ConfiguracionPerfilUsuario = () => {
                     value={telefono || ''}
                     onChange={handleInputChange}
                   />
+                  {errores.telefono && <span style={{color: 'red'}}>{errores.telefono}</span>}
                 </div>
 
                 <div className="form-group">
@@ -224,6 +225,7 @@ const ConfiguracionPerfilUsuario = () => {
                     value={direccion || ''}
                     onChange={handleInputChange}
                   />
+                  {errores.direccion && <span style={{color: 'red'}}>{errores.direccion}</span>}
                 </div>
 
                 <div className="form-group">
@@ -232,11 +234,10 @@ const ConfiguracionPerfilUsuario = () => {
                     type="date"
                     id='edit-fechaNacimiento'
                     name="fechaNacimiento"
-                    value={fechaNacimineto || ''}
+                    value={fechaNacimiento || ''}
                     onChange={handleInputChange}
                   />
                 </div>
-
                 <div className="actions">
                   <button type="submit" className="btn-save">
                     <i className="fas fa-save"></i> Guardar

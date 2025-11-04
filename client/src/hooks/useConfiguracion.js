@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { authHeader } from "../helpers/authHeader";
+import { validacionDeCampos } from "../helpers/validacionDeCampos";
 
 export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
   const [userData, setUserData] = useState(initial);
@@ -28,6 +29,14 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
     status: "Débil",
     color: "#ea4335",
   });
+
+  const [errores, setErrores] = useState({
+    nombre: '',
+    apellido: '',
+    current: "",
+    new: "",
+    confirm: "",
+  })
 
   const userMenuRef = useRef(null);
   const statusTimeoutRef = useRef(null);
@@ -99,7 +108,18 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
     if (id === "confirm-password") fieldName = "confirm";
 
     if (fieldName) {
-      setPasswords((prev) => ({ ...prev, [fieldName]: value }));
+
+      const trimmedValue = value.trimStart();
+
+
+      if (trimmedValue === '') {
+        setPasswords((prev) => ({ ...prev, [fieldName]: '' }));
+      } else {
+        setPasswords((prev) => ({ ...prev, [fieldName]: trimmedValue }));
+      }
+
+      const errorMsg = validacionDeCampos(fieldName, trimmedValue);
+      setErrores((prev) => ({ ...prev, [fieldName]: errorMsg }));
     }
   };
 
@@ -133,10 +153,17 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
       const decored = jwtDecode(token)
       const id = decored.id
 
-      const res = await axios.put(`http://localhost:5000/api/configuracion/updatePass/${id}`, passwords)
+      const res = await axios.put(`http://localhost:5000/api/configuracion/updatePass/${id}`,
+        passwords, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       showStatus(res.data.message || "Contraseña actualizada correctamente");
       console.log('Contraseña actualizada correctamente');
+
+      return true
 
     } catch (err) {
       console.log('Error al actualizar la contraseña ❌', err);
@@ -152,24 +179,39 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
 
 
 
-  const savePassword = (e) => {
+  const savePassword = async (e) => {
     e.preventDefault()
 
-    if (
-      !passwords.current ||
-      !passwords.new ||
-      passwords.new !== passwords.confirm ||
-      passwordStrength.strength < 40
-    ) {
-      showStatus("Por Favor Verifica las contraseñas antes de continuar");
+    const currentError = validacionDeCampos('current', passwords.current);
+    const newError = validacionDeCampos('new', passwords.new);
+    const confirmError = validacionDeCampos('confirm', passwords.confirm);
+
+    setErrores({
+      ...errores,
+      current: currentError,
+      new: newError,
+      confirm: confirmError,
+    });
+
+
+    if (currentError || newError || confirmError) {
+      showStatus("Por favor corrige los errores antes de continuar");
       return;
     }
 
-    API_UPDATE_PASS()
-    setTimeout(() => {
-      setPasswords({ current: "", new: "", confirm: "" });
-      setPasswordStrength({ strength: 0, status: "Débil", color: "#ea4335" });
-    }, 1000);
+    if (passwords.new !== passwords.confirm) {
+      showStatus("Las contraseñas nuevas no coinciden");
+      return;
+    }
+
+    const resSuccess = await API_UPDATE_PASS()
+
+    if (resSuccess) {
+      setTimeout(() => {
+        setPasswords({ current: "", new: "", confirm: "" });
+        setPasswordStrength({ strength: 0, status: "Débil", color: "#ea4335" });
+      }, 1000);
+    }
   };
 
 
@@ -215,7 +257,12 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
 
       const res = await axios.put(
         `http://localhost:5000/api/configuracion/updateData/${id}`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Bearer -> portador
+          },
+        }
       );
 
       showStatus(res.data.message);
@@ -230,8 +277,22 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
 
 
 
-  const saveName = (e) => {
+  const saveData = (e) => {
     e.preventDefault()
+
+    const nombreError = validacionDeCampos('nombre', userData.nombre)
+    const apellidoError = validacionDeCampos('apellido', userData.apellido)
+
+    setErrores({
+      ...errores,
+      nombre: nombreError,
+      apellido: apellidoError,
+    })
+
+    if (nombreError || apellidoError) {
+      showStatus("Por favor corrige los errores antes de continuar");
+      return;
+    }
 
     API_UPDATE_DATA()
     setTimeout(() => {
@@ -248,6 +309,11 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
     setUserData({
       ...userData,
       [name]: value
+    })
+
+    setErrores({
+      ...errores,
+      [name]: validacionDeCampos(name, value)
     })
   }
 
@@ -266,10 +332,11 @@ export const useConfiguracion = (initial = { nombre: '', apellido: '' }) => {
     togglePasswordVisibility,
     handleNotificationToggle,
     handlePasswordChange,
-    saveName,
+    saveData,
     savePassword,
     resetConfig,
     onChangeInput,
+    errores
   };
 };
 

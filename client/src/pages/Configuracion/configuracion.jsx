@@ -1,31 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ConfiguracionLayout from '../../components/Configuracion/ConfiguracionLayout';
 import { useConfiguracion } from '../../hooks/useConfiguracion';
-import { useTheme  } from '../../components/Configuracion/Them';
+import { useTheme } from '../../components/Configuracion/Them';
 
 // Componente para campos de contraseña
-const PasswordInput = ({ id, label, placeholder, value, onChange, toggleVisibility, visible }) => (
-  <div className="input-group password-group">
-    <label htmlFor={id} className="input-label">{label}</label>
-    <div className="password-wrapper">
-      <input
-        type={visible ? "text" : "password"}
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        onCopy={(e) => e.preventDefault()}
-        className="password-input"
-      />
-      <span
-        className="toggle-visibility"
-        onClick={() => toggleVisibility(id)}
-      >
-        <ion-icon name={visible ? "eye-off-outline" : "eye-outline"}></ion-icon>
-      </span>
-    </div>
-  </div>
-);
+import { PasswordInput } from '../../helpers/passwordInput';
+
 
 // Componente reutilizable para toggles de notificación
 const NotificationToggle = ({ type, icon, label, checked, onChange }) => (
@@ -53,10 +33,10 @@ const Configuracion = () => {
 
 
   const initial = {
-    nombre:'',
+    nombre: '',
     apellido: '',
   }
-  
+
   const {
     userData,
     actionStatus,
@@ -67,14 +47,15 @@ const Configuracion = () => {
     togglePasswordVisibility,
     handleNotificationToggle,
     handlePasswordChange,
-    saveName,
+    saveData,
     savePassword,
     resetConfig,
-    onChangeInput
+    onChangeInput,
+    errores
   } = useConfiguracion(initial);
 
   const {
-    nombre, 
+    nombre,
     apellido,
   } = userData
 
@@ -98,6 +79,7 @@ const Configuracion = () => {
           <h2 className="config-title">Configuraciones</h2>
           <p className="config-desc">Personaliza tu experiencia según tus preferencias</p>
         </div>
+
 
         <div className="config-block">
           <div className="block-header">
@@ -126,6 +108,7 @@ const Configuracion = () => {
                     className="text-input"
                     maxLength={50}
                   />
+                  {errores.nombre && <span style={{ color: 'red' }}>{errores.nombre}</span>}
                 </div>
                 <div className="input-group">
                   <label htmlFor="apellido-usuario" className="input-label">Nuevo Apellido:</label>
@@ -139,10 +122,11 @@ const Configuracion = () => {
                     className="text-input"
                     maxLength={50}
                   />
+                  {errores.apellido && <span style={{ color: 'red' }}>{errores.apellido}</span>}
                 </div>
                 <button
                   className="dashboard-btn dashboard-btn-primary"
-                  onClick={saveName}
+                  onClick={saveData}
                 >
                   <ion-icon name="refresh"></ion-icon>
                   Actualizar Datos
@@ -170,9 +154,11 @@ const Configuracion = () => {
 
                 <PasswordInput
                   id="actual-password"
+                  name="current"
                   label="Contraseña Actual:"
                   placeholder="Ingrese su contraseña actual"
                   value={passwords.current}
+                  err={errores.current}
                   onChange={handlePasswordChange}
                   toggleVisibility={togglePasswordVisibility}
                   visible={passwordVisibility['actual-password']}
@@ -180,19 +166,24 @@ const Configuracion = () => {
 
                 <PasswordInput
                   id="nueva-password"
+                  name="new"
                   label="Nueva Contraseña:"
                   placeholder="Ingrese su nueva contraseña"
                   value={passwords.new}
+                  err={errores.new}
                   onChange={handlePasswordChange}
                   toggleVisibility={togglePasswordVisibility}
                   visible={passwordVisibility['nueva-password']}
                 />
+
                 <PasswordInput
                   id="confirm-password"
+                  name="confirm"
                   label="Confirmar Contraseña:"
                   placeholder="Confirme su nueva contraseña"
                   value={passwords.confirm}
                   onChange={handlePasswordChange}
+                  err={errores.confirm}
                   toggleVisibility={togglePasswordVisibility}
                   visible={passwordVisibility['confirm-password']}
                 />
@@ -207,7 +198,6 @@ const Configuracion = () => {
                       }}
                     ></div>
                   </div>
-                  <span className="meter-text">{`Fuerza de contraseña: ${passwordStrength.status}`}</span>
                 </div>
                 <button
                   className="dashboard-btn dashboard-btn-primary"

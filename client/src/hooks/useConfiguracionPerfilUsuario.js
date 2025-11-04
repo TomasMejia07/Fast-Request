@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { authHeader } from "../helpers/authHeader";
+import { validacionDeCampos } from "../helpers/validacionDeCampos";
 
 const useConfiguracionPerfilUsuario = (initial) => {
 
@@ -9,6 +10,10 @@ const useConfiguracionPerfilUsuario = (initial) => {
   const [navActive, setNavActive] = useState(false);
   const [profileMenuActive, setProfileMenuActive] = useState(false);
   const [userData, setUserData] = useState(initial);
+  const [errores, setErrores] = useState({
+    telefono: '',
+    direccion: '',
+  });
   const [isEditing, setIsEditing] = useState(false);
   const profileMenuRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -143,7 +148,21 @@ const API_GET = async () => {
     e.preventDefault();
     try {
 
+      const telefonoError = validacionDeCampos('telefono', userData.telefono);
+      const direccionError = validacionDeCampos('direccion', userData.direccion);
+
       const res = await API_PUT();
+
+      setErrores({
+        ...errores,
+        telefono: telefonoError,
+        direccion: direccionError,
+      })
+
+      if (telefonoError || direccionError) {
+        showNotification("Por favor corrige los errores en el formulario", "error");
+        return;
+      }
 
       if (res && res.perfil) {
         await API_GET();
@@ -178,7 +197,6 @@ const API_GET = async () => {
     }
   }
 
-  
 
   const handleInputChange = ({ target }) => {
 
@@ -188,7 +206,13 @@ const API_GET = async () => {
       ...userData,
       [name]: value
     });
+
+    setErrores({
+      ...errores,
+      [name]: validacionDeCampos(name, value)
+    });
   };
+
 
 
   useEffect(() => {
@@ -300,7 +324,7 @@ const API_GET = async () => {
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
   }
 
-  const fechaNacimineto = userData.fechaNacimiento
+  const fechaNacimiento = userData.fechaNacimiento
     ? new Date(userData.fechaNacimiento).toISOString().split('T')[0]
     : ''
 
@@ -320,8 +344,9 @@ const API_GET = async () => {
     showNotification,
     handleProfilePictureChange,
     date,
-    fechaNacimineto,
-    API_GET
+    fechaNacimiento,
+    API_GET,
+    errores
   };
 };
 
