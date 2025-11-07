@@ -41,22 +41,19 @@ const ClientesDashboard = () => {
     const validaciones = async () => {
 
         const nombreClienteError = validacionDeCampos('NombreCliente', formData.NombreCliente)
-        const NumeroDocumentoError = validacionDeCampos('NumeroDocumento', formData.NumeroDocumento)
         const CorreoElectronicoError = validacionDeCampos('CorreoElectronico', formData.CorreoElectronico)
         const NumeroContactoError = validacionDeCampos('NumeroContacto', formData.NumeroContacto)
 
         let erroresTemp = {
             NombreCliente: nombreClienteError,
-            NumeroDocumento: NumeroDocumentoError,
             CorreoElectronico: CorreoElectronicoError,
             NumeroContacto: NumeroContactoError
         }
 
-        if (!NumeroDocumentoError || !CorreoElectronicoError || !NumeroContactoError) {
+        if (!CorreoElectronicoError || !NumeroContactoError) {
             const backendErrores = await validacionDeClientes()
             erroresTemp = {
                 ...erroresTemp,
-                NumeroDocumento: backendErrores?.NumeroDocumento || erroresTemp.NumeroDocumento,
                 CorreoElectronico: backendErrores?.CorreoElectronico || erroresTemp.CorreoElectronico,
                 NumeroContacto: backendErrores?.NumeroContacto || erroresTemp.NumeroContacto
             }
@@ -101,7 +98,6 @@ const ClientesDashboard = () => {
                     <thead className="tabladashb_thead">
                         <tr>
                             <th className="tabladashb_thead_th">Nombre  del Cliente<ion-icon name="chevron-expand-outline"></ion-icon></th>
-                            <th className="tabladashb_thead_th">Documento<ion-icon name="chevron-expand-outline"></ion-icon></th>
                             <th className="tabladashb_thead_th">Email<ion-icon name="chevron-expand-outline"></ion-icon></th>
                             <th className="tabladashb_thead_th">Numero de contacto<ion-icon name="chevron-expand-outline"></ion-icon></th>
                             <th className="tabladashb_thead_th">Estado<ion-icon name="chevron-expand-outline"></ion-icon></th>
@@ -112,7 +108,6 @@ const ClientesDashboard = () => {
                         {funtionFinally.map((customer) => (
                             <tr className="tabladashb_tbody_tr" key={customer.Id}>
                                 <td className="tabladashb_tbody_tr_td">{customer.NombreCliente.toLowerCase()}</td>
-                                <td className="tabladashb_tbody_tr_td">{customer.NumeroDocumento.toLowerCase()}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.CorreoElectronico.toLowerCase()}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.NumeroContacto}</td>
                                 <td className="tabladashb_tbody_tr_td">{customer.EstadoCliente}</td>
@@ -192,21 +187,6 @@ const ClientesDashboard = () => {
                             required
                         />
                         {errores.NombreCliente && <div style={{ color: 'red' }}>{errores.NombreCliente}</div>}
-                    </div>
-
-
-                    <div className="dashinputs_formulario">
-                        <label htmlFor="NumeroDocumento">Numero de Documento:</label>
-                        <input
-                            type="text"
-                            name="NumeroDocumento"
-                            id="NumeroDocumento"
-                            className="dashinputs_formulario_Labels"
-                            value={formData.NumeroDocumento}
-                            onChange={onChangeInputs}
-                            required
-                        />
-                        {errores.NumeroDocumento && <div style={{ color: 'red' }}>{errores.NumeroDocumento}</div>}
                     </div>
 
                     <div className="dashinputs_formulario">

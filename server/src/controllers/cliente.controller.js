@@ -21,12 +21,11 @@ exports.VisualizarClientes = async (req, res) => {
 
 exports.CrearClientes = async (req, res) => {
     try {
-        const { NombreCliente, NumeroDocumento, CorreoElectronico, NumeroContacto, EstadoCliente } = req.body
+        const { NombreCliente, CorreoElectronico, NumeroContacto, EstadoCliente } = req.body
 
         const nuevoCliente = await Clientes.create(
             {
                 NombreCliente,
-                NumeroDocumento,
                 CorreoElectronico,
                 NumeroContacto,
                 EstadoCliente
@@ -115,9 +114,9 @@ exports.CambioEstadoActivoClientes = async (req, res) => {
 
 exports.validacionDeCampos = async (req, res) => {
     try {
-        const { NumeroDocumento, CorreoElectronico, NumeroContacto } = req.body;
+        const { CorreoElectronico, NumeroContacto } = req.body;
 
-        if (!NumeroDocumento || !CorreoElectronico || !NumeroContacto) {
+        if (!CorreoElectronico || !NumeroContacto) {
             return res.status(400).json({ message: 'Debes proporcionar todos los campos requeridos' });
         }
 
@@ -127,7 +126,6 @@ exports.validacionDeCampos = async (req, res) => {
                 // Op:  Significa operaciones lógicas en las consultas
                 // or: Significa "o" lógico, es decir, al menos una de las condiciones debe cumplirse
                 [Op.or]: [
-                    { NumeroDocumento: NumeroDocumento.trim() },
                     { CorreoElectronico: CorreoElectronico.trim().toLowerCase() },
                     { NumeroContacto: NumeroContacto.trim() }
                 ]
@@ -135,9 +133,6 @@ exports.validacionDeCampos = async (req, res) => {
         });
 
         const resultados = {
-            NumeroDocumento: clientes.some(client => client.NumeroDocumento === NumeroDocumento.trim()) ?
-                { existe: true, mensaje: 'Este documento ya existe.' } : '',
-
             CorreoElectronico: clientes.some(client => client.CorreoElectronico === CorreoElectronico.trim().toLowerCase()) ?
                 { existe: true, mensaje: 'Este correo ya existe.' } : '',
 

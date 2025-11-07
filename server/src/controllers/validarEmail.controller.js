@@ -25,7 +25,7 @@ exports.validarEmail = async (req, res) => {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
             },
-            tls: {
+            tls: { // SOLO ES PARA DESARROLLO ESTO SE DEBE DE QUITAR SERIA UN GRAN PROBLEMA DE SEGURIDAD
                 rejectUnauthorized: false
             }
         });
