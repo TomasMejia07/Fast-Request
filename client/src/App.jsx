@@ -27,6 +27,18 @@ import CocinaDashboard from './pages/Dashboard/CocinaDashboard';
 import Complementos from './pages/Dashboard/complementos';
 import ComplementosCompletos from './pages/Dashboard/complementosCompletos';
 
+import HomePage from './pages/Home/homePage';
+import NosotrosPage from './pages/Home/Nosotros'
+import ServiciosPage from './pages/Home/Servicios'
+import PoliticaPage from './pages/Home/Politica'
+import TerminosPage from './pages/Home/Terminos'
+import ContactanosPage from './pages/Home/Contactanos'
+import VerMasPage from './pages/Home/VerMas'
+import FooterPage from './components/Home/Footer'
+import NavbarPage from './components/Home/Navbar'
+import MenuPage from './components/Home/Menu_Hamburguer'
+
+
 const AppContent = () => {
 
   const location = useLocation(); 
@@ -64,6 +76,19 @@ const AppContent = () => {
           <Route path="/registro" element={<Registro />} />
           <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
           <Route path='/miPagina' element={<MiPagina />} /> 
+
+
+          <Route path='/home' element={<HomePage />} /> 
+          <Route path='/home/nosotros' element={<NosotrosPage />} /> 
+          <Route path='/home/servicios' element={<ServiciosPage />} /> 
+          <Route path='/home/politica' element={<PoliticaPage />} /> 
+          <Route path='/home/terminos' element={<TerminosPage />} /> 
+          <Route path='/home/contactanos' element={<ContactanosPage />} /> 
+          <Route path='/home/verMas' element={<VerMasPage />} /> 
+          <Route path='/home/footer' element={<FooterPage />} /> 
+          <Route path='/home/navbar' element={<NavbarPage />} />
+
+
         </Routes>
       )}
     </>

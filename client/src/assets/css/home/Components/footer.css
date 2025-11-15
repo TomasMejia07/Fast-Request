@@ -1,0 +1,56 @@
+/* ---------------Footer--------------- */
+
+.footer-homePage {
+    padding: 40px 20px;
+    margin-top: 30rem;
+    border-top: 1px solid #d8d8d8;
+    background-color: white;
+    z-index: 2;
+}
+
+.footer-homePage .footer-container-homePage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 100px auto;
+}
+
+.footer-homePage .footer-container-homePage .footer-section-homePage {
+    flex: 1 1 250px;
+    min-width: 250px;
+    line-height: 1.5rem;
+    color: black;
+}
+
+.footer-homePage .footer-container-homePage .footer-section-homePage .title-footer-homePage {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ffa600;
+    display: inline-block;
+    padding-bottom: 5px;
+    color: black;
+}
+
+.footer-homePage .footer-container-homePage .footer-section-homePage  .a-link-footer-homePage {
+    display: block;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: color 0.3s ease;
+    color: black;
+}
+
+.footer-homePage .footer-container-homePage .footer-section-homePage .a-link-footer-homePage:hover {
+    color: #ffa600;
+}
+
+.footer-bottom-homePage {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #d8d8d8;
+}
+
+.footer-bottom-homePage .bottom-footer-homePage{
+    color: rgb(95, 95, 95);
+}

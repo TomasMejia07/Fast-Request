@@ -1,0 +1,698 @@
+
+.servicesPage {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "General Sans", sans-serif;
+    text-decoration: none;
+    list-style-type: none !important;
+    min-height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+    touch-action: manipulation;
+    background-color: white ;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+
+.navbar-homePage.navbar-ServicesPage {
+    background-color: white !important;
+}
+
+
+.navbar-homePage.navbar-ServicesPage .link-a-navbarHome-homePage {
+    color: black !important;
+}
+
+.navbar-homePage.navbar-ServicesPage .btn-homePage {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border: 2px solid rgb(0, 0, 0);
+    box-shadow: 0 0 10px black;
+}
+
+
+/*--------------- Menu Lateral ---------------*/
+
+.sidebar-servicesPage {
+    width: 280px;
+    background: #fff;
+    padding: 40px 20px;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    border-right: 1px solid #eee;
+}
+
+.sidebar-nav-servicesPage {
+    list-style: none;
+    margin-top: 100px;
+    list-style-type: none !important;
+}
+
+.sidebar-nav-servicesPage li {
+    margin-bottom: 7px;
+    list-style-type: none !important;
+}
+
+.sidebar-nav-servicesPage a {
+    text-decoration: none;
+    color: #3e3e3e !important;
+    font-size: 16px;
+    padding: 8px 15px;
+    display: block;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+    list-style-type: none !important;
+}
+
+.sidebar-nav-servicesPage a.active {
+    border-left: 4px solid #ff6b00;
+    border-radius: 15px;
+    transition: border-left 0.5s ease-in-out;
+    text-shadow:  0 0 5px #ff6b00;
+}
+
+
+.sidebar-nav-servicesPage a:hover {
+    scale: 1.05;
+    transition: scale 0.3s ease-in-out;
+
+}
+
+
+
+/* --------------- Contenido Principal --------------- */
+
+
+.main-content-servicesPage {
+    margin: 100px  0  0 280px;
+    height: 100vh;
+    overflow-y: visible;
+    padding: 40px;
+}
+
+#introduccion h4 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: black !important;
+}
+
+#introduccion p {
+    margin-bottom: 20px;
+    color: #000000 !important;
+    line-height: 1.6;
+    font-size: 18px;
+    text-align: justify;
+}
+
+.section-servicesPage {
+    min-height: 100vh;
+    padding: 140px 0;
+    border-bottom: 1px solid #424242 !important;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-servicesPage:last-child {
+    border-bottom: none;
+}
+
+.section-servicesPage h4 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: black !important;
+    padding: 60px 0;
+}
+
+
+.section-servicesPage h6 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: black !important;
+}
+
+.section-servicesPage h5 {
+    font-size: 19px;
+    margin-bottom: 20px;
+    color: black !important;
+    padding-left: 30px;
+}
+
+.section-servicesPage li{
+    list-style-type: none !important;
+}
+
+
+.section-servicesPage p {
+    margin-bottom: 20px;
+    color: #626262 !important;
+    line-height: 1.6;
+    padding-left: 50px;
+    font-size: 18px;
+}
+
+
+
+/* ---------------- Diseño responsivo --------------- */
+@media screen and (max-width: 1440px) {
+
+    .navbar-homePage .container-menu-homePage {
+        max-width: 1200px;
+    }
+
+    .container-servicesPage {
+        max-width: 1360px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .main-content-servicesPage {
+        padding: 20px;
+    }
+
+}
+
+
+@media screen and (max-width: 1024px) {
+    .navbar-homePage .container-menu-homePage {
+        max-width: 900px;
+    }
+
+    .container-servicesPage {
+        max-width: 960px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-servicesPage {
+        width: 100%;
+        position: relative;
+        padding: 10px;
+    }
+
+    .sidebar-nav-servicesPage {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .sidebar-nav-servicesPage li {
+        margin: 5px;
+    }
+
+    .main-content-servicesPage {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .main-content-servicesPage h4 {
+        font-size: 1.1rem;
+    }
+
+    .main-content-servicesPage h6 {
+        font-size: 20px;
+        text-align: center;
+
+    }
+
+    .main-content-servicesPage h5 {
+        text-align: center;
+        font-size: 16px;
+        padding: 20px;
+    }
+
+    .section-servicesPage p {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 16px;
+        padding-right: 50px;
+    }
+
+    #introduccion p {
+        text-align: justify;
+        padding: 0;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .navbar-homePage {
+        height: 70px;
+    }
+
+    .navbar-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .navbar-homePage .menu-homePage ul {
+        gap: 5px;
+    }
+
+    .navbar-homePage .menu-homePage ul li a {
+        font-size: 14px;
+    }
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        width: 90px;
+        height: 32px;
+        margin-left: 5px;
+    }
+
+    /*=================*/
+
+    .container-servicesPage {
+        max-width: 768px;
+        padding: 0 10px;
+    }
+
+    .main-content-servicesPage {
+        padding: 10px;
+    }
+
+    .section-servicesPage {
+        padding: 10px 5px;
+    }
+
+    .section-servicesPage h4 {
+        font-size: 1.1rem;
+    }
+
+    .section-servicesPage h6 {
+        font-size: 15px;
+        text-align: center;
+
+    }
+
+    .section-servicesPage h5 {
+        text-align: center;
+        font-size: 16px;
+        padding: 20px;
+    }
+
+    .section-servicesPage p {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 16px;
+        padding-right: 50px;
+    }
+
+    #introduccion p {
+        text-align: justify;
+        padding: 0;
+    }
+
+
+    .sidebar.is-active {
+        transform: translate(0, 0);
+    }
+
+    .sidebar-servicesPage {
+        position: fixed;
+        z-index: 888;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.747);
+        width: 100%;
+        transform: translateX(100%);
+        overflow-y: auto;
+    }
+
+    .sidebar-nav-servicesPage {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+    }
+
+    .sidebar-nav-servicesPage li a {
+        text-align: center;
+        text-decoration: none;
+        padding: 2rem;
+        width: inherit;
+        display: block;
+        font-size: 1.5rem;
+        color: white;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .sidebar-nav-servicesPage li a:hover {
+        font-weight: bolder;
+        color: #ff6b00;
+
+    }
+
+    .sidebar-nav-servicesPage li a.active {
+        border-left: 3px solid #ff6b00;
+        font-weight: bold;
+        color: white;
+    }
+
+}
+
+@media screen and (max-width: 630px) {
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .container-menu-homePage .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu-homePage .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+    .container-menu-homePage .menu-homePage .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+}
+
+@media screen and (max-width: 480px) {
+    .logo-homePage img {
+        width: 70px;
+    }
+
+    .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.is-activee {
+        transform: translateY(0);
+    }
+
+
+    .menu-homePage nav {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        display: none;
+
+    }
+
+
+    .container-servicesPage {
+        max-width: 460px;
+        padding: 0 10px;
+    }
+
+    .main-content-servicesPage {
+        padding: 10px;
+    }
+
+    .section-servicesPage {
+        padding: 10px 5px;
+    }
+
+    .section-servicesPage h4 {
+        font-size: 1.1rem;
+    }
+
+    .section-servicesPage h6 {
+        font-size: 15px;
+        text-align: center;
+
+    }
+
+    .section-servicesPage h5 {
+        font-size: 16px;
+    }
+
+    .section-servicesPage p {
+        margin-bottom: 20px;
+        padding-left: 25px;
+        font-size: 16px;
+    }
+
+    #introduccion p {
+        text-align: justify;
+        padding: 0;
+    }
+
+
+    .sidebar-servicesPage.is-active {
+        transform: translate(0, 0);
+    }
+
+    .sidebar-servicesPage {
+        position: fixed;
+        z-index: 888;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.747);
+        width: 100%;
+        transform: translateX(100%);
+        overflow-y: auto;
+    }
+
+    .sidebar-nav-servicesPage {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+    }
+
+    .sidebar-nav-servicesPage li a {
+        text-align: center;
+        text-decoration: none;
+        padding: 2rem;
+        width: inherit;
+        display: block;
+        font-size: 1.5rem;
+        color: var(--white);
+        transition: all 0.5s ease-in-out;
+    }
+
+    .sidebar-nav-servicesPage li a:hover {
+        font-weight: bolder;
+        color: #ff6b00;
+
+    }
+
+    .sidebar-nav-servicesPage li a.active {
+        border-left: 3px solid #ff6b00;
+        font-weight: bold;
+        color: white;
+    }
+
+}
+
+
+@media screen and (max-width: 320px) {
+    .logo-homePage img {
+        width: 70px;
+    }
+
+    .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.is-activee {
+        transform: translateY(0);
+    }
+
+
+    .menu-homePage nav {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+    .container-servicesPage {
+        max-width: 320px;
+        padding: 0 10px;
+    }
+
+    .main-content-servicesPage {
+        padding: 10px;
+    }
+
+    .section-servicesPage {
+        padding: 10px 5px;
+    }
+
+    .section-servicesPage h4 {
+        font-size: 1.1rem;
+    }
+
+    .section-servicesPage h6 {
+        font-size: 15px;
+        text-align: center;
+
+    }
+
+    .section-servicesPage h5 {
+        font-size: 14px;
+    }
+
+    .section-servicesPage p {
+        margin-bottom: 20px;
+        padding-left: 25px;
+        font-size: 16px;
+    }
+
+    #introduccion p {
+        text-align: justify;
+        padding: 0;
+    }
+
+
+    .sidebar-servicesPage.is-active {
+        transform: translate(0, 0);
+    }
+
+
+    .sidebar-servicesPage {
+        position: fixed;
+        z-index: 888;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.747);
+        width: 100%;
+        transform: translateX(100%);
+        overflow-y: auto;
+    }
+
+    .sidebar-nav-servicesPage {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+    }
+
+    .sidebar-nav-servicesPage li a {
+        text-align: center;
+        text-decoration: none;
+        padding: 2rem;
+        width: inherit;
+        display: block;
+        font-size: 1.5rem;
+        color: white;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .sidebar-nav-servicesPage li a:hover {
+        font-weight: bolder;
+        color: #ff6b00;
+
+    }
+
+    .sidebar-nav-servicesPage li a.active {
+        border-left: 3px solid #ff6b00;
+        font-weight: bold;
+        color: white;
+    }
+
+
+}

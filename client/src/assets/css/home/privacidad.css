@@ -1,0 +1,365 @@
+.privacidadPage {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "General Sans", sans-serif;
+    text-decoration: none;
+    list-style-type: none;
+    min-height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+    touch-action: manipulation;
+    background-color: white;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    touch-action: manipulation;
+}
+
+
+/*----------------------------------*/
+
+.header-privacidadPage {
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 200px;
+    background-color: #35424a;
+}
+
+.header-privacidadPage h1 {
+    color: white;
+    margin: 50px 0 0 0;
+}
+
+.container-privacidadPage {
+    width: 85%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-privacidadPage h2 {
+    margin-top: 15px;
+    color: #35424a;
+}
+
+.container-privacidadPage p {
+    padding: 10px;
+    color: lightslategray;
+}
+
+
+.footer-privacidadPage {
+    margin-top: 200px;
+    text-align: center;
+    padding: 20px 0;
+    background: #35424a;
+    color: #ffffff;
+}
+
+.footer-privacidadPage p a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 22px;
+}
+
+
+.footer-privacidadPage a:hover {
+    text-decoration: underline;
+}
+
+.container-privacidadPage ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.container-privacidadPage li {
+    margin-bottom: 10px;
+    color: lightslategray;
+}
+
+/* --------------- Diseño Responsivo ---------------*/
+
+@media (max-width: 1440px) {
+    .navbar-homePage .container-menu-homePage {
+        max-width: 1200px;
+    }
+
+    .btn-menuhomePage {
+        display: none;
+    }
+
+    .header-privacidadPage h1 {
+        color: white;
+        margin: 0;
+        margin-top: 50px;
+    }
+
+}
+
+
+@media (max-width: 1024px) {
+    .navbar-homePage .container-menu-homePage {
+        max-width: 900px;
+    }
+
+    .btn-menuhomePage {
+        display: none;
+    }
+
+    .header-privacidadPage h1 {
+        color: white;
+        margin: 0;
+        margin-top: 50px;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+    .navbar-homePage {
+        height: 70px;
+    }
+
+    .navbar-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .navbar-homePage .menu-homePage ul {
+        gap: 5px;
+    }
+
+    .navbar-homePage .menu-homePage ul li a {
+        font-size: 14px;
+    }
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        width: 90px;
+        height: 32px;
+        margin-left: 5px;
+    }
+
+    .btn-menu {
+        display: none;
+    }
+
+    .header-privacidadPage h1 {
+        color: white;
+        margin: 0;
+        margin-top: 50px;
+    }
+
+}
+
+@media screen and (max-width: 630px) {
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .container-menu-homePage .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu-homePage .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+    .container-menu-homePage .menu-homePage .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+    .btn-menu {
+        position: fixed;
+        z-index: 1001;
+        top: 10px;
+        right: 1vw;
+        width: 3rem;
+        height: 3rem;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        margin: 0 15px 5px 0;
+        cursor: pointer;
+    }
+
+    .btn-menu i {
+        font-size: 1.5rem;
+        color: #ff6b00;
+    }
+
+    .navbar-homePage .menu-homePage ul li a::after {
+        content: '';
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 0 15px white;
+        height: 3px;
+        width: 0;
+        left: 0;
+        bottom: -10px;
+        transition: width 0.4s ease-in-out;
+    }
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        display: none;
+    }
+}
+
+
+
+@media (max-width: 480px) {
+
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .menu-homePage{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+
+    .menu-homePage .menu-act {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+    .header-privacidadPage h1 {
+        color: white;
+        margin: 0;
+        margin-top: 50px;
+    }
+
+
+}
+
+
+@media (max-width: 320px) {
+
+    .container-menu-homePage .logo-homePage img {
+        width: 70px;
+    }
+
+    .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+
+    .menu-homePage .menu-act {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+    .header-privacidadPage h1 {
+        color: white;
+        margin: 0;
+        margin-top: 50px;
+    }
+
+}

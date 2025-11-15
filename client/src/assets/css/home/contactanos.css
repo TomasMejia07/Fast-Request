@@ -1,0 +1,507 @@
+.contactPage {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "General Sans", sans-serif;
+    text-decoration: none;
+    list-style-type: none;
+    min-height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+    touch-action: manipulation;
+    background-color: white;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    touch-action: manipulation;
+}
+
+
+
+/*---------------- Main ---------------*/
+
+.container-contactPage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 100px auto;
+    padding: 2rem;
+    gap: 3rem;
+}
+
+.information_txt-contactPage {
+    flex: 1;
+}
+
+.information_txt-contactPage h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.information_txt-contactPage h1 span {
+    color: #ff7700;
+    text-shadow: 0 0 7px #ffc67b;
+}
+
+.img-contactPage {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.img-1-contactPage {
+    width: 100%;
+    z-index: 2;
+}
+
+
+.form-contactPage {
+    flex: 1;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-contactPage h2 {
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-contactPage label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #000000;
+    margin-top: 20px;
+}
+
+.input-contactPage {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-contactPage:focus {
+    outline: none;
+    border-color: #ff7700;
+    box-shadow: 0 0 5px #ffc67b;
+}
+
+.textarea-contactPage {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    resize: none;
+}
+
+.textarea-contactPage:focus {
+    outline: none;
+    border-color: #ff7700;
+    box-shadow: 0 0 5px #ffc67b;
+}
+
+.enviar-contactPage {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 0 0 10px black;
+    margin-top: 10px;
+}
+
+.enviar-contactPage:hover {
+    scale: 1.02;
+    box-shadow: 0 0 15px black;
+    transition: scale 0.5s ease-in-out;
+}
+
+
+
+/* ---------------- Diseño responsivo --------------- */
+@media screen and (max-width: 1440px) {
+
+    .navbar-homePage .container-menu-homePage {
+        max-width: 1200px;
+    }
+
+    .container-contactPage {
+        max-width: 1200px;
+        padding: 1.5rem;
+    }
+
+    .information_txt-contactPage h1 {
+        font-size: 2.2rem;
+    }
+
+
+    .footer-homePage .footer-container-homePage {
+        padding: 0 30px;
+        gap: 30px;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+
+    .navbar-homePage .container-menu-homePage {
+        max-width: 900px;
+    }
+
+
+    .container-contactPage {
+        max-width: 900px;
+        padding: 1.2rem;
+    }
+
+    .information_txt-contactPage h1 {
+        font-size: 2rem;
+    }
+
+    .footer-container-homePage {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .footer-section-homePage {
+        flex: 1 1 300px;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 80px;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .navbar-homePage {
+        height: 70px;
+    }
+
+    .navbar-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .navbar-homePage .menu-homePage ul {
+        gap: 5px;
+    }
+
+    .navbar-homePage .menu-homePage ul li a {
+        font-size: 14px;
+    }
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        width: 90px;
+        height: 32px;
+        margin-left: 5px;
+    }
+
+
+    .container-contactPage {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .information_txt-contactPage {
+        text-align: center;
+    }
+
+    .information_txt-contactPage h1 {
+        font-size: 1.8rem;
+    }
+
+    .img-contactPage {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .form-contactPage {
+        width: 70%;
+    }
+
+    .footer-container-homePage {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section-homePage {
+        flex: 1 1 100%;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 60px;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .container-menu-homePage .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu-homePage .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+    .container-menu-homePage .menu-homePage .menu-act-homePage {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+}
+
+
+@media screen and (max-width: 480px) {
+
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    /* .container-menu-homePage .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu-homePage .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+    .container-menu-homePage .menu-homePage .menu-act-homePage {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act-homePage li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act-homePage li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    } */
+
+
+    .container-contactPage {
+        padding: 0.8rem;
+    }
+
+    .information_txt-contactPage h1 {
+        font-size: 1.5rem;
+    }
+
+    .img-contactPage {
+        max-width: 300px;
+    }
+
+    .form-contactPage {
+        padding: 1.5rem;
+    }
+
+
+    .footer-homePage {
+        padding: 20px 10px;
+    }
+
+    .footer-homePage .footer-container-homePage {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage {
+        flex: 1 1 100%;
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage li {
+        justify-content: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 10px;
+
+    }
+}
+
+
+
+@media screen and (max-width: 320px) {
+    .container-menu-homePage .logo-homePage img {
+        width: 70px;
+    }
+
+    /* .container-menu-homePage .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu-homePage .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+    .container-menu-homePage .menu-homePage .menu-act-homePage {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act-homePage li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act-homePage li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    } */
+
+
+
+    .container-contactPage {
+        padding: 0.5rem;
+    }
+
+    .information_txt-contactPage h1 {
+        font-size: 1.3rem;
+    }
+
+    .img-contactPage {
+        max-width: 280px;
+    }
+
+    .form-contactPage {
+        padding: 1rem;
+    }
+
+    .input-contactPage {
+        padding: 0.6rem;
+    }
+
+
+    .footer-homePage {
+        padding: 20px 0;
+    }
+
+    .footer-homePage .footer-container-homePage {
+        flex-direction: column;
+        gap: 25px;
+        margin: 0 auto;
+        padding: 0 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage {
+        flex: 1 1 100%;
+        min-width: auto;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage h4 {
+        margin: 0 auto 10px;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage li {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 10px;
+
+    }
+
+    .footer-bottom-homePage {
+        margin-top: 20px;
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}

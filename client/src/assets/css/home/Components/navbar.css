@@ -1,0 +1,126 @@
+
+/*--------------- Navbar ---------------*/
+
+.navbar-homePage {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+    width: 100%;
+    padding: 0;
+}
+
+
+.navbar-homePage .container-menu-homePage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    height: 100%;
+    max-width: 1300px;
+    padding: 0 20px;
+}
+
+
+
+.navbar-homePage .logo-homePage {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.navbar-homePage .logo-homePage .logo-navbarHome-homePage {
+    width: 100px;
+    height: auto;
+}
+
+
+.navbar-homePage .menu-homePage {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar-homePage .menu-homePage .menu-act {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-homePage .menu-homePage .menu-act .li-navbarHome-homePage {
+    list-style-type: none;
+}
+
+.navbar-homePage .menu-homePage .menu-act .li-navbarHome-homePage .link-a-navbarHome-homePage {
+    position: relative;
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 5px 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.navbar-homePage .menu-homePage .menu-act .li-navbarHome-homePage .link-a-navbarHome-homePage::after {
+    content: '';
+    position: absolute;
+    background-color: black;
+    box-shadow: 0 0 10px black;
+    height: 3px;
+    width: 0;
+    left: 0;
+    bottom: -10px;
+    transition: width 0.4s ease-in-out;
+}
+
+.navbar-homePage .menu-homePage .menu-act .li-navbarHome-homePage .link-a-navbarHome-homePage:hover {
+    text-shadow: 0 0 10px rgb(255, 255, 255);
+}
+
+.navbar-homePage .menu-homePage .menu-act .li-navbarHome-homePage .link-a-navbarHome-homePage:hover::after {
+    width: 100%;
+}
+
+.navbar-homePage .menu-homePage .btn-homePage {
+    width: 100px;
+    height: 35px;
+    border-radius: 25px;
+    margin-left: 20px;
+    border: 2px solid rgb(0, 0, 0);
+    box-shadow: 0 0 10px black;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+}
+
+.navbar-homePage .menu-homePage .btn-homePage:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px black;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.active-scroll{
+    background-color: rgba(0, 0, 0, 0.599);
+    opacity: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease,  opacity 0.5s ease;
+}
+
+.navbar-homePage.active-scroll .link-a-navbarHome-homePage{
+    color: white !important;
+}
+
+
+.navbar-homePage.active-scroll .btn-homePage {
+    background-color: #ffffff ;
+    color: rgb(0, 0, 0);
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+}

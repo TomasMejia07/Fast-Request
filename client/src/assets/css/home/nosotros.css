@@ -1,0 +1,898 @@
+.aboutPage {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "General Sans", sans-serif;
+    text-decoration: none;
+    list-style-type: none;
+    min-height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+    touch-action: manipulation;
+    background-color: white;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+
+/*--------------- Info Nosotros ---------------*/
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.hero-section {
+    background: linear-gradient(45deg, #ff7700, #ffc67b);
+    color: white;
+    text-align: center;
+    padding: 120px 20px;
+    margin-top: 80px;
+}
+
+.hero-section h1 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero-section p {
+    font-size: 1.3em;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.about-container p {
+    color: black;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.section-title-about {
+    font-size: 2.2em;
+    margin-bottom: 40px;
+    text-align: center;
+    color: black;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title-about::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: #ff7700;
+}
+
+
+.mission-section {
+    background: #f8f9fa;
+    padding: 60px 40px;
+    border-radius: 15px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.team-section {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-member {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+.team-member h3 {
+    font-size: 1.4em;
+    margin: 15px 0 10px;
+    color: black;
+}
+
+
+.mission-section p {
+    font-size: 1.2em;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.feature-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+.statistics-section {
+    background: linear-gradient(45deg, #ff7700, #ffc67b);
+    padding: 80px 20px;
+    color: white;
+    margin: 60px 0;
+    border-radius: 15px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+}
+
+.stat-item {
+    padding: 20px;
+}
+
+.stat-item p {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.timeline-section {
+    padding: 60px 0;
+    margin-bottom: 60px;
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.timeline-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.testimonials-section {
+    background: #f8f9fa;
+    padding: 60px 20px;
+    margin-bottom: 60px;
+    border-radius: 15px;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.testimonial-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.testimonial-card h3 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.values-section {
+    padding: 60px 0;
+    margin-bottom: 60px;
+}
+
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+}
+
+.value-card {
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.value-icon {
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+.value-card h3 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: black;
+}
+
+
+/* --------------- Diseño Responsivo ---------------*/
+
+@media (max-width: 1440px) {
+    .about-container {
+        max-width: 1200px;
+        padding: 30px;
+    }
+
+    .hero-section {
+        padding: 100px 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5em;
+    }
+
+    .features-grid,
+    .team-grid,
+    .stats-grid,
+    .values-grid {
+        gap: 25px;
+    }
+
+    .testimonials-grid {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .footer-homePage .footer-container-homePage {
+        padding: 0 30px;
+        gap: 30px;
+    }
+
+}
+
+
+
+@media (max-width: 1024px) {
+    .about-container {
+        max-width: 900px;
+        padding: 25px;
+    }
+
+    .hero-section {
+        padding: 80px 30px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.2em;
+    }
+
+    .hero-section p {
+        font-size: 1.1em;
+        max-width: 600px;
+    }
+
+
+    .features-grid,
+    .team-grid,
+    .stats-grid,
+    .values-grid,
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+
+    .feature-card,
+    .team-member,
+    .testimonial-card,
+    .value-card {
+        padding: 25px;
+    }
+
+    .timeline {
+        max-width: 700px;
+    }
+
+    .stat-number {
+        font-size: 2.2em;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .footer-container-homePage {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .footer-section-homePage {
+        flex: 1 1 300px;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 80px;
+        margin-right: 15px;
+    }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+    .navbar-homePage {
+        height: 70px;
+    }
+
+    .navbar-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .navbar-homePage .menu-homePage ul {
+        gap: 5px;
+    }
+
+    .navbar-homePage .menu-homePage ul li a {
+        font-size: 14px;
+    }
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        width: 90px;
+        height: 32px;
+        margin-left: 5px;
+    }
+
+    .about-container {
+        max-width: 700px;
+        padding: 20px;
+    }
+
+    .hero-section {
+        padding: 60px 25px;
+        margin-top: 60px;
+    }
+
+    .hero-section h1 {
+        font-size: 2em;
+        margin-bottom: 15px;
+    }
+
+    .hero-section p {
+        font-size: 1em;
+        max-width: 500px;
+    }
+
+
+    .features-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto 40px;
+    }
+
+
+    .team-grid,
+    .stats-grid,
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .section-title {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+
+    .mission-section {
+        padding: 40px 20px;
+    }
+
+    .mission-section p {
+        font-size: 1.1em;
+    }
+
+    .timeline-item {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .statistics-section {
+        padding: 50px 20px;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-container-homePage {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section-homePage {
+        flex: 1 1 100%;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 60px;
+        margin-right: 15px;
+    }
+
+}
+
+@media screen and (max-width: 630px) {
+    .container-menu .logo img {
+        width: 80px;
+    }
+
+    .container-menu .menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu .menu.active {
+        transform: translateX(0);
+    }
+
+    .container-menu .menu .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+
+    .menu-homePage .menu-act {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+
+    .about-container {
+        padding: 15px;
+    }
+
+    .hero-section {
+        padding: 50px 20px;
+        margin-top: 50px;
+    }
+
+    .hero-section h1 {
+        font-size: 1.8em;
+    }
+
+    .hero-section p {
+        font-size: 0.95em;
+        max-width: 100%;
+    }
+
+    .team-grid,
+    .stats-grid,
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .section-title {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+    }
+
+    .section-title::after {
+        width: 60px;
+        height: 3px;
+    }
+
+    .feature-card,
+    .team-member,
+    .testimonial-card,
+    .value-card {
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 1.8em;
+    }
+
+    .timeline {
+        padding: 10px;
+    }
+
+    .timeline-item {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .testimonial-card img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .mission-section {
+        padding: 30px 15px;
+    }
+
+    .statistics-section {
+        padding: 40px 15px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .foooter-homePage {
+        padding: 20px 10px;
+    }
+
+    .footer-homePage .footer-container-homePage {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage {
+        flex: 1 1 100%;
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage li {
+        justify-content: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 10px;
+
+    }
+}
+
+
+@media (max-width: 320px) {
+
+    .container-menu-homePage .logo-homePage img {
+        width: 70px;
+    }
+
+    .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+
+    .menu-homePage .menu-act {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+
+
+    .hero-section {
+        padding: 40px 15px;
+        margin-top: 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 1.5em;
+    }
+
+    .hero-section p {
+        font-size: 0.9em;
+    }
+
+    .about-container {
+        padding: 10px;
+    }
+
+    .section-title {
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+
+    .feature-card,
+    .team-member,
+    .testimonial-card,
+    .value-card {
+        padding: 15px;
+    }
+
+    .stat-number {
+        font-size: 1.6em;
+    }
+
+    .feature-icon,
+    .value-icon {
+        font-size: 1.8em;
+    }
+
+    .testimonial-card img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .mission-section {
+        padding: 25px 10px;
+    }
+
+    .mission-section p {
+        font-size: 0.9em;
+    }
+
+    .statistics-section {
+        padding: 30px 10px;
+    }
+
+
+    .features-section,
+    .team-section,
+    .values-section,
+    .timeline-section,
+    .testimonials-section {
+        margin-bottom: 30px;
+    }
+
+    .feature-card,
+    .team-member,
+    .testimonial-card,
+    .value-card {
+        margin-bottom: 15px;
+    }
+
+
+    h3 {
+        font-size: 1.2em;
+    }
+
+    p {
+        font-size: 0.9em;
+    }
+
+    .footer-homePage {
+        padding: 20px 0;
+    }
+
+    .footer-homePage .footer-container-homePage {
+        flex-direction: column;
+        gap: 25px;
+        margin: 0 auto;
+        padding: 0 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage {
+        flex: 1 1 100%;
+        min-width: auto;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage h4 {
+        margin: 0 auto 10px;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage li {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 10px;
+
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage .social-icons {
+        justify-content: center;
+        gap: 15px;
+        margin: 10px auto;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage .social-icons a {
+        margin: 0;
+    }
+
+    .footer-bottom-homePage {
+        margin-top: 20px;
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+
+    .feature-card,
+    .team-member,
+    .testimonial-card,
+    .value-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        will-change: transform;
+    }
+}

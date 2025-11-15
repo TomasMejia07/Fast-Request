@@ -1,0 +1,350 @@
+
+.vermasPage {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "General Sans", sans-serif;
+    text-decoration: none;
+    list-style-type: none;
+    min-height: 100vh;
+    transition: opacity 0.5s ease-in-out;
+    touch-action: manipulation;
+    background-color: white;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    touch-action: manipulation;
+}
+
+
+
+
+/*  ---------------- ventajas ---------------- */
+.ventajas-vermasPage {
+    padding: 250px 30px;
+    background-color: #f6f6f6;
+    text-align: center;
+}
+
+.ventajas-vermasPage h2 {
+    font-size: 2.5rem;
+    color: black;
+    margin-bottom: 40px;
+}
+
+.ventajas-grid-vermasPage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ventaja-vermasPage {
+    flex: 1 1 250px;
+    background-color: white;
+    color: black;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid #ff7700;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.ventaja-vermasPage:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ventaja-vermasPage h3 {
+    color: rgb(9,9,71);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.ventaja-vermasPage p {
+    color: rgb(70,70,55);
+    margin-top: auto;
+}
+
+/* -------------- video explicativo ---------------- */
+.cta-vermasPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 50px 30px;
+    background: linear-gradient(to bottom, white, #f6f6f6);
+}
+
+.cta-vermasPage h2 {
+    font-size: 2.5rem;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.cta-vermasPage p {
+    font-size: 1.1rem;
+    color: rgb(116, 135, 155);
+    margin-bottom: 30px;
+    max-width: 600px;
+}
+
+.video-container-vermasPage {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.video-container-vermasPage iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+    display: block;
+}
+
+/* ---------------- boton ----------------- */
+.btn-x-vermasPage {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-x-vermasPage:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 102, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+
+
+/* --------------- Responsive --------------- */
+@media screen and (max-width: 1024px) {
+    .navbar-homePage .container-menu-homePage {
+        max-width: 900px;
+    }
+
+    .ventajas-vermasPage h2 {
+        font-size: 2rem;
+    }
+
+    .footer-container-homePage {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .footer-section-homePage {
+        flex: 1 1 300px;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 80px;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-homePage {
+        height: 70px;
+    }
+
+    .navbar-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .navbar-homePage .menu-homePage ul {
+        gap: 5px;
+    }
+
+    .navbar-homePage .menu-homePage ul li a {
+        font-size: 14px;
+    }
+
+    .navbar-homePage .menu-homePage .btn-homePage {
+        width: 90px;
+        height: 32px;
+        margin-left: 5px;
+    }
+
+    .btn-x-vermasPage {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    .footer-container-homePage {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section-homePage {
+        flex: 1 1 100%;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 60px;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .container-menu-homePage .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .container-menu-homePage .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+    .container-menu-homePage .menu-homePage .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+
+    .ventajas-grid-vermasPage {
+        grid-template-columns: 1fr;
+    }
+
+    .video-container-vermasPage iframe {
+        height: 200px;
+    }
+
+    .container-menu-homePage .logo-homePage img {
+        width: 80px;
+    }
+
+    .menu-homePage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.586);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        transition: 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-homePage.active {
+        transform: translateX(0);
+    }
+
+
+    .menu-homePage .menu-act {
+        margin-bottom: 3rem;
+    }
+
+    .menu-act {
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        ;
+    }
+
+    .navbar-homePage .menu-homePage .menu-act li {
+        margin: 10px;
+    }
+
+
+    .navbar-homePage .menu-homePage .menu-act li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+
+
+    .footer-homePage {
+        padding: 20px 10px;
+    }
+
+    .footer-homePage .footer-container-homePage {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage {
+        flex: 1 1 100%;
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage li {
+        justify-content: center;
+    }
+
+    .footer-homePage .footer-container-homePage .footer-section-homePage ul li h5 {
+        font-size: 16px;
+        padding-left: 10px;
+
+    }
+}
