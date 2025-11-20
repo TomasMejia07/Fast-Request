@@ -181,6 +181,45 @@ export const useRol = (initial = {NombreRol: "", EstadoRol: ""}) => {
         }
     };
 
+    const cambiarEstadoRolInactivo = async (Id) => {
+        const result = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esto cambiará el estado del rol a inactiva.\nYa no se visualizará en el apartado principal.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, cambiar estado",
+            background: "#272727",
+            color: "#c9c9c9",
+        })
+        try {
+            if (result.isConfirmed){
+                await axios.put(`${API_URL}/CambiarInactivo/${Id}`, 
+                    {}, 
+                {
+                    headers: authHeader()
+                })
+
+                Swal.fire({
+                    title: "¡Cambio de estado exitoso!",
+                    text: "El estado del rol se cambió correctamente.",
+                    icon: "success",
+                    background: "#272727",
+                    color: "#c9c9c9",
+                })
+                cargarRol();
+            }
+        } catch (error) {
+            console.error("Error al cambiar el estado del producto:", error);
+            Swal.fire({
+                title: 'Error',
+                text: 'No se puedo cambiar el estado del rol.',
+                icon: 'error',
+                background: '#272727',
+                color: '#c9c9c9'
+            })
+        }
+    }
+
     const editarRol = (rols) =>{
         setFormRolData(rols);
         setIsCreating(false);
@@ -210,6 +249,7 @@ export const useRol = (initial = {NombreRol: "", EstadoRol: ""}) => {
         roles,
         cargarRol,
         guardarRol,
+        cambiarEstadoRolInactivo,
         eliminarRol,
         editarRol,
         openModal,

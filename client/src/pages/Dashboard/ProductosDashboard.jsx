@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import { useProductos } from "../../hooks/useProductos"
 import { useFiltroProductos } from "../../hooks/useFiltro";
 import { usePaginacion } from "../../hooks/usePaginacion";
+import { useNavigate } from 'react-router-dom';
 
 const ProductosDashboard = () => {
     const {
@@ -13,6 +14,7 @@ const ProductosDashboard = () => {
         cargarProductos,
         guardarProducto,
         eliminarProducto,
+        cambiarEstadoProductoInactivo,
         editarProducto,
         formProductoData,
         setFormProductoData,
@@ -35,6 +37,7 @@ const ProductosDashboard = () => {
         cargarProductos();
     }, []);
 
+    const navigate = useNavigate();
 
     return (
         <DashboardLayout title="Productos - Fast Request">
@@ -56,6 +59,13 @@ const ProductosDashboard = () => {
                         />
                         <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
                     </div>
+                    <a href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/dashboard/productosInactivos`)
+                        }}>
+                        <ion-icon id="iconosoperacionVisualizarEstado" name="reader-outline"></ion-icon>
+                    </a>
                 </div>
                 <table className="tabladashb">
                     <thead className="tabladashb_thead">
@@ -89,9 +99,9 @@ const ProductosDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault()
-                                            eliminarProducto(producto.Id);
+                                            cambiarEstadoProductoInactivo(producto.Id);
                                         }}>
-                                        <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
+                                        <ion-icon id="iconosoperacionEliminar" name="ban"></ion-icon>
                                     </a>
                                 </td>
                             </tr>

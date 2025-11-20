@@ -1,8 +1,13 @@
 const {Categoria} = require('../models')
 
+// METODO PARA TRAER TODAS LAS CATEGORIAS CON ESTADO ACTIVO
 exports.VisualizarCategorias = async (req, res) => {
     try{
-        const categorias = await Categoria.findAll();
+        const categorias = await Categoria.findAll({
+            where: {
+                EstadoCategoria: 'activo'
+            }
+        });
         res.json(categorias)
     }
     catch(error){
@@ -11,6 +16,19 @@ exports.VisualizarCategorias = async (req, res) => {
     }
 };
 
+// METODO PARA TRAER LAS CATEGORIAS INACTIVAS
+exports.VisualizarCategoriasInactivas = async (req, res) => {
+    try {
+        const categorias = await Categoria.scope('soloCategoriasInactivas').findAll()
+        res.status(200).json(categorias)
+        console.log('Categorias obtenidas correctamente')
+    } catch (error) {
+        console.error('Error al obtener las categorias: ', error);
+        res.status(500).json({ error: 'Error al obtener las categorias'})
+    }
+}
+
+// CREAR CATEGORIA 
 exports.CrearCategoria = async (req, res) => {
     try {
         const {NombreCategoria, EstadoCategoria} = req.body
@@ -22,6 +40,7 @@ exports.CrearCategoria = async (req, res) => {
     }
 };
 
+// ACTUALIZAR CATEGORIA
 exports.ActualizarCategoria = async (req, res) => {
     try {
         const { id } = req.params;
@@ -37,6 +56,7 @@ exports.ActualizarCategoria = async (req, res) => {
     }
 };
 
+// ELIMINACION DE LA CATEGORIA 
 exports.EliminarCategoria = async (req, res) => {
     try {
         const {id} = req.params;
@@ -51,3 +71,64 @@ exports.EliminarCategoria = async (req, res) => {
     }
 };
 
+// CAMBIAR ESTADO A INACTIVO 
+exports.CambiarEstadoCategoriaInactivo = async (req, res) => {
+    try {
+        const { id } = req.params
+        
+        if (!id){
+            return res.status(400).json({ message: 'El id es obligatorio'})
+        }
+
+        const categoria = await Categoria.unscoped().findByPk(id)
+
+        if (!categoria) return res.status(400).json({
+            message: 'Categoria no encontrada'
+        })
+
+        await categoria.update({
+            EstadoCategoria: 'inactivo'
+        })
+
+        console.log('Categoria con cambio de estado inactivo correctamente');
+        res.status(200).json({
+            message: 'Categoria con estado modificado correctamente'
+        })
+    } catch (error) {
+        console.log('Error al cambiar el estado de la categoria', error)
+        res.status(500).json({
+            message: 'Error interno del servidor', error: error
+        })
+    }
+}
+
+// CAMBIAR ESTADO DE CATEGORIA A ACTIVO 
+exports.CambiarEstadoCategoriaActivo = async (req, res) => {
+    try {
+        const { id } = req.params
+        
+        if (!id){
+            return res.status(400).json({ message: 'El id es obligatorio'})
+        }
+
+        const categoria = await Categoria.unscoped().findByPk(id)
+
+        if (!categoria) return res.status(400).json({
+            message: 'Categoria no encontrada'
+        })
+
+        await categoria.update({
+            EstadoCategoria: 'activo'
+        })
+
+        console.log('Categoria con cambio de estado inactivo correctamente');
+        res.status(200).json({
+            message: 'Categoria con estado modificado correctamente'
+        })
+    } catch (error) {
+        console.log('Error al cambiar el estado de la categoria', error)
+        res.status(500).json({
+            message: 'Error interno del servidor', error: error
+        })
+    }
+}

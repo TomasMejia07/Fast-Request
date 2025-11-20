@@ -244,6 +244,45 @@ export const useProductos = (initial = {NombreProducto: "", IdCategoria: "", Pre
         }
     };
 
+    const cambiarEstadoProductoInactivo = async (Id) =>{
+        const result = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esto cambiará el estado del producto a inactiva.\nYa no se visualizará en el apartado principal.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, cambiar estado",
+            background: "#272727",
+            color: "#c9c9c9",
+        })
+
+        try {
+            if (result.isConfirmed){
+                await axios.put(`${API_URL}/CambiarInactivo/${Id}`,
+                    {},
+                    { headers: authHeader() }
+                )
+
+                Swal.fire({
+                    title: "¡Cambio de estado exitoso!",
+                    text: "El estado del producto se cambió correctamente.",
+                    icon: "success",
+                    background: "#272727",
+                    color: "#c9c9c9",
+                })
+                cargarProductos();
+            }
+        } catch (error) {
+            console.error("Error al cambiar el estado del producto:", error);
+            Swal.fire({
+                title: 'Error',
+                text: 'No se puedo cambiar el estado del producto.',
+                icon: 'error',
+                background: '#272727',
+                color: '#c9c9c9'
+            })
+        }
+    }
+
     const editarProducto = (producto) =>{
         setFormProductoData(producto);
         setIsCreating(false);
@@ -274,6 +313,7 @@ export const useProductos = (initial = {NombreProducto: "", IdCategoria: "", Pre
         cargarProductos,
         guardarProducto,
         eliminarProducto,
+        cambiarEstadoProductoInactivo,
         editarProducto,
         formProductoData,
         setFormProductoData,

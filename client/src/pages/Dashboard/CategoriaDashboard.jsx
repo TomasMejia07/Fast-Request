@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import { useCategorias } from "../../hooks/useCategorias";
 import { useFiltroCategoria } from "../../hooks/useFiltro";
 import { usePaginacion } from "../../hooks/usePaginacion";
+import { useNavigate } from "react-router-dom";
 
 const CategoriaDashboard = () => {
     const {
@@ -13,6 +14,7 @@ const CategoriaDashboard = () => {
         cargarCategorias,
         guardarCategoria,
         eliminarCategoria,
+        cambiarEstadoCategoriaInactivo,
         editarCategoria,
         formCategoriaData,
         setFormCategoriaData,
@@ -35,7 +37,7 @@ const CategoriaDashboard = () => {
     }, []);
 
 
-
+    const navigate = useNavigate();
 
     return (
         <DashboardLayout title="Categoría - Fast Request">
@@ -43,11 +45,6 @@ const CategoriaDashboard = () => {
                 <div className="table_Header">
                     <h2>Categoria</h2>
                     <button className="boton_raro" onClick={openModal}>Crear Nuevo</button>
-                    <select className="select_tabla" name="" id="">
-                        <option defaultValue>Estado</option>
-                        <option value="">Inactivo</option>
-                        <option value="">Activo</option>
-                    </select>
                     <div className="input_search">
                         <input
                             type="search"
@@ -57,6 +54,15 @@ const CategoriaDashboard = () => {
                         />
                         <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
                     </div>
+
+                    <a href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/dashboard/categoriasInactivas`)
+                        }}>
+                        <ion-icon id="iconosoperacionVisualizarEstado" name="reader-outline"></ion-icon>
+                    </a>
+
                 </div>
 
                 <table className="tabladashb">
@@ -86,9 +92,9 @@ const CategoriaDashboard = () => {
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault(); // ← Esto también
-                                            eliminarCategoria(cat.Id);
+                                            cambiarEstadoCategoriaInactivo(cat.Id);
                                         }}>
-                                        <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
+                                        <ion-icon id="iconosoperacionEliminar" name="ban"></ion-icon>
                                     </a>
                                 </td>
                             </tr>
@@ -157,8 +163,8 @@ const CategoriaDashboard = () => {
 
                         >
                             <option value="" hidden>Selecciona uno</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
                         </select>
                         {errores.EstadoCategoria && (
                             <span className="errores">{errores.EstadoCategoria}</span>

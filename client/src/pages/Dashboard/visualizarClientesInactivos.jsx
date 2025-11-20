@@ -41,7 +41,6 @@ const VisualizarInactividadDeClientes = () => {
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Documento</th>
                             <th>Correo Electronico</th>
                             <th>Numero De Contacto</th>
                             <th>Estado Actual</th>
@@ -52,7 +51,6 @@ const VisualizarInactividadDeClientes = () => {
                         {funtionFinally.map((cliente) => (
                             <tr key={cliente.Id}>
                                 <td>{cliente.NombreCliente}</td>
-                                <td>{cliente.NumeroDocumento}</td>
                                 <td>{cliente.CorreoElectronico}</td>
                                 <td>{cliente.NumeroContacto}</td>
                                 <td>{cliente.EstadoCliente}</td>

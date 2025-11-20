@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { validacionDeCampos } from "../helpers/validacionDeCampos";
 import { authHeader } from "../helpers/authHeader";
 
-export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "activo" }) => {
+export const useClientes = (initial = { NombreCliente: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "activo" }) => {
 
     const [modalVisible, SetmodalVisible] = useState(false)
     const [formData, setFormData] = useState(initial)
@@ -13,7 +13,6 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
     const formRef = useRef(null);
     const [errores, setErrores] = useState({
         NombreCliente: '',
-        NumeroDocumento: '',
         CorreoElectronico: '',
         NumeroContacto: '',
         repeated: '',
@@ -117,7 +116,6 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
             )
 
             return {
-                NumeroDocumento: res.data.NumeroDocumento.mensaje || '',
                 CorreoElectronico: res.data.CorreoElectronico.mensaje || '',
                 NumeroContacto: res.data.NumeroContacto.mensaje || ''
             }
@@ -139,7 +137,7 @@ export const useClientes = (initial = { NombreCliente: "", NumeroDocumento: "", 
 
 
     const limpiarFormulario = () => {
-        setFormData({ NombreCliente: "", NumeroDocumento: "", CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "activo" });
+        setFormData({ NombreCliente: "",CorreoElectronico: "", NumeroContacto: "", EstadoCliente: "activo" });
     };
 
 

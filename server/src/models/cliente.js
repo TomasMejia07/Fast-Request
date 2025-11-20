@@ -13,10 +13,6 @@ const Clientes = sequelize.define('clientes', {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    NumeroDocumento: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-    },
     CorreoElectronico: {
         type: DataTypes.STRING(100),
         allowNull: false,

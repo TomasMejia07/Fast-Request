@@ -6,12 +6,14 @@ import { useRol } from "../../hooks/useRol";
 import { useFiltroRoles } from '../../hooks/useFiltro';
 import { usePaginacion } from '../../hooks/usePaginacion';
 import { Pagination, Stack } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const RolesDashboard = () => {
     const {
         roles,
         formRolData,
         cargarRol,
+        cambiarEstadoRolInactivo,
         onChangeInputs,
         guardarRol,
         eliminarRol,
@@ -40,17 +42,14 @@ const RolesDashboard = () => {
         cargarRol();
     }, []);
 
+    const navigate = useNavigate()
+
     return (
         <DashboardLayout title="Roles - Fast Request">
             <div className="container_tablas">
                 <div className="table_Header">
                     <h2>Roles</h2>
                     <button className="boton_raro" onClick={openModal}>Crear Nuevo</button>
-                    <select className="select_tabla" name="select_tabla">
-                        <option defaultValue>Estado</option>
-                        <option value="Activo">Activa</option>
-                        <option value="Inactivo">Inactiva</option>
-                    </select>
                     <div className="input_search">
                         <input 
                         type="search" 
@@ -60,6 +59,13 @@ const RolesDashboard = () => {
                         />
                         <ion-icon id="search-sharp" name="search-sharp"></ion-icon>
                     </div>
+                    <a href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/dashboard/rolesInactivos`)
+                        }}>
+                        <ion-icon id="iconosoperacionVisualizarEstado" name="reader-outline"></ion-icon>
+                    </a>
                 </div>
                 <table className="tabladashb">
                     <thead className="tabladashb_thead">
@@ -84,8 +90,8 @@ const RolesDashboard = () => {
                                     </a>
                                 )}
                                 {!["Administrador", "Cliente", "Empleado"].includes(rol.NombreRol) && (
-                                    <a onClick={() => eliminarRol(rol.Id)}>
-                                    <ion-icon id="iconosoperacionEliminar" name="trash"></ion-icon>
+                                    <a onClick={() => cambiarEstadoRolInactivo(rol.Id)}>
+                                    <ion-icon id="iconosoperacionEliminar" name="ban"></ion-icon>
                                     </a>
                                 )}
                                 </td>

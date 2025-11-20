@@ -150,6 +150,42 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
         }
     };
 
+    const cambiarEstadoCategoriaInactivo = async (Id) => {
+    const result = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esto cambiará el estado de la categoría a inactiva.\nYa no se visualizará en el apartado principal.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, cambiar estado",
+        background: "#272727",
+        color: "#c9c9c9",
+    });
+
+    try {
+        if (result.isConfirmed) {
+            await axios.put(
+                `${API_URL}/CambiarInactivo/${Id}`,
+                {},
+                { headers: authHeader() }
+            );
+
+            Swal.fire({
+                title: "¡Cambio de estado exitoso!",
+                text: "El estado de la categoría se cambió correctamente.",
+                icon: "success",
+                background: "#272727",
+                color: "#c9c9c9",
+            });
+
+            // ✅ Recargar lista de categorías activas
+            cargarCategorias();
+        }
+    } catch (err) {
+        console.error("Error al cambiar el estado de la categoría:", err);
+        Swal.fire("Error", "No se pudo cambiar el estado de la categoría", "error");
+    }
+};
+
     const editarCategoria = (categoria) => {
         setFormCategoriaData(categoria);
         setIsCreating(false);
@@ -179,6 +215,7 @@ export const useCategorias = (initial = { NombreCategoria: "", EstadoCategoria: 
         categorias,
         cargarCategorias,
         guardarCategoria,
+        cambiarEstadoCategoriaInactivo,
         eliminarCategoria,
         editarCategoria,
         formCategoriaData,

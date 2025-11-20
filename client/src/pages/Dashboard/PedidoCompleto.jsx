@@ -2,7 +2,6 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePedidoCompleto } from '../../hooks/usePedidoCompleto'
 
-
 const PedidoCompleto = () => {
     const { id } = useParams()
     const navigate = useNavigate()
@@ -15,11 +14,20 @@ const PedidoCompleto = () => {
             ) : (
                 <>
                     <div className="pedido-card">
+                        {/* CABECERA DEL PEDIDO */}
                         <div className="pedido-card__header">
                             <h2>Detalles del Pedido</h2>
-                            <span className="pedido-card__id">#{dataPedido.id}</span>
+                            <div className="pedido-status">
+                                <span className="pedido-card__id">#{dataPedido.id}</span>
+                                <span
+                                    className={`estado-badge estado-${dataPedido.estadoDelPedido?.toLowerCase().replace(' ', '-')}`}
+                                >
+                                    {dataPedido.estadoDelPedido}
+                                </span>
+                            </div>
                         </div>
 
+                        {/* INFORMACIÓN DEL CLIENTE */}
                         <div className="pedido-card__section">
                             <h3 className="section-title">
                                 <ion-icon name="person-outline"></ion-icon>
@@ -39,7 +47,7 @@ const PedidoCompleto = () => {
                             </div>
                         </div>
 
-
+                        {/* PRODUCTO */}
                         <div className="pedido-card__section">
                             <h3 className="section-title">
                                 <ion-icon name="fast-food-outline"></ion-icon>
@@ -65,7 +73,7 @@ const PedidoCompleto = () => {
                             </div>
                         </div>
 
-
+                        {/* DIRECCIÓN */}
                         <div className="pedido-card__section">
                             <h3 className="section-title">
                                 <ion-icon name="location-outline"></ion-icon>
@@ -87,7 +95,7 @@ const PedidoCompleto = () => {
                             </div>
                         </div>
 
-
+                        {/* PREFERENCIAS */}
                         <div className="pedido-card__section">
                             <h3 className="section-title">
                                 <ion-icon name="restaurant-outline"></ion-icon>
@@ -114,11 +122,11 @@ const PedidoCompleto = () => {
                                     <div>
                                         <strong>Gaseosas:</strong>
                                         {dataPedido.deseaGaseosa === 'si' ? (
-                                            <span className="detalle">{
-                                                Array.isArray(dataPedido.tipos_gaseosas)
+                                            <span className="detalle">
+                                                {Array.isArray(dataPedido.tipos_gaseosas)
                                                     ? dataPedido.tipos_gaseosas.join(', ')
-                                                    : dataPedido.tipos_gaseosas
-                                            } </span>
+                                                    : dataPedido.tipos_gaseosas}
+                                            </span>
                                         ) : (
                                             <span className="no-desea">No desea</span>
                                         )}
@@ -127,7 +135,7 @@ const PedidoCompleto = () => {
                             </div>
                         </div>
 
-
+                        {/* NOTAS */}
                         {dataPedido.notasAdicionales && (
                             <div className="pedido-card__section">
                                 <h3 className="section-title">
@@ -140,7 +148,7 @@ const PedidoCompleto = () => {
                             </div>
                         )}
 
-
+                        {/* FOOTER */}
                         <div className="pedido-card__footer">
                             <span className="fecha">
                                 <ion-icon name="calendar-outline"></ion-icon>
@@ -149,7 +157,7 @@ const PedidoCompleto = () => {
                         </div>
                     </div>
 
-
+                    {/* BOTÓN VOLVER */}
                     <button className="btn-volver" onClick={() => navigate('/dashboard/pedidos')}>
                         <ion-icon name="arrow-back-outline"></ion-icon>
                         Volver

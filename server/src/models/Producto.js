@@ -29,12 +29,32 @@ const Producto = sequelize.define('Producto', {
         allowNull: false
     },
     EstadoProducto: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.ENUM('activo', 'inactivo'),
+        allowNull: false,
+        defaultValue: 'activo'
     }
 }, {
     tableName: 'productos',
     timestamps: true,
+
+    defaultScope:{
+        where: {
+            EstadoProducto: 'activo'
+        }
+    },
+
+    scopes: {
+        ProductoInactivo:{
+            where:{
+
+            }
+        }, 
+        soloProductosInactivos: {
+            where: {
+                EstadoProducto: 'inactivo'
+            }
+        }
+    }
 }
 );
 

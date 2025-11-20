@@ -122,6 +122,11 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+.tabla-acciones{
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .btn-imprimir {
   background-color: var(--primary-color);
   color: white;
