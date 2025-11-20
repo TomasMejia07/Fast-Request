@@ -1,26 +1,49 @@
 services:
+
   backend:
     build: ./server
+    container_name: backend_node
     ports:
       - "5000:5000"
-    env_file:
-      - ./server/.env
-    depends_on:
-      - db
     volumes:
       - ./server:/app
       - /app/node_modules
-    command: npm run dev
+    networks:
+      - app-network
+    command: ["npm", "run", "dev"]
+
   frontend:
     build: ./client
+    container_name: frontend_react
     ports:
       - "5173:5173"
-    depends_on:
-      - backend
     volumes:
       - ./client:/app
       - /app/node_modules
-    command: npm run dev -- --host
+    networks:
+      - app-network
+    command: ["npm", "run", "dev"]
+
+  java-service:
+    build: ./java-services
+    container_name: microservicio_java
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      # Spring Boot will leer estas variables para conectarse a MySQL
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/fast_request?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: fast_user
+      SPRING_DATASOURCE_PASSWORD: 123456789
+      # opcional: para ver SQL en logs
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    networks:
+      - app-network
+    # si quieres montar código para desarrollo, añádelo; para producción es mejor no montar volúmenes
+    volumes:
+      - ./java-services:/app
 
   db:
     image: mysql:8
@@ -31,9 +54,14 @@ services:
       MYSQL_USER: fast_user
       MYSQL_PASSWORD: 123456789
     ports:
-      - "3307:3306"
+      - "3307:3306"        # expuesto en host como 3307 (interno sigue siendo 3306)
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
 
 volumes:
   db_data:
