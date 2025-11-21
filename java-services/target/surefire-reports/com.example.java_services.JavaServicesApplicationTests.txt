@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.java_services.JavaServicesApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.38 s -- in com.example.java_services.JavaServicesApplicationTests
