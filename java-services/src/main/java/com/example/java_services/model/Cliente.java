@@ -1,4 +1,4 @@
-package com.example.javaservices.model;
+package com.example.java_services.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,7 +18,7 @@ public class Cliente {
     private String NombreCliente;
 
     @Column(name = "CorreoElectronico", length = 100, nullable = false, unique = true)
-    private String CorreoElectronico;
+    private String correoElectronico;
 
     @Column(name = "NumeroContacto", length = 30, nullable = false)
     private String NumeroContacto;

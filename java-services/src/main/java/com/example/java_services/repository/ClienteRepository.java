@@ -1,7 +1,7 @@
-package com.example.javaservices.repository;
+package com.example.java_services.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.javaservices.model.Cliente;
+import com.example.java_services.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     boolean existsByCorreoElectronico(String correoElectronico);

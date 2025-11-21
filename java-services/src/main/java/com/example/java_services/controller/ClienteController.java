@@ -1,7 +1,7 @@
-package com.example.javaservices.controller;
+package com.example.java_services.controller;
 
-import com.example.javaservices.model.Cliente;
-import com.example.javaservices.service.ClienteService;
+import com.example.java_services.model.Cliente;
+import com.example.java_services.service.ClienteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
