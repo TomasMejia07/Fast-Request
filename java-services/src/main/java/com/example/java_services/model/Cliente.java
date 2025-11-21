@@ -12,20 +12,20 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private Integer id;
 
     @Column(name = "NombreCliente", length = 100, nullable = false)
-    private String NombreCliente;
+    private String nombreCliente;
 
     @Column(name = "CorreoElectronico", length = 100, nullable = false, unique = true)
     private String correoElectronico;
 
     @Column(name = "NumeroContacto", length = 30, nullable = false)
-    private String NumeroContacto;
+    private String numeroContacto;
 
     @Column(name = "Contrasena", length = 100, nullable = false)
-    private String Contrasena;
+    private String contrasena;
 
     @Column(name = "EstadoCliente", nullable = false)
-    private String EstadoCliente = "activo";
+    private String estadoCliente = "activo";
 }
