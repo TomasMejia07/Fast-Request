@@ -1,4 +1,4 @@
-const { Salsas, Gaseosas } = require('../models')
+const { Salsas, Gaseosas, Empresa } = require('../models')
 
 
 // --------------------- Controlador para "Salsas" ---------------------
@@ -31,16 +31,22 @@ exports.findAllSalsas = async (req, res) => {
 exports.findAllSalsasPublicas = async (req, res) => {
     try {
 
-        const EmpresaId = req.query.empresaId;
+        const { empresaId } = req.query
 
-        if (!EmpresaId) {
+        if (!empresaId) {
             return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const empresa = await Empresa.findByPk(empresaId);
+
+        if (!empresa || empresa.Estado !== "Activo") {
+            return res.status(404).json({ error: "Empresa no encontrada o inactiva" });
         }
 
         const salsas = await Salsas.findAll({
             where: {
                 estadoSalsa: 'activo',
-                EmpresaId: EmpresaId
+                EmpresaId: empresaId
             },
             attributes: ['id', 'nombreSalsa']
         })
@@ -309,16 +315,23 @@ exports.findAllGaseosas = async (req, res) => {
 
 exports.findAllGaseosasPublicas = async (req, res) => {
     try {
-        const EmpresaId = req.query.empresaId;
 
-        if (!EmpresaId) {
+        const { empresaId } = req.query
+
+        if (!empresaId) {
             return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const empresa = await Empresa.findByPk(empresaId);
+
+        if (!empresa || empresa.Estado !== "Activo") {
+            return res.status(404).json({ error: "Empresa no encontrada o inactiva" });
         }
 
         const gaseosas = await Gaseosas.findAll({
             where: {
                 estadoGaseosa: 'activo',
-                EmpresaId: EmpresaId
+                EmpresaId: empresaId
             },
             attributes: ['id', 'nombreGaseosa'],
         })
