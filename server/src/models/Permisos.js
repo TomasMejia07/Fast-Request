@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
+const Empresa = require('./Empresa')
 
 const Permiso = sequelize.define('Permiso', {
     Id: {
@@ -15,11 +16,29 @@ const Permiso = sequelize.define('Permiso', {
     DescripcionPermiso: {
         type: DataTypes.STRING(155),
         allowNull: true
-    }
+    },
+    EmpresaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'empresas',
+            key: 'Id'
+        }
+    },
 }, {
     tableName: 'permisos',
     timestamps: true
 });
 
+
+Empresa.hasMany(Permiso, {
+    foreignKey: 'EmpresaId',
+    sourceKey: 'Id'
+});
+
+Permiso.belongsTo(Empresa, {
+    foreignKey: 'EmpresaId',
+    targetKey: 'Id'
+});
 
 module.exports = Permiso;

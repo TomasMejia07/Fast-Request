@@ -290,7 +290,7 @@ export const validacionDeCampos = (name, value) => {
             errores = 'Este campo no puede estar vacío.';
         } else if (value !== trimmed) {
             errores = 'No debe haber espacios al inicio o al final.';
-        } else if (trimmed.length <= 3) {
+        } else if (trimmed.length <= 2) {
             errores = 'Este valor es demasiado corto.';
         } else if (trimmed.length >= 40) {
             errores = 'Este valor es demasiado largo.';

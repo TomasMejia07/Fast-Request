@@ -1,6 +1,7 @@
 const { sequelize } = require('../config/db');
 const { DataTypes } = require('sequelize');
 const Usuario = require('./Usuario');
+const Empresa = require('./Empresa')
 
 const Perfil = sequelize.define('Perfil', {
 
@@ -9,6 +10,14 @@ const Perfil = sequelize.define('Perfil', {
         allowNull: false,
         references:{
             model: 'usuarios',
+            key: 'Id'
+        }
+    },
+    EmpresaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'empresas',
             key: 'Id'
         }
     },
@@ -54,5 +63,14 @@ Usuario.hasOne(Perfil, {  // Un usuario tiene un solo perfil.
 })
 
 
+Empresa.hasMany(Perfil, {
+    foreignKey: 'EmpresaId',
+    sourceKey: 'Id'
+});
+
+Perfil.belongsTo(Empresa, {
+    foreignKey: 'EmpresaId',
+    targetKey: 'Id'
+});
 
 module.exports = Perfil

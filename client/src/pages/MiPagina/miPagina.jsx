@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/miPagina.css";
 import { useNavigate } from "react-router-dom";
-import NavbarMiPag from "../../components/miPagina/Navbar";
 const MiPagina = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate()
@@ -31,8 +30,7 @@ const MiPagina = () => {
 
   return (
     <div className="page">
-      {/* Navbar */}
-      <NavbarMiPag />
+
       {/* Slider */}
       <div className="slider">
         {sliderImages.map((image, index) => (

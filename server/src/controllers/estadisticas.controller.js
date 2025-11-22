@@ -54,6 +54,12 @@ const obtenerRangoFechas = (periodo) => {
 exports.ingresosTotales = async (req, res) => {
     try {
 
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -72,7 +78,7 @@ exports.ingresosTotales = async (req, res) => {
             attributes: [
                 [Sequelize.fn('SUM', Sequelize.col('total')), 'ingresoTotal']
             ],
-            where: whereCondition
+            where: { ...whereCondition, EmpresaId: EmpresaId }
         });
 
         const ingresoTotal = resultado.getDataValue('ingresoTotal') || 0
@@ -94,6 +100,13 @@ exports.ingresosTotales = async (req, res) => {
 exports.ventasTotales = async (req, res) => {
     try {
 
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -108,7 +121,7 @@ exports.ventasTotales = async (req, res) => {
         }
 
 
-        const totalVentas = await Pedido.count()
+        const totalVentas = await Pedido.count({ where: { ...whereCondition, EmpresaId: EmpresaId } });
 
         res.status(200).json({ success: true, totalVentas })
 
@@ -127,6 +140,12 @@ exports.ventasTotales = async (req, res) => {
  */
 exports.nuevosClientes = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
 
         const { periodo } = req.query;
         let whereCondition = {};
@@ -141,7 +160,7 @@ exports.nuevosClientes = async (req, res) => {
         }
 
         const totalNuevosClientes = await Cliente.unscoped().count({
-            where: whereCondition
+            where: { ...whereCondition, EmpresaId: EmpresaId }
         });
 
         res.status(200).json({ success: true, totalNuevosClientes })
@@ -161,6 +180,13 @@ exports.nuevosClientes = async (req, res) => {
 
 exports.valorPromedioVenta = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -178,7 +204,7 @@ exports.valorPromedioVenta = async (req, res) => {
             attributes: [
                 [Sequelize.fn('AVG', Sequelize.col('total')), 'promedioVenta']
             ],
-            where: whereCondition
+            where: { ...whereCondition, EmpresaId: EmpresaId }
         });
 
 
@@ -203,6 +229,12 @@ exports.valorPromedioVenta = async (req, res) => {
 exports.ventasPorPeriodo = async (req, res) => {
     try {
 
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -222,7 +254,7 @@ exports.ventasPorPeriodo = async (req, res) => {
                 [Sequelize.fn('COUNT', Sequelize.col('id')), 'cantidad'],
                 [Sequelize.fn('SUM', Sequelize.col('total')), 'totalVentas']
             ],
-            where: whereCondition,
+            where: { ...whereCondition, EmpresaId: EmpresaId },
             group: [Sequelize.fn('DATE', Sequelize.col('createdAt'))],
             order: [[Sequelize.fn('DATE', Sequelize.col('createdAt')), 'ASC']]
         });
@@ -248,6 +280,13 @@ exports.ventasPorPeriodo = async (req, res) => {
  */
 exports.analisisClientes = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -267,7 +306,7 @@ exports.analisisClientes = async (req, res) => {
                 [Sequelize.fn('COUNT', Sequelize.col('Pedido.id')), 'cantidadPedidos'],
                 [Sequelize.fn('SUM', Sequelize.col('Pedido.total')), 'gastoTotal']
             ],
-            where: whereCondition,
+            where: { ...whereCondition, EmpresaId: EmpresaId },
             include: [{
                 model: Cliente.unscoped(),
                 attributes: ['NombreCliente', 'NumeroContacto', 'CorreoElectronico']
@@ -309,6 +348,12 @@ exports.analisisClientes = async (req, res) => {
  */
 exports.productosMasVendidosPorPeriodo = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -328,7 +373,7 @@ exports.productosMasVendidosPorPeriodo = async (req, res) => {
                 [Sequelize.fn('SUM', Sequelize.col('cantidadProducto')), 'cantidadVendida'],
                 [Sequelize.fn('SUM', Sequelize.col('total')), 'ventaTotal']
             ],
-            where: whereCondition,
+            where: { ...whereCondition, EmpresaId: EmpresaId },
             include: [{
                 model: Producto,
                 attributes: ['NombreProducto', 'PrecioProducto']
@@ -365,6 +410,13 @@ exports.productosMasVendidosPorPeriodo = async (req, res) => {
  */
 exports.rendimientoPorMunicipio = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { periodo } = req.query;
         let whereCondition = {};
 
@@ -384,7 +436,7 @@ exports.rendimientoPorMunicipio = async (req, res) => {
                 [Sequelize.fn('COUNT', Sequelize.col('id')), 'cantidadPedidos'],
                 [Sequelize.fn('SUM', Sequelize.col('total')), 'ventaTotal']
             ],
-            where: whereCondition,
+            where: { ...whereCondition, EmpresaId: EmpresaId },
             group: ['municipioLocalidad'],
             order: [[Sequelize.fn('SUM', Sequelize.col('total')), 'DESC']]
         });

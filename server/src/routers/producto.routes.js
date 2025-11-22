@@ -15,5 +15,7 @@ router.get("/Productos-inactivos", verificarJWT, productoController.VisualizarPr
 router.put("/CambiarInactivo/:id", verificarJWT, productoController.CambiarEstadoProductoInactivo);
 router.put("/CambiarActivo/:id", verificarJWT, productoController.CambiarEstadoProductoActivo);
 
+// RUTAS PUBLICAS
+router.get('/productos', productoController.VisualizarProductosPublicos)
 
 module.exports = router

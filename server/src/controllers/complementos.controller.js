@@ -5,10 +5,44 @@ const { Salsas, Gaseosas } = require('../models')
 
 exports.findAllSalsas = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const salsas = await Salsas.findAll({
             where: {
-                estadoSalsa: 'activo'
+                estadoSalsa: 'activo',
+                EmpresaId: EmpresaId
             }
+        })
+
+        res.status(200).json({ message: 'Salsas obtenidas de manera exitosa', salsas })
+        console.log('Salsas obtenidos de manera correcta')
+
+    } catch (err) {
+        console.log('Error al obtener las salsas', err)
+        res.status(500).json({ message: 'Error interno del servidor', err: err })
+    }
+}
+
+exports.findAllSalsasPublicas = async (req, res) => {
+    try {
+
+        const EmpresaId = req.query.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const salsas = await Salsas.findAll({
+            where: {
+                estadoSalsa: 'activo',
+                EmpresaId: EmpresaId
+            },
+            attributes: ['id', 'nombreSalsa']
         })
 
         res.status(200).json({ message: 'Salsas obtenidas de manera exitosa', salsas })
@@ -23,13 +57,20 @@ exports.findAllSalsas = async (req, res) => {
 
 exports.createSalsas = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { nombreSalsa, estadoSalsa } = req.body
 
         if (!nombreSalsa || !estadoSalsa) return res.status(400).json({ message: 'Debes de proporcionar el nombre y el estado de la salsa' })
 
         const salsaCreada = await Salsas.create({
             nombreSalsa,
-            estadoSalsa
+            estadoSalsa,
+            EmpresaId
         })
 
         console.log('Salsa creada:', salsaCreada);
@@ -45,6 +86,12 @@ exports.createSalsas = async (req, res) => {
 exports.updateSalsa = async (req, res) => {
 
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         const salsa = await Salsas.scope().findByPk(id)
@@ -54,6 +101,10 @@ exports.updateSalsa = async (req, res) => {
         const { nombreSalsa } = req.body
 
         if (!nombreSalsa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la salsa para actualizarla' })
+
+        if (salsa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         const salsaActualizada = await salsa.update({
             nombreSalsa,
@@ -70,6 +121,13 @@ exports.updateSalsa = async (req, res) => {
 
 exports.cambiarEstadoSalsaInactivo = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -79,6 +137,11 @@ exports.cambiarEstadoSalsaInactivo = async (req, res) => {
         const salsa = await Salsas.unscoped().findByPk(id)
 
         if (!salsa) return res.status(400).json({ message: 'Salsa no encontrada' })
+
+
+        if (salsa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await salsa.update({
             estadoSalsa: 'inactivo'
@@ -95,7 +158,18 @@ exports.cambiarEstadoSalsaInactivo = async (req, res) => {
 
 exports.visualizarSalsasInactivas = async (req, res) => {
     try {
-        const salsas = await Salsas.scope('soloSalsasInactivas').findAll()
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const salsas = await Salsas.scope('soloSalsasInactivas').findAll({
+            where: {
+                EmpresaId: EmpresaId
+            }
+        })
+
         res.status(200).json(salsas)
         console.log('Salsas obtenidos de manera correcta')
 
@@ -107,6 +181,13 @@ exports.visualizarSalsasInactivas = async (req, res) => {
 
 exports.cambioEstadoSalsaActivo = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -116,6 +197,10 @@ exports.cambioEstadoSalsaActivo = async (req, res) => {
         const salsa = await Salsas.scope('soloSalsasInactivas').findByPk(id)
 
         if (!salsa) return res.status(400).json({ message: 'Salsa no encontrada' })
+
+        if (salsa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await salsa.update({
             estadoSalsa: 'activo'
@@ -133,6 +218,12 @@ exports.cambioEstadoSalsaActivo = async (req, res) => {
 
 exports.eliminacioDeSalsa = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -142,6 +233,10 @@ exports.eliminacioDeSalsa = async (req, res) => {
         const salsa = await Salsas.unscoped().findByPk(id)
 
         if (!salsa) return res.status(404).json({ message: 'id de la salsa no encontrado' })
+
+        if (salsa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await salsa.destroy()
 
@@ -157,12 +252,19 @@ exports.eliminacioDeSalsa = async (req, res) => {
 
 exports.validacionDeNombreSalsa = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { nombreSalsa } = req.body
 
         if (!nombreSalsa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la salsa' })
 
         const validacionSalsa = await Salsas.unscoped().findOne({
-            where: { nombreSalsa: nombreSalsa.trim().toLowerCase() }
+            where: { nombreSalsa: nombreSalsa.trim().toLowerCase(), EmpresaId: EmpresaId }
         })
 
         if (validacionSalsa) {
@@ -182,9 +284,16 @@ exports.validacionDeNombreSalsa = async (req, res) => {
 
 exports.findAllGaseosas = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const gaseosas = await Gaseosas.findAll({
             where: {
-                estadoGaseosa: 'activo'
+                estadoGaseosa: 'activo',
+                EmpresaId: EmpresaId
             }
         })
 
@@ -198,15 +307,47 @@ exports.findAllGaseosas = async (req, res) => {
 }
 
 
+exports.findAllGaseosasPublicas = async (req, res) => {
+    try {
+        const EmpresaId = req.query.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const gaseosas = await Gaseosas.findAll({
+            where: {
+                estadoGaseosa: 'activo',
+                EmpresaId: EmpresaId
+            },
+            attributes: ['id', 'nombreGaseosa'],
+        })
+
+        res.status(200).json({ message: 'Gaseosas obtenidas de manera exitosa', gaseosas })
+        console.log('Gaseosas obtenidos de manera correcta')
+
+    } catch (err) {
+        console.log('Error al obtener las Gaseosas', err)
+        res.status(500).json({ message: 'Error interno del servidor', err: err })
+    }
+}
+
 exports.createGaseosa = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { nombreGaseosa, estadoGaseosa } = req.body
 
         if (!nombreGaseosa || !estadoGaseosa) return res.status(400).json({ message: 'Debes de proporcionar el nombre y el estado de la gaseosa' })
 
         const gaseosaCreada = await Gaseosas.create({
             nombreGaseosa,
-            estadoGaseosa
+            estadoGaseosa,
+            EmpresaId
         })
 
         console.log('Gaseosa creada:', gaseosaCreada);
@@ -222,6 +363,12 @@ exports.createGaseosa = async (req, res) => {
 exports.updateGaseosa = async (req, res) => {
 
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         const gaseosa = await Gaseosas.findByPk(id)
@@ -231,6 +378,10 @@ exports.updateGaseosa = async (req, res) => {
         const { nombreGaseosa } = req.body
 
         if (!nombreGaseosa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la gaseosa para actualizarla' })
+
+        if (gaseosa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         const gaseosaActualizada = await gaseosa.update({
             nombreGaseosa,
@@ -247,6 +398,12 @@ exports.updateGaseosa = async (req, res) => {
 
 exports.cambiarEstadoGaseosaInactivo = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -256,6 +413,10 @@ exports.cambiarEstadoGaseosaInactivo = async (req, res) => {
         const gaseosa = await Gaseosas.scope().findByPk(id)
 
         if (!gaseosa) return res.status(400).json({ message: 'Salsa no encontrada' })
+
+        if (gaseosa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await gaseosa.update({
             estadoGaseosa: 'inactivo'
@@ -273,7 +434,17 @@ exports.cambiarEstadoGaseosaInactivo = async (req, res) => {
 
 exports.visualizarGaseosasInactivas = async (req, res) => {
     try {
-        const gaseosas = await Gaseosas.scope('soloGaseosasInactivas').findAll()
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const gaseosas = await Gaseosas.scope('soloGaseosasInactivas').findAll({
+            where: {
+                EmpresaId: EmpresaId
+            }
+        })
         res.status(200).json(gaseosas)
         console.log('gaseosas obtenidos de manera correcta')
 
@@ -286,6 +457,12 @@ exports.visualizarGaseosasInactivas = async (req, res) => {
 
 exports.cambioEstadoGaseosaActivo = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -295,6 +472,10 @@ exports.cambioEstadoGaseosaActivo = async (req, res) => {
         const gaseosa = await Gaseosas.scope('soloGaseosasInactivas').findByPk(id)
 
         if (!gaseosa) return res.status(400).json({ message: 'Gaseosa no es encontrada' })
+
+        if (gaseosa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await gaseosa.update({
             estadoGaseosa: 'activo'
@@ -314,6 +495,12 @@ exports.cambioEstadoGaseosaActivo = async (req, res) => {
 exports.eliminacioDeGaseosa = async (req, res) => {
     console.log('🟢 Entrando al controlador eliminacioDeSalsa con ID:', req.params.id);
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -323,6 +510,10 @@ exports.eliminacioDeGaseosa = async (req, res) => {
         const gaseosa = await Gaseosas.unscoped().findByPk(id)
 
         if (!gaseosa) return res.status(404).json({ message: 'id de la gaseosa no es encontrada' })
+
+        if (gaseosa.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await gaseosa.destroy()
 
@@ -338,12 +529,18 @@ exports.eliminacioDeGaseosa = async (req, res) => {
 
 exports.validacionDeNombreGaseosa = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { nombreGaseosa } = req.body
 
         if (!nombreGaseosa) return res.status(400).json({ message: 'Debes de proporcionar el nombre de la gaseosa' })
 
         const validacionGaseosa = await Gaseosas.unscoped().findOne({
-            where: { nombreGaseosa: nombreGaseosa.trim().toLowerCase() }
+            where: { nombreGaseosa: nombreGaseosa.trim().toLowerCase(), EmpresaId: EmpresaId }
         })
 
         if (validacionGaseosa) {

@@ -5,7 +5,14 @@ const { Permiso } = require("../models");
 // Listar permisos
 async function ListarPermisos(req, res) {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const permisos = await Permiso.findAll({
+            where: { EmpresaId: EmpresaId },
             attributes: ['Id', 'NombrePermiso', 'DescripcionPermiso'],
             order: [['Id', 'ASC']]
         });

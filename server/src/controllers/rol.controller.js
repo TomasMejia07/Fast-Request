@@ -2,12 +2,20 @@ const { Rol, Permiso } = require("../models")
 const ROL_NO_EDITABLE = "Administrador";
 const ROLES_NO_ELIMINABLES = ["Administrador", "Cliente", "Empleado"];
 
+
 // METODO PARA TRAER TODOS LOS ROLES ACTIVOS
 exports.VisualizarRoles = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const roles = await Rol.findAll({
             where: {
-                EstadoRol: 'activo'
+                EstadoRol: 'activo',
+                EmpresaId: EmpresaId
             },
             include: [{
                 model: Permiso,
@@ -25,7 +33,17 @@ exports.VisualizarRoles = async (req, res) => {
 // METODO PARA TRAER TODOS LOS ROLES INACTIVOS 
 exports.VisualizarRolesInactivos = async (req, res) => {
     try {
-        const roles = await Rol.scope('soloRolesInactivos').findAll()
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const roles = await Rol.scope('soloRolesInactivos').findAll({
+            where: {
+                EmpresaId: EmpresaId
+            }
+        })
         res.status(200).json(roles)
         console.log('Roles obtenidos correctamente')
     } catch (error) {
@@ -39,15 +57,22 @@ exports.VisualizarRolesInactivos = async (req, res) => {
 // CREAR ROL
 exports.CrearRol = async (req, res) => {
     try {
-        const {NombreRol, EstadoRol, Permisos} = req.body
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const { NombreRol, EstadoRol, Permisos } = req.body
         const nuevoRol = await Rol.create({
             NombreRol,
-            EstadoRol
+            EstadoRol,
+            EmpresaId
         })
 
         if (Permisos && Permisos.length > 0) {
             const permisosDB = await Permiso.findAll({
-                where: { Id: Permisos }
+                where: { Id: Permisos, EmpresaId: EmpresaId }
             });
             await nuevoRol.setPermisos(permisosDB);
         }
@@ -62,8 +87,14 @@ exports.CrearRol = async (req, res) => {
 // ACTUALIZAR ROL
 exports.ActualizarRol = async (req, res) => {
     try {
-        const {id} = req.params
-        const {NombreRol, EstadoRol, Permisos} = req.body
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const { id } = req.params
+        const { NombreRol, EstadoRol, Permisos } = req.body
         const rol = await Rol.findByPk(id)
         if (!rol) return res.status(404).json({ message: "rol no encontrado." });
 
@@ -71,14 +102,18 @@ exports.ActualizarRol = async (req, res) => {
             return res.status(403).json({ message: "El rol 'Administrador' no se puede modificar." });
         }
 
+        if (rol.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
+
         await rol.update({
             NombreRol,
             EstadoRol
         })
-        
+
         if (Permisos && Array.isArray(Permisos)) {
             const permisosDB = await Permiso.findAll({
-                where: { Id: Permisos }
+                where: { Id: Permisos, EmpresaId: EmpresaId }
             });
             await rol.setPermisos(permisosDB);
         }
@@ -90,18 +125,28 @@ exports.ActualizarRol = async (req, res) => {
 }
 
 // ELIMINAR ROL 
-exports.EliminarRol = async (req,res) => {
+exports.EliminarRol = async (req, res) => {
     try {
-        const {id} = req.params
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const { id } = req.params
         const rol = await Rol.findByPk(id)
-        if (!rol) return res.status(404).json({ message: "rol no encontrado"})
-        
+        if (!rol) return res.status(404).json({ message: "rol no encontrado" })
+
         if (ROLES_NO_ELIMINABLES.includes(rol.NombreRol)) {
             return res.status(403).json({ message: `El rol '${rol.NombreRol}' no se puede eliminar.` });
         }
 
+        if (rol.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
+
         await rol.destroy()
-        res.json({message: "rol eliminado correctamente"})
+        res.json({ message: "rol eliminado correctamente" })
     } catch (error) {
         console.error("Error al eliminar rol:", error);
         res.status(500).json({ message: "Error al eliminar rol." });
@@ -111,6 +156,12 @@ exports.EliminarRol = async (req,res) => {
 // CAMBIAR ROL A INACTIVO 
 exports.CambiarEstadoRolInactivo = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -121,9 +172,13 @@ exports.CambiarEstadoRolInactivo = async (req, res) => {
 
         const rol = await Rol.unscoped().findByPk(id)
 
-        if (!rol ) return res.status(400).json({
+        if (!rol) return res.status(400).json({
             message: 'Rol no encontrado'
         })
+
+        if (rol.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await rol.update({
             EstadoRol: 'inactivo'
@@ -144,6 +199,12 @@ exports.CambiarEstadoRolInactivo = async (req, res) => {
 // CAMBIAR ESTADO ACTIVO 
 exports.CambiarEstadoRolActivo = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params
 
         if (!id) {
@@ -154,9 +215,13 @@ exports.CambiarEstadoRolActivo = async (req, res) => {
 
         const rol = await Rol.unscoped().findByPk(id)
 
-        if (!rol ) return res.status(400).json({
+        if (!rol) return res.status(400).json({
             message: 'Rol no encontrado'
         })
+
+        if (rol.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
 
         await rol.update({
             EstadoRol: 'activo'

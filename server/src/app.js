@@ -35,17 +35,15 @@ async function esperarDB() {
 // Importacion Del Inicializador de permisos y roles
 
 esperarDB().then(() => {
+
   sequelize.sync()
     .then(async () => {
       console.log("✅ Modelos sincronizados correctamente.");
-
-      // Crear Permisos Del Sistema y Roles Preterminados del sistema 
-      const { inicializarSistema } = require('./seeders/seedinicial.js')
-      await inicializarSistema()
     })
     .catch((error) => {
       console.error("❌ Error al sincronizar modelos:", error);
     });
+
 
   // Importación de rutas
   const usuarioRoutes = require("./routers/usuario.routes");
@@ -62,6 +60,7 @@ esperarDB().then(() => {
   const configuracionPerfil = require('./routers/configuracionPerfil.routes.js')
   const configuracion = require('./routers/configuracion.routes.js')
   const complementos = require('./routers/complementos.routes.js')
+  const empresaPublicaRoutes = require('./routers/empresaPublica.routes.js')
 
   // Rutas protegidas o públicas
   app.use("/api/usuarios", usuarioRoutes);
@@ -78,6 +77,8 @@ esperarDB().then(() => {
   app.use('/api/perfil', configuracionPerfil)
   app.use('/api/configuracion', configuracion)
   app.use('/api/complementos', complementos)
+  app.use('/api/empresa', empresaPublicaRoutes)
+
 
   app.get("/", (req, res) => {
     res.send("API de registro de usuarios en funcionamiento.");

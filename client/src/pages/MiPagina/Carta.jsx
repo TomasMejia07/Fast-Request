@@ -1,60 +1,84 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../../assets/css/miPagina.css";
-import NavbarMiPag from "../../components/miPagina/Navbar";
-import { useMiPagina } from "../../hooks/useMiPagina";
+import { useMiPagina } from "../../hooks/useMiPagina.js";
+import { Link } from "react-router-dom";
 
 const Carta = () => {
-  const { categorias, productos, VisualizarCategoriasMenu, cargarProductos } = useMiPagina();
+  const {
+    categorias,
+    productos,
+    setCategoriaSeleccionada,
+    categoriaSeleccionada,
+    loading,
+    error,
+  } = useMiPagina();
 
-  useEffect(() => {
-    VisualizarCategoriasMenu();
-    cargarProductos();
-  }, []);
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <p>Cargando...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <h2>Error</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="page">
-      <NavbarMiPag />
 
-      {/* Navbar fija de categorías */}
       <nav className="navbar-categorias sticky-bar">
         <div className="navbar-categorias-container">
           <div className="icono-busqueda">
             <ion-icon name="search-outline"></ion-icon>
           </div>
-            <div className="categorias-menu">
-              {categorias.map((cat) => (
-              <a href="#" key={cat.Id}>{cat.NombreCategoria}</a>
-              ))}
-            </div>
+
+          <div className="categorias-menu">
+            {categorias.map((cat) => (
+              <Link
+                key={cat.id}
+                onClick={() => setCategoriaSeleccionada(cat.id)}
+              >
+                {cat.NombreCategoria.toUpperCase()}
+              </Link>
+            ))}
+          </div>
+
           <div className="menu-extra">
             <ion-icon name="ellipsis-vertical-outline"></ion-icon>
           </div>
         </div>
       </nav>
 
-      {/* Contenedor general de productos */}
+
+
       <div className="Container-Productos">
         <div className="Categorias-Lista">
 
-          {/* 🔥 Agrupación de productos por categoría */}
-          {categorias.map((cat) => {
-            const productosDeEstaCategoria = productos.filter(
-              (prod) => prod.IdCategoria === cat.Id
-            );
+          {categoriaSeleccionada && (
+            <div className="Productos">
 
-            if (productosDeEstaCategoria.length === 0) return null; // si no hay productos, no muestra nada
+              <h1 className="Titulo-de-categoria">
+                {
+                  categorias.find(cat => cat.id === categoriaSeleccionada)?.NombreCategoria.toUpperCase()
+                }
+              </h1>
 
-            return (
-              <div className="Productos" key={cat.Id}>
-                <h1 className="Titulo-de-categoria">{cat.NombreCategoria}</h1>
-
-                <div className="Lista">
-                  {productosDeEstaCategoria.map((produc) => (
-                    <div className="Producto" key={produc.Id}>
+              <div className="Lista">
+                {productos
+                  .filter(prod => prod.IdCategoria === categoriaSeleccionada)
+                  .map(produc => (
+                    <div className="Producto" key={produc.id}>
                       <div className="informacion">
-                        <h2>{produc.NombreProducto}</h2>
+                        <h2>{produc.NombreProducto.toUpperCase()}</h2>
                         <p>{produc.DescripcionProducto}</p>
-                        <p>Precio: ${produc.PrecioProducto}</p>
+                        <p>Precio: <strong>${produc.PrecioProducto}</strong></p>
                       </div>
 
                       <div className="imagen-prod">
@@ -62,14 +86,12 @@ const Carta = () => {
                           src="https://placehold.co/250x200?text=Sin+Imagen"
                           alt={produc.NombreProducto}
                         />
-                        <ion-icon name="add-outline"></ion-icon>
                       </div>
                     </div>
                   ))}
-                </div>
               </div>
-            );
-          })}
+            </div>
+          )}
         </div>
       </div>
     </div>

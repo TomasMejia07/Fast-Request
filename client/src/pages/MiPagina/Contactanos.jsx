@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../../assets/css/miPagina.css";
 import { useNavigate } from "react-router-dom";
-import NavbarMiPag from "../../components/miPagina/Navbar";
 
 const Contactanos = () => {
   const navigate = useNavigate();
@@ -23,8 +22,7 @@ const Contactanos = () => {
 
   return (
     <div className="page">
-      {/* Navbar principal */}
-      <NavbarMiPag />
+
       {/* Sección de contacto */}
       <section className="contact-section">
         <div className="contact-container">

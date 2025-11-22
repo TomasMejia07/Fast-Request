@@ -11,12 +11,17 @@ const Empresa = sequelize.define('Empresa', {
     type: DataTypes.STRING(150),
     allowNull: false
   },
+  slug: {  
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
   Estado: {
     type: DataTypes.ENUM('Activo', 'Inactivo'),
     defaultValue: 'Activo'
   },
   LogoEmpresa: {
-    type: DataTypes.STRING(255), 
+    type: DataTypes.STRING(255),
     allowNull: true
   }
 }, {

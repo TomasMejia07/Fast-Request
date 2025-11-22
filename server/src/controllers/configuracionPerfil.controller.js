@@ -4,10 +4,16 @@ const { Perfil, Usuario } = require('../models');
 exports.findAllUser = async (req, res) => {
     try {
 
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { usuarioId } = req.params;
 
         const usuario = await Usuario.findOne({
-            where: { Id: usuarioId },
+            where: { Id: usuarioId, EmpresaId: EmpresaId },
             attributes: ['Id', 'nombre', 'apellido', 'correo'],
             include: [{
                 model: Perfil,
@@ -36,6 +42,12 @@ exports.findAllUser = async (req, res) => {
 
 exports.perfilUsuario = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { usuarioId } = req.params;
         const { telefono, direccion, fechaNacimiento } = req.body;
 
@@ -49,7 +61,7 @@ exports.perfilUsuario = async (req, res) => {
         }
 
 
-        let perfil = await Perfil.findOne({ where: { usuarioId: usuario.Id } });
+        let perfil = await Perfil.findOne({ where: { usuarioId: usuario.Id, EmpresaId: EmpresaId } });
 
         if (perfil) {
 
@@ -67,8 +79,9 @@ exports.perfilUsuario = async (req, res) => {
                 telefono: telefono || "Por completar",
                 direccion: direccion || "Por completar",
                 fechaNacimiento: fechaNacimiento || null,
-                  // Si se subió una imagen, se usa la URL de Cloudinary
-                ...(Imagen_De_Perfil && { Imagen_De_Perfil })
+                // Si se subió una imagen, se usa la URL de Cloudinary
+                ...(Imagen_De_Perfil && { Imagen_De_Perfil }),
+                EmpresaId: EmpresaId
             });
 
             res.status(201).json({ message: "Perfil creado correctamente", perfil, });

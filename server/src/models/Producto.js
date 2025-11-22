@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
+const Empresa = require('./Empresa')
 
 const Producto = sequelize.define('Producto', {
     Id: {
@@ -20,6 +21,14 @@ const Producto = sequelize.define('Producto', {
         },
         allowNull: false
     },
+    EmpresaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'empresas',
+            key: 'Id'
+        }
+    },
     PrecioProducto: {
         type: DataTypes.DECIMAL,
         allowNull: false
@@ -37,18 +46,18 @@ const Producto = sequelize.define('Producto', {
     tableName: 'productos',
     timestamps: true,
 
-    defaultScope:{
+    defaultScope: {
         where: {
             EstadoProducto: 'activo'
         }
     },
 
     scopes: {
-        ProductoInactivo:{
-            where:{
+        ProductoInactivo: {
+            where: {
 
             }
-        }, 
+        },
         soloProductosInactivos: {
             where: {
                 EstadoProducto: 'inactivo'
@@ -57,6 +66,18 @@ const Producto = sequelize.define('Producto', {
     }
 }
 );
+
+
+Empresa.hasMany(Producto, {
+    foreignKey: 'EmpresaId',
+    sourceKey: 'Id'
+});
+
+Producto.belongsTo(Empresa, {
+    foreignKey: 'EmpresaId',
+    targetKey: 'Id'
+});
+
 
 
 

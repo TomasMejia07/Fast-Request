@@ -15,6 +15,8 @@ router.post("/", verificarJWT, categoriaController.CrearCategoria);
 router.put("/:id", verificarJWT, categoriaController.ActualizarCategoria);
 router.delete("/:id", verificarJWT, categoriaController.EliminarCategoria);
 
+// RUTAS PUBLICAS
+router.get('/categorias', categoriaController.VisualizarCategoriasPublicas)
 
 
 module.exports = router

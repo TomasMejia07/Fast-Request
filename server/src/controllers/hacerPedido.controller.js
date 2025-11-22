@@ -2,6 +2,12 @@ const { Pedido, Clientes, Producto, Salsas, Gaseosas } = require('../models');
 
 exports.nuevoPedido = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const {
             clienteId,
             productoId,
@@ -18,7 +24,7 @@ exports.nuevoPedido = async (req, res) => {
 
         // Validar cliente
         const cliente = await Clientes.findOne({ where: { Id: clienteId } });
-        if (!cliente) 
+        if (!cliente)
             return res.status(400).json({ message: 'Cliente no existe. Debes registrarlo con todos sus datos primero.' });
         if (cliente.EstadoCliente === 'inactivo') {
             return res.status(400).json({ message: 'No se pueden crear pedidos para clientes inactivos.' });
@@ -26,7 +32,7 @@ exports.nuevoPedido = async (req, res) => {
 
         // Validar producto
         const producto = await Producto.findOne({ where: { id: productoId } });
-        if (!producto) 
+        if (!producto)
             return res.status(400).json({ message: 'Producto no existe. Debes registrarlo con todos sus datos primero.' });
 
         // Calcular total
@@ -46,7 +52,8 @@ exports.nuevoPedido = async (req, res) => {
             tipos_gaseosas,  // Guardar array directamente
             notasAdicionales,
             total,
-            estadoDelPedido: 'En proceso'
+            estadoDelPedido: 'En proceso',
+            EmpresaId
         });
 
         // Cargar pedido creado con relaciones necesarias para frontend
@@ -69,7 +76,14 @@ exports.nuevoPedido = async (req, res) => {
 
 exports.seleccionarPedidos = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const pedidos = await Pedido.findAll({
+            where: { EmpresaId: EmpresaId },
             include: [{
                 model: Producto,
                 attributes: ['NombreProducto'],
@@ -86,6 +100,12 @@ exports.seleccionarPedidos = async (req, res) => {
 
 exports.obtenerPedidosConClientes = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { clienteId } = req.params;
 
         if (!clienteId) {
@@ -93,7 +113,7 @@ exports.obtenerPedidosConClientes = async (req, res) => {
         }
 
         const pedidos = await Pedido.findAll({
-            where: { clienteId },
+            where: { clienteId, EmpresaId: EmpresaId },
             include: [
                 {
                     model: Clientes,
@@ -117,7 +137,15 @@ exports.obtenerPedidosConClientes = async (req, res) => {
 
 exports.obtenerNombresProductos = async (req, res) => {
     try {
-        const productos = await Producto.findAll();
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
+        const productos = await Producto.findAll({
+            where: { EmpresaId: EmpresaId }
+        });
         res.status(200).json(productos);
         console.log('Nombres del producto obtenidos exitosamente');
     } catch (error) {
@@ -127,8 +155,14 @@ exports.obtenerNombresProductos = async (req, res) => {
 
 exports.obtenerNombresClientes = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const clientes = await Clientes.findAll({
-            where: { EstadoCliente: 'activo' },
+            where: { EstadoCliente: 'activo', EmpresaId: EmpresaId },
         });
         res.status(200).json(clientes);
         console.log('Nombres del cliente obtenidos exitosamente');
@@ -139,9 +173,16 @@ exports.obtenerNombresClientes = async (req, res) => {
 
 exports.ObtenerPedidoCompleto = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params;
 
-        const pedido = await Pedido.findByPk(id, {
+        const pedido = await Pedido.findOne(id, {
+            where: { EmpresaId: EmpresaId },
             include: [
                 {
                     model: Clientes.unscoped(),
@@ -169,8 +210,14 @@ exports.ObtenerPedidoCompleto = async (req, res) => {
 
 exports.obtenerNombresSalsas = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const salsas = await Salsas.findAll({
-            where: { estadoSalsa: 'activo' },
+            where: { estadoSalsa: 'activo', EmpresaId: EmpresaId },
         });
         res.status(200).json(salsas);
         console.log('Nombres de las salsas obtenidas exitosamente');
@@ -181,8 +228,14 @@ exports.obtenerNombresSalsas = async (req, res) => {
 
 exports.obtenerNombresGaseosas = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const gaseosas = await Gaseosas.findAll({
-            where: { estadoGaseosa: 'activo' },
+            where: { estadoGaseosa: 'activo', EmpresaId: EmpresaId },
         });
         res.status(200).json(gaseosas);
         console.log('Nombres de las gaseosas obtenidas exitosamente');
@@ -194,6 +247,12 @@ exports.obtenerNombresGaseosas = async (req, res) => {
 // Cambiar estado de un pedido
 exports.cambiarEstadoPedido = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { id } = req.params;
         const { nuevoEstado } = req.body;
 
@@ -213,6 +272,10 @@ exports.cambiarEstadoPedido = async (req, res) => {
             return res.status(404).json({ message: 'Pedido no encontrado.' });
         }
 
+        if (pedido.EmpresaId !== EmpresaId) {
+            return res.status(403).json({ message: "No autorizado" });
+        }
+
         await pedido.update({ estadoDelPedido: nuevoEstado });
 
         console.log(`Estado del pedido ${id} actualizado a ${nuevoEstado}`);
@@ -229,8 +292,15 @@ exports.cambiarEstadoPedido = async (req, res) => {
 
 exports.obtenerPedidosEnCocina = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const pedidosEnCocina = await Pedido.findAll({
-            where: { estadoDelPedido: 'En proceso' },
+            where: { estadoDelPedido: 'En proceso', EmpresaId: EmpresaId },
             include: [
                 {
                     model: Clientes.unscoped(),
@@ -243,50 +313,50 @@ exports.obtenerPedidosEnCocina = async (req, res) => {
             ],
         });
 
-    // Procesar cada pedido para incluir nombres de salsas y gaseosas
-    const pedidosConDetalles = await Promise.all(
-      pedidosEnCocina.map(async (pedido) => {
-        let salsas = [];
-        let gaseosas = [];
+        // Procesar cada pedido para incluir nombres de salsas y gaseosas
+        const pedidosConDetalles = await Promise.all(
+            pedidosEnCocina.map(async (pedido) => {
+                let salsas = [];
+                let gaseosas = [];
 
-        // ✅ Parsear los campos JSON (por si vienen como texto)
-        const tiposSalsas = Array.isArray(pedido.tipos_salsas)
-          ? pedido.tipos_salsas
-          : JSON.parse(pedido.tipos_salsas || "[]");
+                // ✅ Parsear los campos JSON (por si vienen como texto)
+                const tiposSalsas = Array.isArray(pedido.tipos_salsas)
+                    ? pedido.tipos_salsas
+                    : JSON.parse(pedido.tipos_salsas || "[]");
 
-        const tiposGaseosas = Array.isArray(pedido.tipos_gaseosas)
-          ? pedido.tipos_gaseosas
-          : JSON.parse(pedido.tipos_gaseosas || "[]");
+                const tiposGaseosas = Array.isArray(pedido.tipos_gaseosas)
+                    ? pedido.tipos_gaseosas
+                    : JSON.parse(pedido.tipos_gaseosas || "[]");
 
-        // ✅ Buscar por nombre, no por ID
-        if (Array.isArray(tiposSalsas) && tiposSalsas.length > 0) {
-          salsas = await Salsas.findAll({
-            where: { nombreSalsa: tiposSalsas },
-            attributes: ['id', 'nombreSalsa'],
-          });
-        }
+                // ✅ Buscar por nombre, no por ID
+                if (Array.isArray(tiposSalsas) && tiposSalsas.length > 0) {
+                    salsas = await Salsas.findAll({
+                        where: { nombreSalsa: tiposSalsas },
+                        attributes: ['id', 'nombreSalsa'],
+                    });
+                }
 
-        if (Array.isArray(tiposGaseosas) && tiposGaseosas.length > 0) {
-          gaseosas = await Gaseosas.findAll({
-            where: { nombreGaseosa: tiposGaseosas },
-            attributes: ['id', 'nombreGaseosa'],
-          });
-        }
+                if (Array.isArray(tiposGaseosas) && tiposGaseosas.length > 0) {
+                    gaseosas = await Gaseosas.findAll({
+                        where: { nombreGaseosa: tiposGaseosas },
+                        attributes: ['id', 'nombreGaseosa'],
+                    });
+                }
 
-        // ✅ Devolver pedido con nombres de salsas y gaseosas incluidos
-        return {
-          ...pedido.toJSON(),
-          salsas,
-          gaseosas,
-        };
-      })
-    );
+                // ✅ Devolver pedido con nombres de salsas y gaseosas incluidos
+                return {
+                    ...pedido.toJSON(),
+                    salsas,
+                    gaseosas,
+                };
+            })
+        );
 
-    res.status(200).json(pedidosConDetalles);
-  } catch (error) {
-    console.error('Error al obtener pedidos en cocina:', error);
-    res.status(500).json({ error: 'Error al obtener pedidos en cocina.' });
-  }
+        res.status(200).json(pedidosConDetalles);
+    } catch (error) {
+        console.error('Error al obtener pedidos en cocina:', error);
+        res.status(500).json({ error: 'Error al obtener pedidos en cocina.' });
+    }
 
 };
 

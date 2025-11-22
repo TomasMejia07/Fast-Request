@@ -6,7 +6,17 @@ require('dotenv').config();
 
 exports.seleccionarUsuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.findAll();
+    const EmpresaId = req.user.empresaId;
+
+    if (!EmpresaId) {
+      return res.status(400).json({ error: "empresaId es requerido" });
+    }
+
+    const usuarios = await Usuario.findAll({
+      where: {
+        EmpresaId: EmpresaId
+      }
+    });
 
     res.status(201).json(usuarios);
   } catch (error) {

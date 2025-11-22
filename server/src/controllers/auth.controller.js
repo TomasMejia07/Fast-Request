@@ -3,6 +3,7 @@ const jwt = require("../utils/jwt");
 const Usuario = require("../models/Usuario");
 const Empresa = require("../models/Empresa");
 const Rol = require("../models/Roles");
+const { inicializarSistema } = require('../seeders/seedinicial')
 
 exports.registrarAdmin = async (req, res) => {
   try {
@@ -12,8 +13,8 @@ exports.registrarAdmin = async (req, res) => {
 
     // ✅ Validar que todos los campos requeridos estén presentes
     if (!nombre || !apellido || !correo || !password || !nombreEmpresa) {
-      return res.status(400).json({ 
-        error: "Todos los campos son requeridos: nombre, apellido, correo, password, nombreEmpresa" 
+      return res.status(400).json({
+        error: "Todos los campos son requeridos: nombre, apellido, correo, password, nombreEmpresa"
       });
     }
 
@@ -21,11 +22,35 @@ exports.registrarAdmin = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    const generateSlug = (text) => {
+      return text
+        .toLowerCase()
+        .normalize('NFD') // Normalizar caracteres Unicode
+        .replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
+        .replace(/[^a-z0-9\s-]/g, '') // Eliminar caracteres especiales
+        .trim()
+        .replace(/\s+/g, '-') // Reemplazar espacios con guiones
+        .replace(/-+/g, '-'); // Eliminar guiones múltiples
+    };
+
+    const slug = generateSlug(nombreEmpresa);
+
+    let slugFinal = slug;
+    let contador = 1;
+
+    while (await Empresa.findOne({ where: { slug: slugFinal } })) {
+      slugFinal = `${slug}-${contador}`;
+      contador++;
+    }
+
     // 🏢 Crear empresa primero
     const empresa = await Empresa.create({
       NombreEmpresa: nombreEmpresa, // ✅ Usar el nombre correcto del campo
+      slug: slugFinal,
       Estado: "Activo"
     });
+
+    await inicializarSistema(empresa.Id); // Asegurar que roles y permisos estén inicializados
 
     // 🔑 Buscar rol "Admin"
     const rolAdmin = await Rol.findOne({ where: { NombreRol: "Administrador" } });
@@ -45,10 +70,10 @@ exports.registrarAdmin = async (req, res) => {
     });
 
     // 🎟️ Generar token JWT
-    const token = jwt.generarToken({ 
-      id: usuario.Id, 
+    const token = jwt.generarToken({
+      id: usuario.Id,
       rol: rolAdmin.NombreRol,
-      empresaId: empresa.Id 
+      empresaId: empresa.Id
     });
 
     return res.status(201).json({
@@ -62,18 +87,19 @@ exports.registrarAdmin = async (req, res) => {
       },
       empresa: {
         id: empresa.Id,
-        nombre: empresa.NombreEmpresa
+        nombre: empresa.NombreEmpresa,
+        slug: empresa.slug
       },
       token
     });
   } catch (err) {
     console.error("Error al registrar admin:", err);
-    
+
     // Manejar error de correo duplicado
     if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ error: "El correo ya está registrado" });
     }
-    
+
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
@@ -81,12 +107,12 @@ exports.registrarAdmin = async (req, res) => {
 exports.loginUsuario = async (req, res) => {
   try {
     const { usuario, password } = req.body;
-    
-    const user = await Usuario.findOne({ 
+
+    const user = await Usuario.findOne({
       where: { Correo: usuario },
       include: [
         { model: Rol, attributes: ['Id', 'NombreRol'] },
-        { model: Empresa, attributes: ['Id', 'NombreEmpresa'] }
+        { model: Empresa, attributes: ['Id', 'NombreEmpresa', 'slug'] }
       ]
     });
 
@@ -106,20 +132,22 @@ exports.loginUsuario = async (req, res) => {
       rol: user.Rol.NombreRol,
       rolId: user.RolId,
       empresaId: user.EmpresaId,
-      empresa: user.Empresa.NombreEmpresa
+      empresa: user.Empresa.NombreEmpresa,
+      slug: user.Empresa.slug
     };
 
     const token = jwt.generarToken(payload);
 
-    res.json({ 
-      message: 'Login exitoso', 
+    res.json({
+      message: 'Login exitoso',
       token,
       usuario: {
         id: user.Id,
         nombre: user.Nombre,
         correo: user.Correo,
         rol: user.Rol.NombreRol,
-        empresa: user.Empresa.NombreEmpresa
+        empresa: user.Empresa.NombreEmpresa,
+        slug: user.Empresa.slug
       }
     });
   } catch (err) {

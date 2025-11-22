@@ -27,5 +27,9 @@ router.put('/update-estado-activo-gaseosa/:id', verificarJWT, complementosContro
 router.delete('/destroy-gaseosa/:id', verificarJWT, complementosController.eliminacioDeGaseosa)
 
 
+// rutas publicas
+router.get('/salsas', complementosController.findAllSalsasPublicas)
+router.get('/gaseosas', complementosController.findAllGaseosasPublicas)
+
 
 module.exports = router

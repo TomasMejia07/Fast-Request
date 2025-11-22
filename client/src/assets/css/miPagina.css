@@ -38,7 +38,8 @@
 .menu a:hover {
   color: #ccc;
 }
-.nav-buttons button {
+.nav-buttons button,
+.back-button-style {
   width: 40px;
   height: 40px;
   background: transparent;
@@ -48,12 +49,14 @@
   cursor: pointer;
 }
 
-.nav-buttons ion-icon {
+.nav-buttons ion-icon,
+.back-button-style ion-icon {
   font-size: 25px; /* Puedes ajustar: 1.5rem, 2rem, etc. */
   vertical-align: middle;
 }
 
-.nav-buttons button:hover {
+.nav-buttons button:hover,
+.back-button-style:hover {
   background: #222;
   border-radius: 6px;
 }

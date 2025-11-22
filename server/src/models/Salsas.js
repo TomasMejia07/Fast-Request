@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
-
+const Empresa = require('./Empresa')
 
 const Salsas = sequelize.define('Salsas', {
 
@@ -12,6 +12,14 @@ const Salsas = sequelize.define('Salsas', {
         type: DataTypes.ENUM('activo', 'inactivo'),
         allowNull: false,
         defaultValue: 'activo'
+    },
+    EmpresaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'empresas',
+            key: 'Id'
+        }
     },
 
 },{
@@ -40,7 +48,15 @@ const Salsas = sequelize.define('Salsas', {
 })
 
 
+Empresa.hasMany(Salsas, {
+    foreignKey: 'EmpresaId',
+    sourceKey: 'Id'
+});
 
+Salsas.belongsTo(Empresa, {
+    foreignKey: 'EmpresaId',
+    targetKey: 'Id'
+});
 
 
 

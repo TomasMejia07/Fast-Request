@@ -8,6 +8,7 @@ function MenuDashboard() {
         setActiveIndex(index);
     };
 
+
     return (
         <div className="navdash">
             <ul className='nav-ul'>
@@ -16,7 +17,7 @@ function MenuDashboard() {
                     { to: '/dashboard', icon: 'home', title: 'Inicio' },
                     { to: '/dashboard/hacerPedido', icon: 'create', title: 'Hacer Pedido' },
                     { to: '/dashboard/pedidos', icon: 'receipt', title: 'Pedidos' },
-                    { to: '/dashboard/cocina', icon: 'restaurant', title: 'Cocina'},
+                    { to: '/dashboard/cocina', icon: 'restaurant', title: 'Cocina' },
                     { to: '/dashboard/categoria', icon: 'list', title: 'Categorías' },
                     { to: '/dashboard/productos', icon: 'fast-food', title: 'Productos' },
                     { to: '/dashboard/complementos', icon: 'basket', title: 'Complementos' },
@@ -24,14 +25,15 @@ function MenuDashboard() {
                     { to: '/dashboard/usuarios', icon: 'people', title: 'Usuarios' },
                     { to: '/dashboard/clientes', icon: 'person', title: 'Clientes' },
                     { to: '/dashboard/estadisticas', icon: 'stats-chart', title: 'Estadísticas' },
+                    { to: '/miPagina/edit', icon: 'color-palette', title: 'Pagina Personalizable' },
                 ].map((item, index) => (
-                    <li
+                    <liz
                         key={index}
                         className={`nav-ul-li ${item.to && location.pathname === item.to ? 'active' : ''}`}
                         onMouseOver={() => handleMouseOver(index)}
                     >
                         {item.to ? (
-                            <NavLink to={item.to}   end={item.to === '/dashboard'} className='nav-ul-li-a'>
+                            <NavLink to={item.to} end={item.to === '/dashboard'} className='nav-ul-li-a'>
                                 <span className="icono"><ion-icon name={item.icon}></ion-icon></span>
                                 <span className="nav-titulo">{item.title}</span>
                             </NavLink>
@@ -41,7 +43,7 @@ function MenuDashboard() {
                                 <span className="nav-titulo">{item.title}</span>
                             </span>
                         )}
-                    </li>
+                    </liz>
                 ))}
             </ul>
         </div>

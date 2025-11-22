@@ -5,6 +5,12 @@ const bcrypt = require('bcrypt');
 
 exports.updateDataConfi = async (req, res) => {
     try {
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
+
         const { Id } = req.params;
         const { nombre, apellido } = req.body;
 
@@ -20,9 +26,10 @@ exports.updateDataConfi = async (req, res) => {
         if (nombre !== undefined) objectData.Nombre = nombre
         if (apellido !== undefined) objectData.Apellido = apellido
 
+
         await Usuario.update(
             objectData,
-            { where: { Id } }
+            { where: { Id, EmpresaId: EmpresaId } }
         );
 
         const updatedUser = await Usuario.findByPk(Id, {
@@ -40,6 +47,12 @@ exports.updateDataConfi = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     try {
+
+        const EmpresaId = req.user.empresaId;
+
+        if (!EmpresaId) {
+            return res.status(400).json({ error: "empresaId es requerido" });
+        }
 
         const { Id } = req.params;
         const { current, new: newPass, confirm } = req.body;
@@ -72,7 +85,7 @@ exports.updatePassword = async (req, res) => {
 
         await Usuario.update(
             { Password: hashedPassword },
-            { where: { Id } }
+            { where: { Id, EmpresaId: EmpresaId } }
         );
 
         res.status(200).json({ message: 'Contraseña actualizada con éxito' });

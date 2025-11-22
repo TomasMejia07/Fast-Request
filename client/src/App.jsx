@@ -43,12 +43,15 @@ import ContactanosPage from './pages/Home/Contactanos'
 import VerMasPage from './pages/Home/VerMas'
 import FooterPage from './components/Home/Footer'
 import NavbarPage from './components/Home/Navbar'
-import MenuPage from './components/Home/Menu_Hamburguer'
 
+import MiPaginaEdicion from './pages/PaginaDeEdicion/HomeEdicion';
+import CartaPageEdit from './pages/PaginaDeEdicion/CartaEdicion';
+import ContactanosPageEdit from './pages/PaginaDeEdicion/contactanosEdicion';
+import MiPaginaLayout from './components/miPagina/layout';
 
 const AppContent = () => {
 
-  const location = useLocation(); 
+  const location = useLocation();
   const isDashboard = location.pathname.startsWith("/dashboard");
 
   return (
@@ -77,7 +80,7 @@ const AppContent = () => {
             <Route path="/dashboard/clientesInactivos" element={<VisualizarInactividadDeClientes />} />
             <Route path="/dashboard/configuracion" element={<Configuracion />} />
             <Route path="/dashboard/perfil" element={<Perfil />} />
-            <Route path="/dashboard/cocina" element={<CocinaDashboard />} /> 
+            <Route path="/dashboard/cocina" element={<CocinaDashboard />} />
           </Routes>
         </ThemeProvider>
       ) : (
@@ -86,27 +89,35 @@ const AppContent = () => {
           <Route path="/registro" element={<Registro />} />
           <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
 
-          
-          <Route path='/miPagina' element={<MiPagina />} /> 
 
 
 
-          <Route path='/home' element={<HomePage />} /> 
-          <Route path='/home/nosotros' element={<NosotrosPage />} /> 
-          <Route path='/home/servicios' element={<ServiciosPage />} /> 
-          <Route path='/home/politica' element={<PoliticaPage />} /> 
-          <Route path='/home/terminos' element={<TerminosPage />} /> 
-          <Route path='/home/contactanos' element={<ContactanosPage />} /> 
-          <Route path='/home/verMas' element={<VerMasPage />} /> 
-          <Route path='/home/footer' element={<FooterPage />} /> 
+
+          <Route path='/home' element={<HomePage />} />
+          <Route path='/home/nosotros' element={<NosotrosPage />} />
+          <Route path='/home/servicios' element={<ServiciosPage />} />
+          <Route path='/home/politica' element={<PoliticaPage />} />
+          <Route path='/home/terminos' element={<TerminosPage />} />
+          <Route path='/home/contactanos' element={<ContactanosPage />} />
+          <Route path='/home/verMas' element={<VerMasPage />} />
+          <Route path='/home/footer' element={<FooterPage />} />
           <Route path='/home/navbar' element={<NavbarPage />} />
 
 
+          {/* Paginas de esicion para "MiPagina" */}
+          <Route path='/miPagina/edit' element={<MiPaginaEdicion />} />
+          <Route path='/miPagina/carta/edit' element={<CartaPageEdit />} />
+          <Route path="/miPagina/contacto/edit" element={<ContactanosPageEdit />} />
 
-          <Route path="/miPagina/carta" element={<Carta />} />
-          <Route path="/miPagina/contacto" element={<Contactanos />} />
-          <Route path="/miPagina/Login" element={<Login_miPagina />} />
-          <Route path="/miPagina/Registro" element={<Registro_miPagina />} />
+          <Route path="/miPagina/:empresaSlug" element={<MiPaginaLayout />}>
+            <Route index element={<MiPagina />} />
+            <Route path="carta" element={<Carta />} />
+            <Route path="contacto" element={<Contactanos />} />
+            <Route path="Login" element={<Login_miPagina />} />
+            <Route path="Registro" element={<Registro_miPagina />} />
+          </Route>
+
+
 
         </Routes>
       )}
